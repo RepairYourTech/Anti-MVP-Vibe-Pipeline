@@ -47,11 +47,21 @@ locked decision, re-run the originating stage and cascade changes downstream.
 | ↳ | `/decompose-architecture-structure` | Approved domains | Directory structure + shard skeletons + indexes | Design |
 | ↳ | `/decompose-architecture-validate` | Skeletons | Deep dives + type annotations + validation | Design |
 | 4 | `/write-architecture-spec` | Skeleton IA shard | Full interaction spec | Specification |
+| ↳ | `/write-architecture-spec-design` | Skeleton shard | Interactions + contracts + data models + access control | Specification |
+| ↳ | `/write-architecture-spec-deepen` | Drafted sections | Deepening passes + final spec + ambiguity gate | Specification |
 | 5 | `/write-be-spec` | IA shard | Backend specification | Specification |
+| ↳ | `/write-be-spec-classify` | IA shard | Classification + source material inventory | Specification |
+| ↳ | `/write-be-spec-write` | Classified shard | BE spec + indexes + ambiguity gate | Specification |
 | 6 | `/write-fe-spec` | BE spec + IA shard | Frontend specification | Specification |
+| ↳ | `/write-fe-spec-classify` | BE spec + IA shard | Classification + source material inventory | Specification |
+| ↳ | `/write-fe-spec-write` | Classified target | FE spec + indexes + ambiguity gate | Specification |
 | 7 | `/audit-ambiguity` | Any layer | Scored ambiguity report | Quality Gate |
+| ↳ | `/audit-ambiguity-rubrics` | Layer selection | Scope + documents + scoring rubrics | Quality Gate |
+| ↳ | `/audit-ambiguity-execute` | Rubrics + documents | Per-document audit + report + remediation | Quality Gate |
 | 8 | `/plan-phase` | Architecture + specs | Dependency-ordered TDD slices | Planning |
 | 9 | `/implement-slice` | Slice acceptance criteria | Working code via Red→Green→Refactor | Implementation |
+| ↳ | `/implement-slice-setup` | Slice from phase plan | Progress check + skills + contracts + parallel mode | Implementation |
+| ↳ | `/implement-slice-tdd` | Contract + tests | Red→Green→Refactor + validation + progress tracking | Implementation |
 | 10 | `/validate-phase` | Completed phase | Full validation gate | Verification |
 | 11 | `/evolve-contract` | Changed Zod schema | Safe schema migration | Maintenance |
 | 12 | `/sync-kit` | Upstream starter kit | Merged improvements | Maintenance |
