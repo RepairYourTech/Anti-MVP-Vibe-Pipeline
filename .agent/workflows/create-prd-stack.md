@@ -213,6 +213,8 @@ Read each installed skill's SKILL.md before proceeding. At minimum, load:
 - Security skill (if installed)
 - Any framework-specific skills (if already known)
 
+After firing bootstrap, also append the confirmed decision to `docs/plans/architecture-draft.md` (create the file if it does not exist). Format: a `## Tech Stack Decisions` section with one entry per confirmed axis, added incrementally as each axis is confirmed.
+
 ### Fill kit templates (progressive bootstrap)
 
 Read `.agent/workflows/bootstrap-agents.md` and call it with `PIPELINE_STAGE=create-prd` plus only the keys just decided. Bootstrap runs after **each confirmed decision**, not in a batch at the end. This means:
@@ -221,8 +223,6 @@ Read `.agent/workflows/bootstrap-agents.md` and call it with `PIPELINE_STAGE=cre
 - After confirming `FRONTEND_FRAMEWORK=Astro`, call bootstrap with just that key
 - Each invocation fills the relevant placeholders and provisions the matching skills
 - At the end of all tech decisions, call bootstrap once more with `ARCHITECTURE_DOC` set to the dated filename
-
-After firing bootstrap, also append the confirmed decision to `docs/plans/architecture-draft.md` (create the file if it does not exist). Format: a `## Tech Stack Decisions` section with one entry per confirmed axis, added incrementally as each axis is confirmed.
 
 ### Propose next step
 

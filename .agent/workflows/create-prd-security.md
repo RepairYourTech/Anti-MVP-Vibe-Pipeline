@@ -61,9 +61,9 @@ For each external service:
 3. **Fallback strategy** — Graceful degradation plan
 4. **Cost model** — Pricing tier, expected usage
 
-### Propose next step
-
 After the security model (Step 6) is completed and confirmed, write the `## Security Model` section to `docs/plans/architecture-draft.md`. After the integration points (Step 7) are completed and confirmed, write the `## Integration Points` section to `docs/plans/architecture-draft.md`. Do not wait until the end — write each section as it is completed.
+
+### Propose next step
 
 Security model and integration points are defined. Next: Run `/create-prd-compile` to document the development methodology, phasing strategy, and compile the final architecture design document and Engineering Standards.
 
