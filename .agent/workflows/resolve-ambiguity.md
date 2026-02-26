@@ -58,6 +58,17 @@ Present findings organized by type: judgment calls first, mechanical fixes secon
 
 Update the relevant spec documents with resolved content. Record each resolution so future readers don't hit the same ambiguity (per the skill's "Record" step).
 
+> **Resolution log**: After applying each fix, append a `## Resolution Log` entry to the target document:
+>
+> ```markdown
+> ## Resolution Log
+> | Date | Gap | Resolution | Source |
+> |------|-----|------------|--------|
+> | [date] | [gap description] | [what was changed] | [source that resolved it — project doc / user decision / upstream spec] |
+> ```
+>
+> If a `## Resolution Log` section already exists, append a new row to the table. This makes `/resolve-ambiguity` leave an audit trail so future readers know what was changed and why.
+
 ## 6. Propose next step
 
 Use `notify_user` to summarize what was resolved.

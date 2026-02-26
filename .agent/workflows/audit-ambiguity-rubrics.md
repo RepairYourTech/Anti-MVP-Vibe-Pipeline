@@ -43,6 +43,27 @@ Ask the user:
 
 ---
 
+## 2.5. Persist audit scope
+
+Write `docs/audits/audit-scope.md` with the determined scope and document list:
+
+```markdown
+# Audit Scope
+
+> Generated: [date]
+
+## Layers to Audit
+[list of selected layers]
+
+## Documents to Audit
+[for each layer, list the exact file paths that will be audited]
+
+## Status
+in-progress
+```
+
+This file is read by `/audit-ambiguity-execute` as its prerequisite. If this file does not exist, the execute shard cannot proceed.
+
 ## Vision Rubric (7 dimensions)
 
 | # | Dimension | ✅ | ⚠️ | ❌ |

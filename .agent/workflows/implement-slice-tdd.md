@@ -79,6 +79,12 @@ All must pass before the slice is complete.
 
 **Skip this step if not in parallel mode.**
 
+> **Write synthesis plan first**: Before beginning any synthesis work, write a `## Synthesis Plan` section to the slice file (`.agent/progress/slices/phase-NN-slice-NN.md`) listing:
+> - All `// BOUNDARY:` stubs found across agent outputs (file path + stub description)
+> - All cross-surface integrations to wire (e.g., "BE auth middleware → FE token refresh handler")
+>
+> This gives you a checklist to resume from if the session is interrupted during synthesis.
+
 After all parallel agents have completed and QA-GREEN has passed:
 
 1. **Verify no file conflicts** — confirm no file was modified by multiple agents

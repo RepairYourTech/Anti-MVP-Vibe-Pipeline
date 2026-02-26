@@ -21,6 +21,13 @@ Explore requirements, map all interactions, and define contracts, data models, a
 
 **Prerequisite**: Skeleton IA shard must exist in `docs/plans/ia/`. If it does not, tell the user to run `/decompose-architecture` first.
 
+## 0. Re-run check
+
+Before loading skills, check whether the shard file at `docs/plans/ia/[shard-name].md` already has content beyond skeleton placeholders (look for filled-in sections vs empty `<!-- TODO -->` markers).
+
+- **If sections are already filled**: Present the current state of the file and ask: "Some sections are already written. Do you want to **continue from where you left off** (skip filled sections), or **redo specific sections** (tell me which ones)?" Wait for the user's answer before proceeding.
+- **If the file is still a skeleton**: Proceed normally.
+
 ---
 
 ## 1. Explore requirements
@@ -45,6 +52,8 @@ For each feature in the shard, document:
 
 Refine based on discussion before proceeding.
 
+> **Write now**: Write the completed `## User Interactions` content to `docs/plans/ia/[shard-name].md`, replacing the skeleton placeholder for this section. Do not wait until Step 8.
+
 ## 3. Define contracts
 
 For each interaction, define the contract shape:
@@ -58,6 +67,8 @@ For each interaction, define the contract shape:
 - "Are these error codes specific enough?"
 
 Refine based on discussion before proceeding.
+
+> **Write now**: Write the completed `## Contracts` content to `docs/plans/ia/[shard-name].md`, replacing the skeleton placeholder for this section. Do not wait until Step 8.
 
 ## 4. Design data models
 
@@ -77,6 +88,8 @@ Using `{{DATABASE_SKILL}}`, and loading these community skills for guidance:
 
 Refine based on discussion before proceeding.
 
+> **Write now**: Write the completed `## Data Model` content to `docs/plans/ia/[shard-name].md`, replacing the skeleton placeholder for this section. Do not wait until Step 8.
+
 ## 5. Design access control
 
 - Permission matrix (who can read/write/delete what)
@@ -91,11 +104,15 @@ Refine based on discussion before proceeding.
 
 Refine based on discussion before proceeding.
 
+> **Write now**: Write the completed `## Access Control` content to `docs/plans/ia/[shard-name].md`, replacing the skeleton placeholder for this section. Do not wait until Step 8.
+
 ## 6. Design event schemas (if applicable)
 
 - Event name, payload shape, emitter, consumers
 - Async vs sync processing
 - Retry semantics
+
+> **Write now**: Write the completed `## Event Schemas` content to `docs/plans/ia/[shard-name].md`, replacing the skeleton placeholder for this section. Do not wait until Step 8.
 
 ## 7. Document edge cases
 
@@ -112,15 +129,11 @@ Refine based on discussion before proceeding.
 
 Refine based on discussion before proceeding.
 
+> **Write now**: Write the completed `## Edge Cases` content to `docs/plans/ia/[shard-name].md`, replacing the skeleton placeholder for this section. Do not wait until Step 8.
+
 ## 8. Present all sections and request approval
 
-Call `notify_user` presenting a summary of all designed sections:
-- Interaction map (Step 2)
-- Contracts (Step 3)
-- Data models (Step 4)
-- Access control (Step 5)
-- Event schemas if applicable (Step 6)
-- Edge cases (Step 7)
+All sections are now written to `docs/plans/ia/[shard-name].md`. Please review the file directly and confirm it's ready for deepening passes.
 
 > **Do NOT proceed to `/write-architecture-spec-deepen` until the user approves all sections. Proposing next steps is not the same as receiving approval.**
 

@@ -19,7 +19,7 @@ pipeline:
 
 Write the FE spec to `docs/plans/fe/`, update indexes, run quality checks, and present for review.
 
-**Prerequisite**: Target must be classified and all source material read (from `/write-fe-spec-classify` or equivalent). The agent should have the classification, referenced material inventory, and cross-cutting specs available.
+**Prerequisite**: Read the spec file at `docs/plans/fe/[NN-feature-name].md`. The `## Classification` section, Referenced Material Inventory, and Design Requirements should be present from the classify shard. If the file does not exist or lacks a `## Classification` section, run `/write-fe-spec-classify` first.
 
 ---
 

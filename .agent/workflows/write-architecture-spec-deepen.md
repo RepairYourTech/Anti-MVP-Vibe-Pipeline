@@ -19,7 +19,7 @@ pipeline:
 
 Run iterative deepening passes, write the completed spec, update indexes, run the ambiguity gate, and present for review.
 
-**Prerequisite**: All sections must be drafted (from `/write-architecture-spec-design` or equivalent). The agent should have interaction maps, contracts, data models, access control, events, and edge cases designed and user-approved.
+**Prerequisite**: Read the shard file at `docs/plans/ia/[shard-name].md`. Sections should be filled in from the design shard (not skeleton placeholders). If sections are still skeleton placeholders, the design shard has not completed — run `/write-architecture-spec-design` first before running this shard.
 
 ---
 

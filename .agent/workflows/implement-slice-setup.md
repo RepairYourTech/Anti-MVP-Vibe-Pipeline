@@ -103,18 +103,27 @@ Scan the slice's tasks for surface tags (`BE`, `FE`, `QA`):
    - **Depth matters**: unit tests, integration tests, edge cases, error paths, boundary conditions
    - No shallow test suites — every acceptance criterion gets thorough coverage
    - **Contract cross-reference**: QA agent verifies every field, error type, and permission boundary in the Zod contract has at least one test — not just what the phase plan acceptance criteria mention
+
+> **Log dispatch**: Append to the slice file (`.agent/progress/slices/phase-NN-slice-NN.md`): `## Dispatch Log` section with entry: `- QA-RED dispatched: [timestamp or "now"]`
+
 3. **Dispatch `BE` + `FE` agents in parallel (GREEN)** — Write code to make QA's tests pass:
    - Read `parallel-agents/SKILL.md` for dispatch protocol
    - Read `parallel-feature-development/SKILL.md` for file ownership
    - Each agent claims tasks via Protocol 9, works through subtasks
    - Agents code against the **tests and contracts**, not assumptions
    - **Spec traceability**: any implementation decision not explicitly in the spec or contract (enum values, defaults, timeouts, error messages, spacing, retry logic) MUST be annotated with `// DECISION: [what was decided and why]`
+
+> **Log dispatch**: Append to the dispatch log in the slice file: `- BE+FE dispatched: [timestamp or "now"]`
+
 4. **Dispatch `QA` agent again (QA-GREEN)** — Second pass validation:
    - Run full test suite — all tests must pass
    - **Anti-cheating check**: verify tests haven't been weakened, removed, or simplified
    - **Decision audit**: scan for `// DECISION:` comments — flag any that indicate a spec gap that should be resolved upstream rather than decided by the implementer
    - Add integration/E2E tests that exercise BE+FE together
    - Report any failures to orchestrator
+
+> **Log dispatch**: Append to the dispatch log in the slice file: `- QA-GREEN dispatched: [timestamp or "now"]`
+
 5. **Iterative correction loop** — If QA-GREEN reports failures:
    - Re-dispatch `BE` and/or `FE` agents to fix failing code
    - Re-dispatch `QA` agent (QA-GREEN) to re-verify

@@ -17,7 +17,7 @@ pipeline:
 
 Audit each document one at a time, compile the report, remediate gaps, and propose next steps.
 
-**Prerequisite**: Audit scope must be determined and rubrics loaded (from `/audit-ambiguity-rubrics` or equivalent). The agent should know which layers and documents to audit.
+**Prerequisite**: Read `docs/audits/audit-scope.md` to determine which layers and documents to audit. If this file does not exist, run `/audit-ambiguity-rubrics` first to determine scope and persist it.
 
 ---
 
@@ -44,15 +44,19 @@ For each document, follow this sequence:
 
 **e. Finalize** — Lock this document's scores. Move to the next document.
 
+> **Write immediately**: After finalizing this document's scores, write its complete score table and all citations/gap descriptions to `docs/audits/[layer]-ambiguity-report.md` (create the file if it doesn't exist, append if it does). Do not accumulate scores in context and write them all in Step 4.
+
 > ⚠️ **Anti-hallucination rule**: If you cannot point to the exact section where something IS or ISN'T, you have not read carefully enough. Re-read before scoring.
 
-## 4. Compile report
+## 4. Compile report summary
 
-Create report at `docs/audits/[layer]-ambiguity-report.md`:
-- Per-document score table
-- Overall ambiguity percentage
-- Punch list: every ⚠️ and ❌ with evidence citation, gap description, and fix location
+The per-document scores and citations were written progressively during Step 3. Now add the summary section to `docs/audits/[layer]-ambiguity-report.md`:
+
+- Overall ambiguity percentage (calculated from all per-document scores)
+- Prioritized punch list (all ⚠️ and ❌ items sorted by severity)
 - Upstream dependency gaps (for Architecture/BE/FE)
+
+Do not re-read documents to reconstruct scores — read the report file that was built in Step 3.
 
 ## 5. Remediate gaps (mandatory — execute automatically after Step 4)
 

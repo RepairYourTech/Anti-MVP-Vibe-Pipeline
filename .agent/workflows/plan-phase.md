@@ -58,6 +58,13 @@ Only when all checks pass does the workflow continue to the next step.
 
 ---
 
+## 0.8. Draft continuity check
+
+Check whether `docs/plans/phases/phase-N-draft.md` already exists (where N is the current phase number).
+
+- **If it exists**: Read it and identify which slices are already drafted (have acceptance criteria written) vs which are missing. Present the current state: "A draft exists for Phase N with [X] slices already written. Do you want to **continue from where you left off** (add missing slices only), or **start fresh** (overwrite the draft)?" Wait for the user's answer.
+- **If it does not exist**: Proceed normally.
+
 ## 1. Read phase scope
 
 Read the file at `docs/plans/*-architecture-design.md` (phasing section) and the file at `docs/plans/be/index.md` (which specs to include).
@@ -123,6 +130,8 @@ For each slice, define testable acceptance criteria **and assign surface tags**:
 - Enables: Slice P
 ```
 
+> **Write as you go**: After completing acceptance criteria for each slice, immediately append that slice's entry to `docs/plans/phases/phase-N-draft.md` (create the file if it doesn't exist). Do not accumulate all slices in context and write them all at once in Step 5.
+
 **Surface tag rules:**
 - `BE`: API routes, DB queries, middleware, business logic, server-side validation
 - `FE`: Pages, components, styling, interactions, client-side logic
@@ -145,26 +154,9 @@ For each slice, determine the execution order following TDD:
 
 Flag any tasks that can't be parallelized (shared file dependencies) in the plan.
 
-## 5. Create phase plan
+## 5. Finalize phase plan
 
-Write to `docs/plans/phases/phase-N.md`:
-
-```markdown
-# Phase N — [Name]
-
-## Slices (in order)
-[Ordered list of slices with acceptance criteria]
-
-## Dependencies
-[External dependencies, third-party services]
-
-## Definition of Done
-- [ ] All slices implemented
-- [ ] All acceptance criteria pass
-- [ ] /verify-infrastructure passed after infrastructure slice
-- [ ] /verify-infrastructure passed after auth slice (if auth slice exists in this phase)
-- [ ] /validate-phase passes
-```
+Read `docs/plans/phases/phase-N-draft.md` (which was built progressively in Step 4) and write the final formatted phase plan to `docs/plans/phases/phase-N.md`. The draft is the authoritative source — do not add or drop slices during finalization.
 
 ## 6. Generate progress files
 

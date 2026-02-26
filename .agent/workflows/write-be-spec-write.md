@@ -19,7 +19,7 @@ pipeline:
 
 Write the BE spec(s) to `docs/plans/be/`, update indexes, run quality checks, and present for review.
 
-**Prerequisite**: IA shard must be classified and all source material read (from `/write-be-spec-classify` or equivalent). The agent should have the classification, referenced material inventory, and cross-cutting specs available.
+**Prerequisite**: Read the spec file at `docs/plans/be/[NN-feature-name].md`. The `## Classification` section and Referenced Material Inventory should be present from the classify shard. If the file does not exist or lacks a `## Classification` section, run `/write-be-spec-classify` first.
 
 ---
 
