@@ -119,6 +119,10 @@ Read `.agent/skills/session-continuity/protocols/ambiguity-gates.md` and run the
   from this FE spec? If yes — fix it now. The spec is not done until the downstream
   phase can work from it without assumptions.
 
+**Two-implementer test**: For each element that passes the micro check, apply the two-implementer test: *"Would two different developers, reading only this FE spec with no other context, make the same implementation decision?"* If the answer is "probably not" — fix it now.
+
+**Devil's advocate pass**: After the gates pass, run a devil's advocate pass: for each component, prop, interaction, and state transition, ask "What would a junior developer get wrong about this?" Any element that reveals a gap gets fixed before presenting.
+
 ## 11. Full ambiguity audit (mandatory when this is the last FE spec)
 
 1. Read `docs/plans/fe/index.md`

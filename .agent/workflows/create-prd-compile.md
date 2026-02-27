@@ -220,16 +220,19 @@ Fill in concrete values based on the tech stack decisions from step 3 and the me
 Call `notify_user` presenting:
 - `docs/plans/YYYY-MM-DD-architecture-design.md` (use the actual dated filename)
 - `docs/plans/ENGINEERING-STANDARDS.md`
-- The self-check summary covering all 9 Architecture rubric dimensions:
-  1. Tech stack completeness — Every axis has an explicit decision with rationale
-  2. System architecture depth — Component diagram, data flow, deployment topology, failure modes
-  3. Data strategy — Placement, schema, query patterns, migrations, PII boundaries
-  4. Security model — Auth, authorization, validation, rate limits, compliance escalation
-  5. API design — Surface type, versioning, conventions, error format
-  6. Integration points — External services with failure modes and fallbacks
-  7. Development methodology — Contract-first, TDD, vertical slices, quality gates
-  8. Phasing strategy — Dependency-ordered phases with entry/exit criteria
-  9. Engineering standards — All thresholds are specific numbers, no TBDs
+- This is a pre-flight sanity check, not a gate. The mandatory gate is `/audit-ambiguity architecture`. Fix any gaps found here before presenting.
+
+For each dimension, apply the two-implementer test: *"Would two different developers, reading only this spec with no other context, make the same decision?"* If you cannot answer yes with a specific citation — score ⚠️ and fix it now.
+
+  1. **Tech Stack Decisiveness** — Every applicable axis has a named technology + rationale + what alternatives were rejected and why. No axis uses "TBD" or "standard".
+  2. **System Architecture** — Every component is named. Every communication path has a protocol. Every component has a defined failure mode and fallback. Data flow is traced end-to-end with every hop named.
+  3. **Data Strategy** — Every entity has a named canonical store. Every hot query path is identified. Migration strategy names the tool and approach. PII fields are enumerated by name.
+  4. **Security Model** — Auth flow is step-by-step. Every role has an explicit permission list. Rate limits are numbers (not "standard"). Input validation names the library and where it runs.
+  5. **Compliance Depth** — Every regulated domain has its own section with: account type hierarchy, consent flows, content filtering rules, audit requirements. No compliance domain is a sub-bullet.
+  6. **API Design** — Versioning strategy is named. Error format is defined (fields, types). Pagination strategy is named with parameters. Rate limit headers are specified.
+  7. **Integration Robustness** — Every external service has: what it provides + failure mode + fallback strategy + cost model. No external is listed without a fallback.
+  8. **Phasing Clarity** — Every phase has: entry criteria + exit criteria + dependency list. No phase uses "when ready" as a criterion.
+  9. **Engineering Standards** — Every threshold is a number (coverage %, response time ms, bundle size KB). No threshold uses "good", "acceptable", or "TBD".
 - The completeness checklist: every threshold in ENGINEERING-STANDARDS.md is a concrete value, every section in the architecture document has ≥200 words of depth, every decision has rationale
 - Any gaps resolved during the self-check
 
@@ -237,6 +240,5 @@ Call `notify_user` presenting:
 
 ### Proposed next steps
 
-Default recommendation: Run `/audit-ambiguity architecture` to verify the architecture and engineering standards against the full rubric.
+**Hard gate**: Run `/audit-ambiguity architecture`. This is unconditionally mandatory — the self-check above cannot replace it. The agent that wrote the architecture cannot certify it is clean.
 
-Only skip `/audit-ambiguity architecture` if all 9 dimensions scored ✅ AND the project has zero compliance constraints. In that case, recommend `/decompose-architecture` directly.

@@ -189,24 +189,24 @@ as additional context alongside the main vision document.
 
 ## 12. Request review and propose next steps
 
-Before presenting to the user, run a **self-check against the Vision rubric** (all 10 dimensions):
+Before presenting to the user, run a **pre-flight self-check** (not a gate — the mandatory gate is `/audit-ambiguity vision`). Fix any gaps found here before presenting — do not present a vision document with known gaps.
 
-1. Problem clarity — Is the problem statement specific and testable?
-2. Persona depth — Do all personas have name, role, pain point, success criteria, switching trigger?
-3. Feature completeness — Are all Must Haves explored to ≥Level 2 depth?
-4. MoSCoW accuracy — Is every feature categorized with clear rationale?
-5. Constraint specificity — Are budget, timeline, team, compliance, performance all addressed?
-6. Surface classification — Are all project surfaces identified with cross-platform decisions?
-7. Success metrics — Are launch criteria, growth targets, and technical targets defined?
-8. Competitive positioning — Are competitors, unique angle, and moat identified?
-9. Domain coverage — Is overall coverage ≥80% with every Must Have at ≥Level 2?
-10. Input-Output Fidelity — Two-layer check: (1) Source → `ideation.md`: every major section of the original source maps to `ideation.md` (checked during seeding); (2) `ideation.md` → `vision.md`: every section in `ideation.md` maps to `vision.md` — nothing dropped during compilation.
+For each dimension, apply the two-implementer test: *"Would two different developers, reading only this spec with no other context, make the same decision?"* If you cannot answer yes with a specific citation — score ⚠️ and fix it now.
+
+1. **Problem Clarity** — Single sentence. Names a specific user. Names a specific pain. Is falsifiable. No vague multi-problem statement.
+2. **Persona Specificity** — Each persona has: name + role + specific pain point + current workaround + success criteria + switching trigger. No persona uses "users" or "customers" without a role.
+3. **Feature Completeness** — Every Must Have has ≥2 levels of sub-features. Every sub-feature has at least one edge case. MoSCoW categories are mutually exclusive.
+4. **Constraint Explicitness** — Every axis (budget, timeline, team size, compliance, performance) has a specific value or explicit "not applicable". No axis uses "standard" or "TBD".
+5. **Success Measurability** — Every metric is a number with a unit and a timeframe. No metric uses "fast", "good", or "acceptable".
+6. **Competitive Positioning** — ≥3 named competitors. Differentiation is a specific capability gap. Moat is a defensible mechanism.
+7. **Open Question Resolution** — Every open question has: owner + deadline + what decision it blocks. No question is listed without an owner.
+8. **Input-Output Fidelity** — Two-layer check: (1) Source → `ideation.md`: every major section of the original source maps to `ideation.md`; (2) `ideation.md` → `vision.md`: every section in `ideation.md` maps to `vision.md` — nothing dropped during compilation.
 
 For any dimension scoring ⚠️ or ❌, resolve it before presenting. Do not present a vision document with known gaps.
 
 Call `notify_user` presenting:
 - `docs/plans/vision.md` and any appendices (`docs/plans/vision-appendix-*.md`)
-- The self-check summary (all 10 dimensions with their ✅/⚠️/❌ scores)
+- The self-check summary (all 8 dimensions with their ✅/⚠️/❌ scores)
 - Any gaps that were resolved during the self-check (what was found and how it was fixed)
 - The final domain coverage map
 
@@ -214,4 +214,5 @@ Call `notify_user` presenting:
 
 ### Proposed next steps
 
-Mandatory next step: Run `/audit-ambiguity vision` for all inputs, regardless of input type. Even a rich document can have gaps the agent missed. The audit is cheap; the cost of a gap propagating to architecture is high. Do not propose `/create-prd` until `/audit-ambiguity vision` has run.
+**Hard gate**: Do NOT propose `/create-prd` until `/audit-ambiguity vision` has run as a fresh invocation and scored 0% ambiguity. The self-check above is a pre-flight sanity check — it cannot replace the audit.
+

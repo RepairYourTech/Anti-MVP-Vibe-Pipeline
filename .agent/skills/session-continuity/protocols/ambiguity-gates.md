@@ -20,6 +20,8 @@ Walk **each individual element** in the spec and ask:
 For every element where the answer is "yes" → **fix it now**. Add the missing
 detail, type, behavior, or constraint. Don't flag it — resolve it.
 
+For every element where the answer is "no" — apply the **two-implementer test**: *"Would two different developers, reading only this spec with no other context, make the same implementation decision for this element?"* If the answer is "probably not" or "maybe not" — fix it now. The bar is not "text exists" — it is "unambiguous to any implementer reading cold."
+
 ## Macro Ambiguity Check
 
 Step back and ask about the **entire spec**:

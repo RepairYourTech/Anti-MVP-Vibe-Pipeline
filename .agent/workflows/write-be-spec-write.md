@@ -100,6 +100,10 @@ Read `.agent/skills/session-continuity/protocols/ambiguity-gates.md` and run the
   If yes — fix it now. The spec is not done until the downstream phase can work
   from it without assumptions.
 
+**Two-implementer test**: For each element that passes the micro check, apply the two-implementer test: *"Would two different developers, reading only this BE spec with no other context, make the same implementation decision?"* If the answer is "probably not" — fix it now.
+
+**Devil's advocate pass**: After the gates pass, run a devil's advocate pass: for each endpoint, schema field, error code, and middleware rule, ask "What would a junior developer get wrong about this?" Any element that reveals a gap gets fixed before presenting.
+
 ## 12. Full ambiguity audit (mandatory when this is the last BE spec)
 
 1. Read `docs/plans/be/index.md`
