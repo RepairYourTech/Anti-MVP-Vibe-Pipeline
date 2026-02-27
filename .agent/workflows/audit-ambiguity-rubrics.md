@@ -37,7 +37,7 @@ Ask the user:
 |-------|-------------------|
 | Vision | `docs/plans/vision.md` |
 | Architecture | `docs/plans/*-architecture-design.md`, `docs/plans/ENGINEERING-STANDARDS.md` |
-| IA | `docs/plans/ia/index.md` + each shard listed |
+| IA | `docs/plans/ia/index.md` + each shard listed + `docs/plans/ia/deep-dives/*.md` (list directory; include all files present) |
 | BE | `docs/plans/be/index.md` + each spec listed |
 | FE | `docs/plans/fe/index.md` + each spec listed |
 
@@ -100,8 +100,10 @@ This file is read by `/audit-ambiguity-execute` as its prerequisite. If this fil
 | 4 | User Flows | All paths covered | Happy path only | None |
 | 5 | Cross-Shard Contracts | Bidirectional | One-way | None |
 | 6 | Edge Cases | Listed | Some mentioned | None |
-| 7 | Deep Dive Coverage | Integrated | Partial | Not reflected |
+| 7 | Deep Dive Coverage | All referenced deep dive files exist with full content (not skeleton placeholders) | Some deep dive files are skeleton/partial, or parent shard references deep dives but files have thin content | Referenced deep dive files are empty, missing, or no deep dives exist despite complex features being present |
 | 8 | Testability | All testable | Some subjective | Mostly subjective |
+
+> **Deep Dive audit note**: When auditing dimension 7, read each deep dive file directly — do not infer its completeness from the parent shard's reference to it. A parent shard that links to a deep dive scores ⚠️ (not ✅) if the deep dive file itself is still a skeleton. Score ✅ only when the deep dive file contains exhaustive subsystem detail that an implementer could work from without asking questions.
 
 ## BE Rubric (10 dimensions)
 

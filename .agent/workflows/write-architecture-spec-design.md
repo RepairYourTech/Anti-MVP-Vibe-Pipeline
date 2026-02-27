@@ -131,6 +131,32 @@ Refine based on discussion before proceeding.
 
 > **Write now**: Write the completed `## Edge Cases` content to `docs/plans/ia/[shard-name].md`, replacing the skeleton placeholder for this section. Do not wait until Step 8.
 
+## 7.5. Write deep dive files (if applicable)
+
+Check whether the current shard references any deep dive candidates. To do this:
+1. Read the shard file at `docs/plans/ia/[shard-name].md` and look for any links to `docs/plans/ia/deep-dives/` files in the "Deep Dives Needed" section or anywhere in the document.
+2. List the files in `docs/plans/ia/deep-dives/` and identify which ones are referenced by this shard.
+
+**If no deep dives are referenced**: Skip this step entirely.
+
+**If deep dives are referenced**: For each referenced deep dive file:
+
+1. Read the current content of `docs/plans/ia/deep-dives/[feature-name].md` to check if it is still a skeleton (empty or contains only placeholder comments).
+2. **If already has full content**: Skip — do not overwrite.
+3. **If still a skeleton**: Write the exhaustive detail for this subsystem to the deep dive file. The deep dive should contain everything that is too complex or too long to live in the parent shard:
+   - Detailed algorithm or state machine description
+   - Technology choices with rationale (e.g., why this protocol, why this library)
+   - Phasing strategy (what ships in Phase 1 vs later)
+   - Detailed data schemas specific to this subsystem
+   - Failure modes and recovery strategies
+   - Integration contracts with external systems
+   - Performance characteristics and limits
+   - Security considerations specific to this subsystem
+
+   The parent shard's "Deep Dives Needed" section should already contain a summary + link. Do not duplicate the full content in the parent shard — the deep dive file IS the content.
+
+> **Write now**: Write the completed deep dive content to `docs/plans/ia/deep-dives/[feature-name].md`. Do not wait until Step 8.
+
 ## 8. Present all sections and request approval
 
 All sections are now written to `docs/plans/ia/[shard-name].md`. Please review the file directly and confirm it's ready for deepening passes.
