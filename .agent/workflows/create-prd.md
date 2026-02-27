@@ -60,10 +60,10 @@ Check `.agent/skills/` for relevant skills. Read `.agent/skills/find-skills/SKIL
 
 | # | Shard | What It Does |
 |---|-------|-------------|
-| 1 | [`create-prd-stack`](create-prd-stack.md) | Constraint-first discovery, tech stack decisions with bootstrap firing |
-| 2 | [`create-prd-architecture`](create-prd-architecture.md) | System architecture, data strategy, data placement strategy document |
-| 3 | [`create-prd-security`](create-prd-security.md) | Security model, compliance escalation, integration points |
-| 4 | [`create-prd-compile`](create-prd-compile.md) | Development methodology, phasing, compile architecture-design.md + ENGINEERING-STANDARDS.md |
+| 1 | [`create-prd-stack`](.agent/workflows/create-prd-stack.md) | Constraint-first discovery, tech stack decisions with bootstrap firing |
+| 2 | [`create-prd-architecture`](.agent/workflows/create-prd-architecture.md) | System architecture, data strategy, data placement strategy document |
+| 3 | [`create-prd-security`](.agent/workflows/create-prd-security.md) | Security model, compliance escalation, integration points |
+| 4 | [`create-prd-compile`](.agent/workflows/create-prd-compile.md) | Development methodology, phasing, compile architecture-design.md + ENGINEERING-STANDARDS.md |
 
 > **Progressive working artifact**: `docs/plans/architecture-draft.md` is written incrementally by shards 1–3 (stack decisions, system architecture, data strategy, security model, integration points) and read by shard 4 (compile) to produce the final dated `architecture-design.md`.
 

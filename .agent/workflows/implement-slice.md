@@ -24,8 +24,8 @@ Implement a single vertical slice using strict TDD: Red → Green → Refactor.
 
 | # | Shard | What It Does |
 |---|-------|-------------|
-| 1 | [`implement-slice-setup`](implement-slice-setup.md) | Checks progress state, loads skills, reads slice, checks for parallel mode, writes contracts |
-| 2 | [`implement-slice-tdd`](implement-slice-tdd.md) | Executes Red→Green→Refactor, validates, updates all progress tracking files |
+| 1 | [`implement-slice-setup`](.agent/workflows/implement-slice-setup.md) | Checks progress state, loads skills, reads slice, checks for parallel mode, writes contracts |
+| 2 | [`implement-slice-tdd`](.agent/workflows/implement-slice-tdd.md) | Executes Red→Green→Refactor, validates, updates all progress tracking files |
 
 ---
 

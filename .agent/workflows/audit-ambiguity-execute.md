@@ -21,32 +21,68 @@ Audit each document one at a time, compile the report, remediate gaps, and propo
 
 ---
 
-## 3. Audit each document (one at a time)
+## 3. Session Independence Check
 
-**CRITICAL ANTI-HALLUCINATION RULE**: You MUST NOT read all documents at once. You must follow this strict sequence for every single document, one by one:
-1. Use your file reading tool to read Document A.
-2. Immediately score Document A and write its scores + citations to the punch list report.
-3. Only AFTER writing Document A's scores, use your file reading tool to read Document B.
-Failure to follow this one-by-one sequence guarantees hallucinated citations and audit failure.
+Before any auditing begins, read `docs/audits/audit-scope.md` and look for a `## Gaps Fixed` section.
 
-For each document, follow this sequence:
+- **If the section is absent** — This is a first run or a clean slate. Proceed to Step 3a.
+- **If the section is present** — A prior session remediated gaps. Read the `layer`, `fixed_at`, and `fixed_by_session` fields. You MUST explicitly acknowledge: *"I am auditing remediated work from session `[fixed_by_session]` that ran at `[fixed_at]`. I am a different invocation and did not perform those fixes."* If you cannot make that acknowledgment in good faith (because you are the same session/invocation that produced the `## Gaps Fixed` entry), you MUST stop immediately and instruct the user: *"The session that fixed gaps cannot grade its own homework. Please re-run `/audit-ambiguity [layer]` as a fresh invocation."*
 
-**a. Read** — Use a file reading tool to read the entire document end-to-end. Do not score yet.
+---
 
-**b. Score with evidence** — Score each dimension. Every score MUST include a citation:
-- ✅ → Quote the specific text/section that satisfies this dimension
-- ⚠️ → Quote what exists AND state precisely what is missing
-- ❌ → List the section headings you checked and confirm the content is absent
+## 3a. Implementer Simulation
 
-**c. Classify gaps** (BE/FE only) — Determine if each ⚠️/❌ is a local gap or upstream dependency.
+**CRITICAL ANTI-HALLUCINATION RULE**: You MUST NOT read all documents at once. You must process one document at a time through 3a → 3b → 3c before moving to the next document. Failure to follow this one-by-one sequence guarantees hallucinated citations and audit failure.
 
-**d. Verify** — Re-read the document with your findings in hand. For every ⚠️ and ❌, search one more time to confirm the gap is real. Upgrade any false negatives to the correct score.
+*This is the most important step. It forces the agent to encounter the spec the way an implementer would, not the way a reviewer would.*
 
-**e. Finalize** — Lock this document's scores. Move to the next document.
+For each document:
 
-> **Write immediately**: After finalizing this document's scores, write its complete score table and all citations/gap descriptions to `docs/audits/[layer]-ambiguity-report.md` (create the file if it doesn't exist, append if it does). Do not accumulate scores in context and write them all in Step 4.
+1. **Read** — Use a file reading tool to read the entire document end-to-end. Do not score yet.
+2. **Stub** — Attempt to write a stub implementation of each feature/endpoint/component using only what's in the spec — no external context or prior project knowledge.
+3. **Enumerate gaps** — List every decision you had to make that isn't explicitly specified: enum values, defaults, timeouts, error messages, retry counts, field types, HTTP status codes, validation rules, rate limit numbers, role permission lists, etc.
+4. **Write unconditionally** — Write each such decision immediately to `docs/audits/[layer]-ambiguity-report.md` as a punch list item with severity ❌.
 
-> ⚠️ **Anti-hallucination rule**: If you cannot point to the exact section where something IS or ISN'T, you have not read carefully enough. Re-read before scoring.
+These gaps are **unconditional** — the rubric in 3b cannot override them.
+
+---
+
+## 3b. Rubric Scoring with Two-Implementer Test
+
+Score each dimension using `audit-ambiguity-rubrics.md`. For every score:
+
+- **✅** → State explicitly: *"Two implementers would make the same decision because: [specific reason citing exact text from the document]."* If you cannot complete this sentence confidently, score ⚠️ instead. The bar is "unambiguous to any implementer reading cold", not "text exists somewhere."
+- **⚠️** → Quote what exists AND state precisely what is missing AND what decision an implementer would have to make without it.
+- **❌** → List the section headings checked and confirm the content is absent.
+
+**Classify gaps** (BE/FE only) — Determine if each ⚠️/❌ is a local gap or upstream dependency.
+
+> **Write immediately**: After finalizing this document's scores, write the complete score table and all citations/gap descriptions to `docs/audits/[layer]-ambiguity-report.md` (create if absent, append if present). Do not accumulate scores in context.
+
+---
+
+## 3c. Devil's Advocate Pass
+
+After scoring all dimensions for a document:
+
+1. For each ✅, ask: *"What would a junior developer get wrong about this?"* and *"What would a malicious implementer exploit in this?"*
+2. If either question reveals a gap → downgrade to ⚠️ and add the gap to the punch list.
+3. Document the devil's advocate finding alongside the score in the report.
+
+---
+
+## 3.5. Cross-Layer Consistency Check
+
+This step runs after all per-document scoring is complete, whenever the audit scope includes BE, FE, or `all`.
+
+| Check | How to Verify |
+|---|---|
+| IA → BE coverage | For each user flow in each IA shard, verify a BE endpoint exists that handles it. For each BE endpoint, verify it traces to an IA user flow. Orphan endpoints or uncovered flows are ❌. |
+| BE → FE field mapping | For each BE response field, verify at least one FE component prop consumes it. For each FE component prop, verify it maps to a BE response field. Unmapped fields or props are ❌. |
+| IA → FE access control | For each access control rule in each IA shard, verify the FE spec has corresponding conditional rendering. Missing conditional rendering is ❌. |
+| Error code coverage | For each BE error code, verify the FE spec has a corresponding error state. Missing error states are ❌. |
+
+Write all cross-layer gaps to `docs/audits/[layer]-ambiguity-report.md` as ❌ items in a `## Cross-Layer Consistency` section.
 
 ## 4. Compile report summary
 
@@ -69,9 +105,27 @@ Do NOT stop and ask the user what to do. After compiling the report in Step 4, i
 3. Resolve judgment calls first — they may change what mechanical fixes are needed.
 4. Present findings organized by type: judgment calls first, mechanical fixes second.
 5. Apply all approved fixes to the relevant spec documents.
-6. After all fixes are applied, propose: "Next: Re-run `/audit-ambiguity [layer]` as a fresh invocation to verify the fixes. The session that fixed gaps cannot be the session that passes them."
+6. After all fixes are applied, proceed to Step 5a to persist re-verification metadata before proposing next steps.
 
 > **Fresh-run rule**: The session that fixed gaps cannot be the session that passes them. The agent that fixed the gaps cannot grade its own homework.
+
+## 5a. Persist Re-Verification Metadata
+
+Immediately after all remediation fixes from Step 5 are applied, append or update a `## Gaps Fixed` section in `docs/audits/audit-scope.md` with the following structure:
+
+```markdown
+## Gaps Fixed
+
+- **layer**: [layer that was remediated, e.g. `vision`, `architecture`, `ia`, `be`, `fe`]
+- **fixed_at**: [ISO 8601 timestamp of when fixes were applied]
+- **fixed_by_session**: [a short identifier for this session/invocation, e.g. the conversation ID or a generated UUID]
+- **gaps_resolved**: [count of ⚠️ and ❌ items that were resolved]
+- **report_file**: [path to the ambiguity report, e.g. `docs/audits/ia-ambiguity-report.md`]
+```
+
+If a `## Gaps Fixed` section already exists, **replace it** with the current run's data (only the most recent remediation matters for the session independence check).
+
+This section is consumed by **Step 3 (Session Independence Check)** in subsequent audit runs. Both producer (here) and consumer (Step 3) use the section name `## Gaps Fixed` and the field names `layer`, `fixed_at`, `fixed_by_session`, `gaps_resolved`, `report_file`.
 
 ## 6. Propose next steps
 

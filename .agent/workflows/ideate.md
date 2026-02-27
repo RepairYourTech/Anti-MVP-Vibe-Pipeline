@@ -46,9 +46,9 @@ Transform a raw idea into a comprehensive vision document through exhaustive exp
 
 | # | Shard | What It Does |
 |---|-------|-------------|
-| 1 | [`ideate-extract`](ideate-extract.md) | Classifies input, seeds `docs/plans/ideation.md`, applies noise filter for chat transcripts (integrated into seeding), runs user intent check, sets expansion mode, loads skills |
-| 2 | [`ideate-discover`](ideate-discover.md) | Domain mapping, problem exploration, feature inventory (MoSCoW + deepening) |
-| 3 | [`ideate-validate`](ideate-validate.md) | Constraints, metrics, competitive positioning, domain exhaustion, vision compilation |
+| 1 | [`ideate-extract`](.agent/workflows/ideate-extract.md) | Classifies input, seeds `docs/plans/ideation.md`, applies noise filter for chat transcripts (integrated into seeding), runs user intent check, sets expansion mode, loads skills |
+| 2 | [`ideate-discover`](.agent/workflows/ideate-discover.md) | Domain mapping, problem exploration, feature inventory (MoSCoW + deepening) |
+| 3 | [`ideate-validate`](.agent/workflows/ideate-validate.md) | Constraints, metrics, competitive positioning, domain exhaustion, vision compilation |
 
 ---
 

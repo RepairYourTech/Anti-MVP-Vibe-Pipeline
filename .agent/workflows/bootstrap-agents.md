@@ -39,8 +39,8 @@ Bootstrap does two things:
 
 | # | Shard | What It Does |
 |---|-------|-------------|
-| 1 | [`bootstrap-agents-fill`](bootstrap-agents-fill.md) | Receives template values, fills instruction/rule/AGENTS.md templates |
-| 2 | [`bootstrap-agents-provision`](bootstrap-agents-provision.md) | Reads skill library manifest, provisions skills, fills workflow placeholders, reports results |
+| 1 | [`bootstrap-agents-fill`](.agent/workflows/bootstrap-agents-fill.md) | Receives template values, fills instruction/rule/AGENTS.md templates |
+| 2 | [`bootstrap-agents-provision`](.agent/workflows/bootstrap-agents-provision.md) | Reads skill library manifest, provisions skills, fills workflow placeholders, reports results |
 
 ---
 

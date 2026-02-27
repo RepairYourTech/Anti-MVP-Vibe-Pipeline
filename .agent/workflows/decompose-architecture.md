@@ -90,8 +90,8 @@ Ask:
 
 | # | Shard | What It Does |
 |---|-------|-------------|
-| 1 | [`decompose-architecture-structure`](decompose-architecture-structure.md) | Creates directory structure, shard skeletons, and all layer indexes |
-| 2 | [`decompose-architecture-validate`](decompose-architecture-validate.md) | Identifies deep dives, annotates shard types, validates dependencies, generates tracker, requests review |
+| 1 | [`decompose-architecture-structure`](.agent/workflows/decompose-architecture-structure.md) | Creates directory structure, shard skeletons, and all layer indexes |
+| 2 | [`decompose-architecture-validate`](.agent/workflows/decompose-architecture-validate.md) | Identifies deep dives, annotates shard types, validates dependencies, generates tracker, requests review |
 
 ---
 

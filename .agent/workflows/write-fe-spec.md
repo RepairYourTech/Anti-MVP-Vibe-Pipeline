@@ -38,8 +38,8 @@ If a needed skill is missing, check if a matching entry exists in `.agent/skill-
 
 | # | Shard | What It Does |
 |---|-------|-------------|
-| 1 | [`write-fe-spec-classify`](write-fe-spec-classify.md) | Classifies the target, loads skills, reads all source documents + cross-references + deep dives |
-| 2 | [`write-fe-spec-write`](write-fe-spec-write.md) | Writes the FE spec, updates indexes, runs ambiguity gate, checks for new dependencies |
+| 1 | [`write-fe-spec-classify`](.agent/workflows/write-fe-spec-classify.md) | Classifies the target, loads skills, reads all source documents + cross-references + deep dives |
+| 2 | [`write-fe-spec-write`](.agent/workflows/write-fe-spec-write.md) | Writes the FE spec, updates indexes, runs ambiguity gate, checks for new dependencies |
 
 ---
 

@@ -30,8 +30,8 @@ Read these skills for review guidance:
 
 | # | Shard | What It Does |
 |---|-------|-------------|
-| 1 | [`audit-ambiguity-rubrics`](audit-ambiguity-rubrics.md) | Determines scope, loads documents, provides all 5 rubrics (Vision, Architecture, IA, BE, FE) with scoring criteria |
-| 2 | [`audit-ambiguity-execute`](audit-ambiguity-execute.md) | Executes the audit one document at a time, compiles report, remediates gaps, proposes next steps |
+| 1 | [`audit-ambiguity-rubrics`](.agent/workflows/audit-ambiguity-rubrics.md) | Determines scope, loads documents, provides all 5 rubrics (Vision, Architecture, IA, BE, FE) with scoring criteria |
+| 2 | [`audit-ambiguity-execute`](.agent/workflows/audit-ambiguity-execute.md) | Executes the audit one document at a time, compiles report, remediates gaps, proposes next steps |
 
 ---
 
@@ -58,3 +58,7 @@ Audits each document one at a time (read → score with evidence → classify ga
 - **Score honestly** — The goal is to find real gaps, not to produce a good number.
 - **Upstream first** — Fix Vision gaps before Architecture, Architecture before IA, IA before BE, BE before FE.
 - **Resolve, don't just report** — Use `resolve-ambiguity` to classify and fix gaps, not just list them.
+- **Simulate before scoring** — Before scoring any document, attempt to write a stub implementation from it. Every decision you have to make that isn't explicitly specified is a gap. Add it to the punch list unconditionally.
+- **Two-implementer test** — A ✅ means two different developers reading only this spec would make the same implementation decision. If you cannot confidently say that, score ⚠️ instead.
+- **Devil's advocate pass** — After scoring, argue against each ✅. Ask: "What would a junior developer get wrong?" and "What would a malicious implementer exploit?" Any ✅ that can't survive this drops to ⚠️.
+- **Cross-layer gaps are ❌** — A BE spec that doesn't match its IA shard user flows fails regardless of its individual score. Cross-layer consistency is checked after per-document scoring.

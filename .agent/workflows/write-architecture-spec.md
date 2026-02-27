@@ -32,8 +32,8 @@ Fill in a skeleton IA shard with full interaction details, data models, access c
 
 | # | Shard | What It Does |
 |---|-------|-------------|
-| 1 | [`write-architecture-spec-design`](write-architecture-spec-design.md) | Explores requirements, maps interactions, defines contracts, data models, access control, events, and edge cases |
-| 2 | [`write-architecture-spec-deepen`](write-architecture-spec-deepen.md) | Runs iterative deepening passes, writes the spec, updates indexes, runs ambiguity gate, presents for review |
+| 1 | [`write-architecture-spec-design`](.agent/workflows/write-architecture-spec-design.md) | Explores requirements, maps interactions, defines contracts, data models, access control, events, and edge cases |
+| 2 | [`write-architecture-spec-deepen`](.agent/workflows/write-architecture-spec-deepen.md) | Runs iterative deepening passes, writes the spec, updates indexes, runs ambiguity gate, presents for review |
 
 ---
 

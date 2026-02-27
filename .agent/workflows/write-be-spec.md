@@ -43,8 +43,8 @@ If a needed skill is missing, check if a matching entry exists in `.agent/skill-
 
 | # | Shard | What It Does |
 |---|-------|-------------|
-| 1 | [`write-be-spec-classify`](write-be-spec-classify.md) | Classifies IA shard, loads skills, reads source material + cross-references + deep dives |
-| 2 | [`write-be-spec-write`](write-be-spec-write.md) | Writes the BE spec, updates indexes, runs ambiguity gate, checks for new dependencies |
+| 1 | [`write-be-spec-classify`](.agent/workflows/write-be-spec-classify.md) | Classifies IA shard, loads skills, reads source material + cross-references + deep dives |
+| 2 | [`write-be-spec-write`](.agent/workflows/write-be-spec-write.md) | Writes the BE spec, updates indexes, runs ambiguity gate, checks for new dependencies |
 
 ---
 

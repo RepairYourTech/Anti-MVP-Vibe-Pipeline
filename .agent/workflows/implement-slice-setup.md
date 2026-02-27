@@ -107,8 +107,8 @@ Scan the slice's tasks for surface tags (`BE`, `FE`, `QA`):
 > **Log dispatch**: Append to the slice file (`.agent/progress/slices/phase-NN-slice-NN.md`): `## Dispatch Log` section with entry: `- QA-RED dispatched: [timestamp or "now"]`
 
 3. **Dispatch `BE` + `FE` agents in parallel (GREEN)** — Write code to make QA's tests pass:
-   - Read `parallel-agents/SKILL.md` for dispatch protocol
-   - Read `parallel-feature-development/SKILL.md` for file ownership
+   - Read `.agent/skills/parallel-agents/SKILL.md` for dispatch protocol
+   - Read `.agent/skills/parallel-feature-development/SKILL.md` for file ownership
    - Each agent claims tasks via Protocol 9, works through subtasks
    - Agents code against the **tests and contracts**, not assumptions
    - **Spec traceability**: any implementation decision not explicitly in the spec or contract (enum values, defaults, timeouts, error messages, spacing, retry logic) MUST be annotated with `// DECISION: [what was decided and why]`
