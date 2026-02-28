@@ -247,6 +247,11 @@ When the project includes a surface type, install the listed skills.
 |-------------|-------------|-------------|
 | `web` | `surface/web/frontend-design` | `frontend-design` |
 | `web` | `surface/web/seo-audit` | `seo-audit` |
+| `web` | `surface/web/ai-seo` | `ai-seo` |
+| `web` | `surface/web/schema-markup` | `schema-markup` |
+| `web` | `surface/web/programmatic-seo` | `programmatic-seo` |
+| `web` | `surface/web/analytics-tracking` | `analytics-tracking` |
+| `web` | `surface/web/page-cro` | `page-cro` |
 | `web` | `surface/web/web-performance-optimization` | `web-performance-optimization` |
 | `web` | `surface/web/i18n-localization` | `i18n-localization` |
 | `web` | `surface/web/accessibility-compliance` | `accessibility-compliance` |
@@ -328,6 +333,7 @@ These skills are NOT auto-installed. Install via `/find-skills` or manually copy
 | `meta/brand-guidelines` | Brand color and typography application |
 | `meta/regex-patterns` | Regular expression mastery and common patterns |
 | `meta/git-advanced` | Advanced Git operations and workflows |
+| `meta/product-marketing-context` | Marketing context document generator — run first before any SEO or CRO skill |
 
 ---
 
