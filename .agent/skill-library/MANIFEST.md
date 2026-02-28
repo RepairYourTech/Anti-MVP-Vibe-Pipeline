@@ -67,8 +67,9 @@ When a stack key matches a value pattern (case-insensitive), install the listed 
 | `FRONTEND_FRAMEWORK` | `*react*` | `stack/ui/react-best-practices` | `react-best-practices` |
 | `FRONTEND_FRAMEWORK` | `*react*` | `stack/ui/react-composition-patterns` | `react-composition-patterns` |
 | `DESIGN_DIRECTION` | `*` (any confirmed value) | Fills `{{PLACEHOLDER}}`s in `.agent/skills/brand-guidelines/SKILL.md` in-place | `brand-guidelines` (in-place fill, not copy) |
+| `DESIGN_DIRECTION` | `*cinematic*` OR `*immersive*` | `stack/3d/threejs-pro` | `threejs-pro` |
 
-Note: `DESIGN_DIRECTION` does not copy a skill from the library — it fills placeholders in the pre-placed `.agent/skills/brand-guidelines/SKILL.md` template.
+Note: `DESIGN_DIRECTION` does not copy a skill from the library — it fills placeholders in the pre-placed `.agent/skills/brand-guidelines/SKILL.md` template. Exception: when the direction is `Cinematic/Immersive`, `threejs-pro` is also installed as a standard skill copy, since WebGL and Three.js capabilities will be required.
 
 ### Authentication
 
@@ -255,6 +256,8 @@ When the project includes a surface type, install the listed skills.
 | `web` | `surface/web/offline-first-pwa` | `offline-first-pwa` |
 | `web` | `surface/web/web-scraping` | `web-scraping` |
 
+> **Note**: The `frontend-design` skill includes a **Premium Cinematic Tier** with WebGL, custom shaders, and Awwwards-level animation patterns. When `DESIGN_DIRECTION` is `Cinematic/Immersive`, `threejs-pro` is also auto-installed (see CSS/UI triggers above).
+
 ### API
 
 | Surface Type | Library Path | Installed As |
@@ -383,4 +386,4 @@ To add a new skill to the library:
 | `3D_FRAMEWORK` | 3D rendering | Three.js, React Three Fiber |
 | `GAME_ENGINE` | Game engine | Godot, Unity |
 | `SECURITY` | Security focus area | OWASP, Crypto, CSP/CORS, Dependency Auditing, Input Sanitization |
-| `DESIGN_DIRECTION` | Confirmed visual design direction | Minimal/Functional, Editorial, Luxury/Refined, Playful/Expressive, Technical/Brutalist, or Hybrid |
+| `DESIGN_DIRECTION` | Confirmed visual design direction | Minimal/Functional, Editorial, Luxury/Refined, Playful/Expressive, Technical/Brutalist, Cinematic/Immersive, or Hybrid |
