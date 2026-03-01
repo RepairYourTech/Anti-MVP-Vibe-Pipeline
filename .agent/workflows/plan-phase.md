@@ -88,7 +88,7 @@ Sort slices so each builds on the last:
 1. CI/CD pipeline setup (using the confirmed CI/CD skill)
 2. Environment configuration (`.env.example` with all required variables documented)
 3. Deployment pipeline (using the confirmed hosting skill)
-4. Project scaffolding (directory structure, base configuration files)
+4. Project scaffolding (scaffold the approved directory structure from `.agent/instructions/structure.md` — the structure is already locked by `/create-prd-compile` Step 9.5; this slice creates the directories, `README.md` files per the extensibility rule, and base configuration files)
 5. Database initialization (schema creation, migration tooling setup)
 
 If any of these five items are missing from the infrastructure slice, add them before proceeding to feature slices.

@@ -62,7 +62,9 @@ Pattern matching is glob-style with `*` as wildcard, case-insensitive.
 
 ## 8. Update installed skills list
 
-After provisioning, build a markdown list of all installed skills (both defaults and library-provisioned) and update `{{INSTALLED_SKILLS}}` in the tech stack instruction:
+After provisioning, build a markdown list of all installed skills (both defaults and library-provisioned) and update `{{INSTALLED_SKILLS}}` in the tech stack instruction.
+
+Also update `{{INSTALLED_SKILLS}}` in `AGENTS.md` and `GEMINI.md` with the same installed skills list. These root agent config files must reflect the full skill inventory so agents reading them have complete context.
 
 ```markdown
 ### Default Skills
@@ -90,7 +92,27 @@ After provisioning, build a markdown list of all installed skills (both defaults
 - ...
 ```
 
-```
+### 8.5. Compose and fill FRAMEWORK_PATTERNS
+
+Identify any frontend-capable framework skill provisioned or matched during this invocation by checking across all relevant stack axes:
+
+| Stack Axis | Example Skills |
+|------------|---------------|
+| `FRONTEND_FRAMEWORK` | `nextjs`, `astro-framework`, `sveltekit`, `nuxt`, `react-best-practices` |
+| `MOBILE_FRAMEWORK` | `expo-react-native` |
+
+If any of these axes resolved to a provisioned skill in Step 7, use that skill for composition.
+
+**If a frontend-capable framework skill is present:**
+1. Read the installed skill's `SKILL.md` from `.agent/skills/[installed-as]/SKILL.md`
+2. Extract the component patterns section (file structure, naming conventions, composition patterns, what to avoid)
+3. Compose a `FRAMEWORK_PATTERNS` markdown block summarising these component conventions
+4. Fire `bootstrap-agents-fill` with `FRAMEWORK_PATTERNS=[composed value]` to fill the `## Components` section of `.agent/instructions/patterns.md`
+5. If multiple frontend-capable skills are present (e.g., `FRONTEND_FRAMEWORK` + `MOBILE_FRAMEWORK`), merge their patterns into a single `FRAMEWORK_PATTERNS` block with clearly labelled sections per surface
+
+This step is idempotent — it can be re-run on existing projects to fill `patterns.md` without re-provisioning the skill. For remediation flows, provide the relevant stack axis value(s) so this step resolves the correct skill(s).
+
+**If no frontend-capable framework skill is present:** Skip — `patterns.md` already has a sensible fallback for non-visual projects.
 
 ---
 

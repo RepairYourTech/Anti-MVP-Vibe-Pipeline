@@ -60,6 +60,51 @@ full validation suite before the next phase begins.
 
 Refine based on discussion before proceeding.
 
+## 9.5. Lock project directory structure
+
+Based on the locked tech stack (frontend framework, backend runtime, ORM, test runner, surfaces, contracts directory), generate a canonical directory tree for the project.
+
+1. Build the tree showing where source code, contracts/schemas, tests, config files, and build output live — tailored to the confirmed stack
+2. Present the tree to the user with one-line descriptions per top-level directory:
+
+```
+src/              — Application source code
+  contracts/      — Zod schemas (shared source of truth)
+  components/     — UI components (if frontend surface exists)
+  routes/         — API routes / page routes
+  lib/            — Shared utilities and helpers
+tests/            — Test files mirroring src/ structure
+public/           — Static assets (if web surface)
+docs/             — Specifications and plans
+dist/             — Build output (gitignored)
+```
+
+   Adapt the tree to the actual stack — e.g., a CLI project won't have `components/` or `public/`, a monorepo will have `apps/` and `packages/`, etc.
+
+3. Build an architecture separation table mapping each architectural concern to its directory and the runtime where it executes:
+
+| Concern | Location | Runtime |
+|---------|----------|---------|
+| Contracts/schemas | `src/contracts/` | Shared (build-time) |
+| API routes | `src/routes/api/` | Server |
+| UI components | `src/components/` | Client |
+| Business logic | `src/lib/` | Server |
+| Tests | `tests/` | Test runner |
+
+4. **Present to user**: Show the directory tree and architecture table. Ask: "Does this structure match your expectations? Any directories to add, rename, or reorganize?" **Do not proceed until explicit approval.**
+
+5. After approval, fire bootstrap with these keys:
+   - `PROJECT_STRUCTURE` — the approved directory tree
+   - `ARCHITECTURE_TABLE` — the concern/location/runtime table
+   - `CONTRACTS_DIR` — path to the contracts directory (e.g., `src/contracts/`)
+   - `BUILD_OUTPUT_DIR` — path to the build output directory (e.g., `dist/`)
+
+   Bootstrap writes these into `.agent/instructions/structure.md` via `bootstrap-agents-fill`.
+
+6. Append a `## Directory Structure` section to `docs/plans/architecture-draft.md` containing the approved tree and architecture table.
+
+> If invoked standalone (not from `/create-prd`), surface via `notify_user`.
+
 ## 10. Compile architecture design document
 
 Read `docs/plans/architecture-draft.md` as the source of all decisions made in prior shards. Do not rely on the context window — the draft document is the authoritative source. Compile it into the final `docs/plans/YYYY-MM-DD-architecture-design.md` (use today's date) with:
@@ -120,6 +165,14 @@ process, not just labels]
 [Phase breakdown with feature allocation, dependency order, and timeline estimates.
 Each phase has explicit entry/exit criteria. For multi-surface: per-surface or
 cross-surface phasing strategy.]
+
+## Directory Structure
+[The approved source directory tree from Step 9.5, with one-line descriptions per directory.
+Includes: contracts directory path, test layout, build output path, surface subtrees for multi-surface projects.]
+
+## Architecture Separation
+[The concern/location/runtime table from Step 9.5 — maps each architectural concern to its
+directory and the runtime where it executes.]
 
 ## Installed Skills
 [List of skills installed during this workflow with versions]

@@ -21,6 +21,36 @@ Scan all five pipeline layers, check for existing audit reports, determine the s
 
 ---
 
+## 0. Pre-check: scan instruction files for unfilled placeholders
+
+Before assessing pipeline layers, scan all instruction files for any `{{` patterns:
+
+1. `AGENTS.md`
+2. `GEMINI.md`
+3. `.agent/instructions/workflow.md`
+4. `.agent/instructions/commands.md`
+5. `.agent/instructions/structure.md`
+6. `.agent/instructions/patterns.md`
+7. `.agent/instructions/tech-stack.md`
+
+**If any unfilled `{{PLACEHOLDER}}` patterns are found**:
+
+> **STOP** — do not proceed with pipeline remediation. Tell the user which files and placeholders are affected and provide remediation commands:
+>
+> | File(s) with unfilled placeholders | Remediation |
+> |------------------------------------|-------------|
+> | `structure.md` (`{{PROJECT_STRUCTURE}}`, `{{ARCHITECTURE_TABLE}}`) | Run `/create-prd-compile` Step 9.5 to generate and lock the directory structure |
+> | `patterns.md` (`{{FRAMEWORK_PATTERNS}}`) | Run `/bootstrap-agents-provision` after confirming the frontend framework |
+> | `AGENTS.md`, `GEMINI.md`, or other files | Run `/bootstrap-agents-fill` then `/bootstrap-agents-provision` with confirmed stack values |
+>
+> Pipeline remediation audits spec documents, but agents use instruction files throughout implementation — broken instruction files must be fixed first.
+>
+> Once all instruction files are clean, re-run `/remediate-pipeline` to audit the spec layers.
+
+**If all instruction files are clean**: Confirm "Instruction files are fully configured." and proceed to Step 1.
+
+---
+
 ## 1. Scan pipeline layers
 
 Check which layers have content by verifying the presence of key files:

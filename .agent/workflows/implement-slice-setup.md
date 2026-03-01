@@ -23,20 +23,35 @@ Check progress state, load skills, read the slice, detect parallel mode, and wri
 
 ## -1. Placeholder verification (CRITICAL — run before anything else)
 
-Scan for unfilled placeholders before writing a single line of code:
+Scan for unfilled placeholders before writing a single line of code. Read each file and scan for any literal `{{` characters:
 
-1. Read `AGENTS.md` — scan for any literal `{{` characters
-2. Read `.agent/instructions/workflow.md` — scan for `{{VALIDATION_COMMAND}}`
-3. Read `.agent/instructions/commands.md` — scan for any `{{` patterns
+1. `AGENTS.md`
+2. `GEMINI.md`
+3. `.agent/instructions/workflow.md`
+4. `.agent/instructions/commands.md`
+5. `.agent/instructions/structure.md`
+6. `.agent/instructions/patterns.md`
+7. `.agent/instructions/tech-stack.md`
 
 **If ANY `{{PLACEHOLDER}}` pattern is found**:
 
-> **STOP immediately.** Do not proceed with implementation. Tell the user:
-> "Found unfilled placeholders: [list each one with file and line number]. These must be filled before implementation begins. Run `/create-prd` to make tech stack decisions and trigger bootstrap provisioning."
+> **STOP immediately.** Do not proceed with implementation. Tell the user which files contain unfilled placeholders and provide the specific remediation command for each:
+>
+> | File(s) with unfilled placeholders | Remediation |
+> |------------------------------------|-------------|
+> | `AGENTS.md`, `GEMINI.md`, `workflow.md`, `commands.md`, `tech-stack.md` | Run `/create-prd` to make tech stack decisions and trigger bootstrap provisioning |
+> | `structure.md` (`{{PROJECT_STRUCTURE}}`, `{{ARCHITECTURE_TABLE}}`) | Run `/create-prd-compile` Step 9.5 to generate and lock the directory structure |
+> | `patterns.md` (`{{FRAMEWORK_PATTERNS}}`) | Run `/bootstrap-agents-provision` after confirming the frontend framework |
+>
+> List each unfilled placeholder with its file and line number.
 
-**Why this is critical**: An unfilled `{{VALIDATION_COMMAND}}` makes every validation step in the pipeline a no-op — tests never run, lint never runs, builds never run. The entire TDD cycle silently does nothing.
+**Why this is critical**:
+- An unfilled `{{VALIDATION_COMMAND}}` makes every validation step in the pipeline a no-op — tests never run, lint never runs, builds never run. The entire TDD cycle silently does nothing.
+- An unfilled `{{PROJECT_STRUCTURE}}` in `structure.md` means the infrastructure slice has no canonical directory tree to scaffold — agents will invent a structure, defeating the purpose of locking it in `/create-prd-compile` Step 9.5.
+- An unfilled `{{FRAMEWORK_PATTERNS}}` in `patterns.md` means agents writing components have no framework-specific conventions — they'll use generic patterns that may conflict with the chosen framework.
+- An unfilled `GEMINI.md` means the Gemini CLI agent operates with zero project context — no project name, no validation command, no architecture doc path.
 
-Only proceed to Step 0 when zero `{{` patterns remain in all three files.
+Only proceed to Step 0 when zero `{{` patterns remain in all seven files.
 
 ---
 

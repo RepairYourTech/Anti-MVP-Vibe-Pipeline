@@ -153,6 +153,30 @@ Verify:
 - All cross-references are valid
 - Project-specific files have integration points with new kit content (step 5)
 
+## 8.5. Scan for remaining unfilled placeholders
+
+After the diff review, all instruction files should be scanned for any `{{` patterns that survived the semantic merge. Step 3b cannot distinguish a filled value from an unfilled placeholder, so unfilled templates may have slipped through.
+
+Scan these 7 files for any literal `{{` characters:
+
+1. `AGENTS.md`
+2. `GEMINI.md`
+3. `.agent/instructions/workflow.md`
+4. `.agent/instructions/commands.md`
+5. `.agent/instructions/structure.md`
+6. `.agent/instructions/patterns.md`
+7. `.agent/instructions/tech-stack.md`
+
+**If unfilled patterns are found**: List each one with file and placeholder name, and provide remediation commands:
+
+| File(s) with unfilled placeholders | Remediation |
+|------------------------------------|-------------|
+| `structure.md` | Run `/create-prd-compile` Step 9.5 to generate and lock the directory structure |
+| `patterns.md` | Run `/bootstrap-agents-provision` with the confirmed frontend-capable framework value (`FRONTEND_FRAMEWORK`, `MOBILE_FRAMEWORK`, etc.) |
+| `AGENTS.md`, `GEMINI.md`, or other files | Run `/bootstrap-agents-fill` with confirmed stack values |
+
+**If no unfilled placeholders**: Confirm "All instruction files are fully configured — no unfilled placeholders remain."
+
 ## Important: File handling summary
 
 | File Type | Content Action | Integration Action |

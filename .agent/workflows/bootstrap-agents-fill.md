@@ -169,14 +169,17 @@ Scan all `.agent/skills/*/SKILL.md` files for `{{PLACEHOLDER}}` values and fill 
 
 ---
 
-## 4. Fill AGENTS.md
+## 4. Fill root agent config files (AGENTS.md and GEMINI.md)
 
-Replace in `AGENTS.md`:
+Replace in **both** `AGENTS.md` and `GEMINI.md`:
 - `{{PROJECT_NAME}}`
 - `{{DESCRIPTION}}`
 - `{{TECH_STACK_SUMMARY}}`
 - `{{VALIDATION_COMMAND}}`
 - `{{ARCHITECTURE_DOC}}`
+- `{{INSTALLED_SKILLS}}` (if provided at this invocation; otherwise leave for `bootstrap-agents-provision` Step 8 to fill after skill provisioning)
+
+> **Note**: Both files serve as root agent config for their respective agents (`AGENTS.md` for Claude Code / Antigravity, `GEMINI.md` for Gemini CLI). Both must be kept in sync — any placeholder filled in one must be filled in the other.
 
 ### Report and proceed
 
