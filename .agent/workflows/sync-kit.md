@@ -4,12 +4,12 @@ description: Sync improvements from the upstream starter kit into this project's
 
 # Sync Kit
 
-Pull improvements from the upstream spec-pipeline-starter kit into this project's `.agent/` folder.
+Pull improvements from the upstream [Anti-MVP-Vibe-Pipeline](https://github.com/RepairYourTech/Anti-MVP-Vibe-Pipeline) kit into this project. The sync covers the **entire upstream repo** — `.agent/` directory, root-level files (`AGENTS.md`, `GEMINI.md`, `KIT-*.md`), and `docs/` scaffolding.
 
 **The problem:** The kit was born from this project, but has since evolved past it. The kit uses `{{PLACEHOLDER}}` markers; this project has real values. A blind copy would destroy project-specific content. This workflow does a semantic merge — apply the kit's *intent* while preserving project values.
 
-**Input:** Path to the upstream kit (default: `https://github.com/RepairYourTech/Anti-MVP-Vibe-Pipeline`)
-**Output:** Updated `.agent/` folder with kit improvements merged
+**Input:** Upstream kit repo (default: `RepairYourTech/Anti-MVP-Vibe-Pipeline`, branch `main`)
+**Output:** Updated project with kit improvements merged, sync state recorded
 
 ---
 
@@ -17,147 +17,148 @@ Pull improvements from the upstream spec-pipeline-starter kit into this project'
 
 Read `.agent/kit-sync.md` in the project root.
 
-- If the file exists: extract `last_synced_commit` and `upstream` values. Proceed to Step 1 with commit-scoped diff mode.
-- If the file does not exist: this is a **first sync**. Proceed to Step 1 with full diff mode (current behavior). The tracking file will be created in Step 9.
+- **File exists** → extract `last_synced_commit` and `upstream` values. Use **incremental mode** (Step 1a).
+- **File missing** → this is a **first sync**. Use **full diff mode** (Step 1b). The tracking file will be created in Step 9.
 
-The upstream kit is always: `https://github.com/RepairYourTech/Anti-MVP-Vibe-Pipeline` (default branch: `main`)
+---
 
 ## 1. Identify what changed
 
 // turbo
 
-**If `last_synced_commit` is known (subsequent sync):**
+### 1a. Incremental sync (commit-scoped)
 
-Run `git log <last_synced_commit>..HEAD --name-only` on the upstream kit to get only the files that changed since the last sync. Work only with those files in Steps 2–7. Files not in this list are untouched — do not re-evaluate them.
+Run `git log <last_synced_commit>..HEAD --name-only` on the upstream to get only the changed files. Work only with those files in Steps 2–7.
 
-If the command returns no files: report "No changes since last sync (commit `<last_synced_commit>`)" and skip to Step 8.5.
+If the command returns no files: report "No changes since last sync (commit `<hash>`)" and skip to Step 8.5.
 
-**If no commit is known (first sync):**
+### 1b. First sync (full comparison)
 
-Compare the kit directory against the project's `.agent/` folder using your file comparison tools. Identify:
-- **Files only in the kit** (net-new)
-- **Files only in the project** (project-specific, don't touch)
-- **Files that exist in both but differ**
+Compare the **entire upstream repo** against the project. Scan at minimum:
+
+| Upstream Path | What to Compare |
+|--------------|-----------------|
+| Root files | `AGENTS.md`, `GEMINI.md`, `KIT-ARCHITECTURE.md`, `KIT-README.md` |
+| `.agent/instructions/` | All 5 markdown files |
+| `.agent/rules/` | All 9 markdown files |
+| `.agent/workflows/` | All workflow files |
+| `.agent/skills/` | All skill directories (SKILL.md + sub-files) |
+| `.agent/skill-library/` | MANIFEST.md, README.md, subdirectories |
+| `.agent/progress/` | Directory structure |
+| `docs/` | README.md, audits/, plans/ scaffolding |
+
+Compare using SHA hashes or byte-level diff. Classify each file per Step 2.
+
+---
 
 ## 2. Classify each changed file
 
-For every file that changed, classify it:
-
 | Classification | Action | Example |
 |---------------|--------|---------|
-| **NET-NEW in kit** | Copy directly into project | `rules/boundary-not-placeholder.md`, `skills/parallel-agents/` |
-| **PROJECT-ONLY** | Leave alone — project-specific | `rules/child-safety.md`, `workflows/setup-session.md` |
-| **BOTH EXIST — kit has {{PLACEHOLDER}}** | Semantic merge (step 3) | `instructions/workflow.md`, `AGENTS.md` |
+| **NET-NEW in kit** | Copy directly (Step 4) | New workflow, new skill directory |
+| **PROJECT-ONLY** | Leave alone — project-specific | `skills/surrealdb-expert/`, project workflows |
+| **BOTH EXIST — kit has `{{PLACEHOLDER}}`** | Semantic merge (Step 3) | `AGENTS.md`, `instructions/workflow.md` |
+| **BOTH EXIST — kit content changed** | Overwrite with upstream | Workflows with no project values |
 | **BOTH EXIST — identical** | Skip | — |
 
-## 3. Semantic merge (for files that exist in both)
+**Key distinction for "BOTH EXIST":** If the project file has **no project-specific values** (just boilerplate), overwrite directly. If it has filled `{{PLACEHOLDER}}` values, semantic merge.
 
-For each file classified as "BOTH EXIST — kit has {{PLACEHOLDER}}":
+---
 
-### 3a. Read both versions
+## 3. Semantic merge (files with project-specific values)
 
-Read the kit version and the project version side by side.
+For each file classified as "BOTH EXIST — kit has `{{PLACEHOLDER}}`":
+
+### 3a. Read both versions side by side
 
 ### 3b. Identify change regions
-
-Compare the two files and identify:
-- **Template regions** — lines containing `{{PLACEHOLDER}}` in the kit → these have project-specific values in the project file. **PRESERVE the project values.**
-- **Kit content regions** — lines that are pure boilerplate (no placeholders) → these may have been updated in the kit. **APPLY kit changes.**
+- **Template regions** — lines with `{{PLACEHOLDER}}` in kit → project has real values. **PRESERVE project values.**
+- **Kit content regions** — pure boilerplate (no placeholders) that changed upstream. **APPLY kit changes.**
 
 ### 3c. Apply changes surgically
-
 For each changed kit content region:
 1. Find the corresponding region in the project file
-2. Replace the project's old boilerplate with the kit's new boilerplate
-3. **DO NOT touch any line that has project-specific content** (values that replaced `{{PLACEHOLDER}}`)
+2. Replace old boilerplate with new kit boilerplate
+3. **DO NOT touch any line with project-specific content**
 
 ### 3d. Handle structural changes
-
 If the kit restructured content *around* a placeholder (e.g., rewrote the sentence containing `{{VALIDATION_COMMAND}}`):
 1. Take the kit's new structure
 2. Re-insert the project's specific value into the new structure
 3. Verify the result reads correctly
 
+---
+
 ## 4. Copy net-new files
 
 // turbo
-For files that only exist in the kit (not already in this project), copy them directly:
 
-Copy each net-new file from the kit into the corresponding location in your project's `.agent/` folder. Adapt the specific files based on what Step 1 revealed as net-new.
+For files that only exist in the kit, copy them into the **corresponding location** in the project:
+- Root files → project root
+- `.agent/workflows/` → project `.agent/workflows/`
+- `.agent/skills/<name>/` → copy entire skill directory (SKILL.md + references/, resources/, scripts/)
+- `docs/` → project `docs/`
 
-Only copy files identified as net-new in step 1. Do not overwrite existing files.
+Only copy files identified as net-new in Step 1. Do not overwrite existing files.
+
+---
 
 ## 5. Audit project-specific files for integration gaps
 
-Project-specific files (ones that only exist in the project, not the kit) were written **before** the kit's latest improvements. They must NOT be blindly preserved — they need to be checked for missing integration points with new kit content.
+Project-specific files were written **before** the kit's latest improvements. Check for missing integration points with new kit content.
 
-### 5a. Build the integration inventory
-
-Read `.agent/skills/prd-templates/references/operational-templates.md` for the **Sync Integration Inventory** template. Use the template to build the inventory of everything the kit added or changed.
-
-### 5b. Scan each project-specific file
-
-For every project-only file, ask these questions:
+### 5a. Scan each project-only file
 
 | Question | Example |
 |----------|---------|
-| **Does this file enforce rules that now have nuance?** | `child-safety.md` bans placeholders — does it know about `// BOUNDARY:` stubs? |
-| **Does this file describe processes that could use new skills?** | `setup-session.md` sets up infra — could `parallel-agents` parallelize verification steps? |
-| **Does this file reference concepts the kit has renamed or evolved?** | Old "TODO ban" language → now "boundary-not-placeholder" |
-| **Does this file's domain intersect with new kit content?** | `security-audit.md` → should it reference the `security-auditor` role in `parallel-agents`? |
-| **Would this file benefit from cross-references to new content?** | `deploy.md` → should it know about the synthesis protocol for multi-agent deploys? |
+| Does this file enforce rules that now have nuance? | Rule file bans placeholders — does it know about `// BOUNDARY:` stubs? |
+| Does this file describe processes that could use new skills? | Setup workflow → could `parallel-agents` parallelize verification? |
+| Does this file reference concepts the kit renamed or evolved? | Old terminology → now uses different naming |
+| Does this file's domain intersect new kit content? | Security rule → should it reference new kit security skills? |
 
-### 5c. Apply integration updates
+### 5b. Apply integration updates
+- Add cross-references to new rules/skills where relevant
+- Update terminology to match kit evolution
+- **DO NOT change project-specific values or domain logic** — only add integration surface
 
-For each gap found:
-1. Add cross-references to new rules/skills where relevant
-2. Update terminology to match kit evolution (e.g., "TODO" → "BOUNDARY stub" where appropriate)
-3. Add new sections if the file's domain now intersects with new kit capabilities
-4. **DO NOT change project-specific values or domain logic** — only add integration surface
-
-### 5d. What NOT to change in project-specific files
-
-- Project-specific domain content (child safety requirements, VPS configurations, deploy targets)
-- Project-specific values (paths, URLs, credentials references, team names)
-- The file's core purpose or structure
-
-**The goal is additive integration, not rewriting.** You're connecting existing project files to new kit capabilities, not changing what those files do.
+---
 
 ## 6. Update reference files
 
-Update any central reference files that list rules, skills, or workflows:
+Root files serve dual roles: they contain both **kit boilerplate** (pipeline table, rule tables) and **project-specific values** (project name, tech stack, validation command). After Steps 3–4, verify these reference files reflect the merged state:
 
-- **GEMINI.md** — rule table, skill list, workflow list, decision tree
-- **AGENTS.md** — rule table (if project has its own)
-- Any index files that enumerate available skills or rules
+- **GEMINI.md** — pipeline workflow table, rule table, note about utility commands
+- **AGENTS.md** — pipeline workflow table, rule table, note about utility commands
+- **Any index files** that enumerate available skills, rules, or workflows
 
-These must reflect the merged state — every new rule, skill, and workflow should be listed.
+Every new rule, skill, and workflow from this sync must appear in the tables.
+
+---
 
 ## 7. Validate
 
 // turbo
-Run the project's full validation suite:
 
-Run `{{VALIDATION_COMMAND}}` (see `.agent/instructions/commands.md` for the configured validation command).
+Run the project's configured validation command (see `.agent/instructions/commands.md`).
+
+If the validation command is not yet configured (unfilled `{{VALIDATION_COMMAND}}` placeholder): skip validation and flag it for remediation in Step 8.5.
+
+---
 
 ## 8. Review diff
 
-Before committing, review the complete diff:
-
-Review the complete diff of changes made.
-
-Verify:
+Review the complete diff of changes made. Verify:
 - No `{{PLACEHOLDER}}` markers leaked into the project
 - No project-specific values were overwritten
-- All new files are present
+- All net-new files are present
 - All cross-references are valid
-- Project-specific files have integration points with new kit content (step 5)
+- Project-specific files have integration points with new kit content (Step 5)
+
+---
 
 ## 8.5. Scan for remaining unfilled placeholders
 
-After the diff review, all instruction files should be scanned for any `{{` patterns that survived the semantic merge. Step 3b cannot distinguish a filled value from an unfilled placeholder, so unfilled templates may have slipped through.
-
-Scan these 7 files for any literal `{{` characters:
+Scan these files for any literal `{{` characters:
 
 1. `AGENTS.md`
 2. `GEMINI.md`
@@ -167,27 +168,21 @@ Scan these 7 files for any literal `{{` characters:
 6. `.agent/instructions/patterns.md`
 7. `.agent/instructions/tech-stack.md`
 
-**If unfilled patterns are found**: List each one with file and placeholder name, and provide remediation commands:
+**If unfilled patterns found** — list each with remediation:
 
-| File(s) with unfilled placeholders | Remediation |
-|------------------------------------|-------------|
-| `structure.md` | Run `/create-prd-compile` Step 9.5 to generate and lock the directory structure |
-| `patterns.md` | Run `/bootstrap-agents-provision` with the confirmed frontend-capable framework value (`FRONTEND_FRAMEWORK`, `MOBILE_FRAMEWORK`, etc.) |
-| `AGENTS.md`, `GEMINI.md`, or other files | Run `/bootstrap-agents-fill` with confirmed stack values |
+| File(s) | Remediation |
+|---------|-------------|
+| `structure.md` | Run `/create-prd-compile` Step 9.5 |
+| `patterns.md` | Run `/bootstrap-agents-provision` |
+| `AGENTS.md`, `GEMINI.md`, or others | Run `/bootstrap-agents-fill` |
 
-**If no unfilled placeholders**: Confirm "All instruction files are fully configured — no unfilled placeholders remain."
+**If none found** — confirm "All instruction files fully configured."
 
-## Important: File handling summary
-
-| File Type | Content Action | Integration Action |
-|-----------|---------------|-------------------|
-| **Net-new from kit** | Copy directly | N/A |
-| **Both exist** | Semantic merge (step 3) | N/A |
-| **Project-only** | **DO NOT overwrite** | **DO audit for integration gaps** (step 5) |
+---
 
 ## 9. Update sync state
 
-Write or update `.agent/kit-sync.md` with the current HEAD commit hash of the upstream kit and the current timestamp:
+Write or update `.agent/kit-sync.md`:
 
 ```markdown
 # Kit Sync State
@@ -199,3 +194,14 @@ kit_version: main
 ```
 
 This file is committed to the project repo — it records which kit version the project is on and serves as the baseline for the next sync.
+
+---
+
+## Quick Reference
+
+| File Type | Content Action | Integration Action |
+|-----------|---------------|-------------------|
+| **Net-new from kit** | Copy directly | N/A |
+| **Both exist — no project values** | Overwrite with upstream | N/A |
+| **Both exist — has project values** | Semantic merge (Step 3) | N/A |
+| **Project-only** | **DO NOT overwrite** | **DO audit for integration gaps** (Step 5) |
