@@ -29,11 +29,15 @@ Document the agreed approach:
 
 1. **Contract-first** — Zod schemas (or equivalent) before implementation
 2. **TDD** — Failing tests before code
+   Read .agent/skills/{{UNIT_TESTING_SKILL}}/SKILL.md and follow its test writing conventions.
+   Read .agent/skills/{{E2E_TESTING_SKILL}}/SKILL.md and follow its E2E test conventions.
 3. **Vertical slices** — All surfaces per feature
 4. **Spec layers** — IA → BE → FE pipeline
 5. **Quality gates** — What must pass before merge
 
 ## 9. Phasing strategy
+
+Read .agent/skills/{{CI_CD_SKILL}}/SKILL.md and follow its pipeline configuration conventions.
 
 Break the feature inventory from `vision.md` into dependency-ordered phases.
 
@@ -69,6 +73,8 @@ Based on the locked tech stack, generate a canonical directory tree.
 > If invoked standalone, surface via `notify_user`.
 
 ## 10. Compile architecture design document
+
+Read .agent/skills/technical-writer/SKILL.md and apply its clarity and structure standards throughout document compilation.
 
 Read `docs/plans/architecture-draft.md` as the authoritative source. Read `.agent/skills/prd-templates/references/architecture-design-template.md` for the document structure. Compile it into `docs/plans/YYYY-MM-DD-architecture-design.md` (use today's date).
 

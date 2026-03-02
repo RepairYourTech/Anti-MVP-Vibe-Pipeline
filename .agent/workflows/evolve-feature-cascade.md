@@ -10,7 +10,7 @@ pipeline:
   predecessors: [evolve-feature-classify]
   successors: []
   skills: [resolve-ambiguity, technical-writer]
-  calls-bootstrap: false
+  calls-bootstrap: true
 ---
 
 # Evolve Feature — Cascade
@@ -22,6 +22,8 @@ Cascade the new content from the entry point through all downstream layers with 
 ---
 
 ## 1. Cascade through each downstream layer
+
+Read .agent/skills/technical-writer/SKILL.md and apply its writing standards to all spec additions and the evolution record.
 
 For each downstream layer with existing content (in order: architecture → IA → BE → FE → phase plan):
 
@@ -96,6 +98,19 @@ Write `docs/audits/evolve-feature-[name]-[date].md` recording:
 - **Implementation impact** — assessment from Step 2 (if applicable)
 - **Consistency check results** — pass/fail with details
 - **Timestamp** of the evolution run
+
+---
+
+## 4.5. Bootstrap gate — new dependency check
+
+Before closing the cascade, scan every document that was updated in Step 1 for any technology, library, or service referenced in the new content that does not have a corresponding installed skill directory in `.agent/skills/`.
+
+For each missing skill:
+1. Identify the technology (e.g., WebSocket, S3 storage, Stripe, Redis)
+2. Read `.agent/workflows/bootstrap-agents.md` and invoke `/bootstrap-agents NEW_DEPENDENCY=[technology]`
+3. Confirm the matching skill is installed before proceeding to Step 5
+
+If no new unregistered technologies were introduced, skip and proceed to Step 5.
 
 ---
 

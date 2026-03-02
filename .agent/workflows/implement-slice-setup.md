@@ -55,6 +55,11 @@ Verify previous slice was fully marked complete before starting this one.
 
 Read these skill SKILL.md files: `tdd-workflow`, `error-handling-patterns`, `git-workflow`, `code-review-pro`, `testing-strategist`, `clean-code`, `logging-best-practices`, `minimalist-surgical-development`, `systematic-debugging`. All are in `.agent/skills/[name]/SKILL.md`.
 
+Read .agent/skills/{{LANGUAGE_SKILL}}/SKILL.md and follow its language conventions.
+If this slice includes BE tasks: Read .agent/skills/{{ORM_SKILL}}/SKILL.md and follow its migration and schema conventions. Skip if no BE tasks or `{{ORM_SKILL}}` is not provisioned.
+Read .agent/skills/{{UNIT_TESTING_SKILL}}/SKILL.md and follow its test writing conventions.
+If this slice includes FE tasks: Read .agent/skills/{{STATE_MANAGEMENT_SKILL}}/SKILL.md and follow its state management conventions. Skip if no FE tasks or `{{STATE_MANAGEMENT_SKILL}}` is not provisioned.
+
 Use `find-skills` to discover a test framework skill if needed.
 
 If this slice introduces a new dependency, read `.agent/workflows/bootstrap-agents.md` and execute with the new value.
@@ -98,6 +103,8 @@ Log each dispatch phase to `.agent/progress/slices/phase-NN-slice-NN.md` `## Dis
 ---
 
 ## 2. Write the contract (Zod schema)
+
+Read .agent/skills/{{LANGUAGE_SKILL}}/SKILL.md and follow its language conventions.
 
 Define request/response shapes as Zod schemas in the contracts directory (see `.agent/instructions/structure.md`). This is the source of truth.
 

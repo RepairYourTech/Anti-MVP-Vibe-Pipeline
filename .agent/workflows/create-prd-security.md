@@ -10,7 +10,7 @@ pipeline:
   predecessors: [create-prd-architecture]
   successors: [create-prd-compile]
   skills: [security-scanning-security-hardening]
-  calls-bootstrap: false
+  calls-bootstrap: true
 ---
 
 // turbo-all
@@ -25,7 +25,11 @@ Define the security model with full compliance escalation, and document all inte
 
 ## 6. Security model
 
+Read .agent/skills/security-scanning-security-hardening/SKILL.md and follow its defense-in-depth methodology.
+
 Using `{{AUTH_SKILL}}`:
+
+Read .agent/skills/{{SECURITY_SKILL}}/SKILL.md and follow its security hardening conventions.
 
 1. **Authentication** — How do users prove identity?
 2. **Authorization** — RBAC vs ABAC? Permission model?
@@ -51,6 +55,10 @@ Each of these must be specified with the same depth as any other architectural c
 - "Are there edge cases in the age/payment/compliance flows I haven't covered?"
 
 Refine based on discussion before proceeding.
+
+**Bootstrap fire — security decision confirmed**
+
+If the security model confirmed a specific security framework or compliance approach during this step (e.g., OWASP hardening, crypto patterns, CSP enforcement), read `.agent/workflows/bootstrap-agents.md` and invoke `/bootstrap-agents SECURITY=[confirmed value]` to provision the relevant skill before proceeding to Step 7.
 
 ## 7. Integration points
 

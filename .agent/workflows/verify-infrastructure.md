@@ -52,6 +52,8 @@ Read `.agent/skills/prd-templates/references/infrastructure-report-template.md` 
 
 ## 1. CI/CD config check
 
+Read .agent/skills/{{CI_CD_SKILL}}/SKILL.md and follow its pipeline configuration conventions.
+
 Locate the CI/CD configuration file (e.g., `.github/workflows/`, `.gitlab-ci.yml`, `Jenkinsfile`).
 
 Verify the configuration includes: lint step, type-check step, test step, build step.
@@ -93,6 +95,8 @@ Verify the CI/CD pipeline has run for the latest commit and ALL jobs are passing
 
 ## 4. Migration check
 
+Read .agent/skills/{{ORM_SKILL}}/SKILL.md and follow its migration and schema conventions.
+
 1. Run the migration status command (e.g., `prisma migrate status`, `drizzle-kit status`, or equivalent)
 2. Verify no pending or failed migrations
 3. Verify migration files exist in the expected directory
@@ -107,6 +111,9 @@ Verify the CI/CD pipeline has run for the latest commit and ALL jobs are passing
 ---
 
 ## 5. Staging deployment
+
+Read .agent/skills/{{HOSTING_SKILL}}/SKILL.md and follow its deployment conventions.
+Read .agent/skills/deployment-procedures/SKILL.md and follow its pre-deployment checklist and verification protocol.
 
 1. Deploy to staging using the project's deployment process
 2. Verify deployment succeeded — no rollback triggered, no error logs

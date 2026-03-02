@@ -94,24 +94,48 @@ This step is idempotent — it can be re-run on existing projects to fill `patte
 
 ## 9. Fill workflow skill placeholders
 
-In the generic workflows, replace the following placeholders with the path to the installed skill's `SKILL.md`. If no skill was installed for a given category, instruct the agent to skip it or provide a reasonable default.
+In the generic workflows, replace the following placeholders with the **directory name** of the installed skill (e.g., `surrealdb-expert`, `typescript-advanced-patterns`). The surrounding path `.agent/skills/.../SKILL.md` is hardcoded in each workflow. If no skill was installed for a given category, instruct the agent to skip it or provide a reasonable default.
 
 In `.agent/workflows/create-prd.md`:
-- `{{DATABASE_SKILL}}` → `.agent/skills/[installed-as]/SKILL.md` (for `DATABASE`)
-- `{{AUTH_SKILL}}` → `.agent/skills/[installed-as]/SKILL.md` (for `AUTH_PROVIDER`)
+- `{{DATABASE_SKILL}}` → `[installed-as]` (directory name, for `DATABASE` key)
+- `{{AUTH_SKILL}}` → `[installed-as]` (directory name, for `AUTH_PROVIDER` key)
 
 In `.agent/workflows/write-architecture-spec.md`:
-- `{{DATABASE_SKILL}}` → `.agent/skills/[installed-as]/SKILL.md` (for `DATABASE`)
+- `{{DATABASE_SKILL}}` → `[installed-as]` (directory name, for `DATABASE` key)
 
 In `.agent/workflows/write-be-spec-classify.md`:
-- `{{DATABASE_SKILL}}` → `.agent/skills/[installed-as]/SKILL.md` (for `DATABASE`)
-- `{{AUTH_SKILL}}` → `.agent/skills/[installed-as]/SKILL.md` (for `AUTH_PROVIDER`)
-- `{{BACKEND_FRAMEWORK_SKILL}}` → `.agent/skills/[installed-as]/SKILL.md` (for `BACKEND_FRAMEWORK` or `API_LAYER`)
+- `{{DATABASE_SKILL}}` → `[installed-as]` (directory name, for `DATABASE` key)
+- `{{AUTH_SKILL}}` → `[installed-as]` (directory name, for `AUTH_PROVIDER` key)
+- `{{BACKEND_FRAMEWORK_SKILL}}` → `[installed-as]` (directory name, for `BACKEND_FRAMEWORK` or `API_LAYER` key)
 
 In `.agent/workflows/write-fe-spec-classify.md`:
-- `{{FRONTEND_FRAMEWORK_SKILL}}` → `.agent/skills/[installed-as]/SKILL.md` (for `FRONTEND_FRAMEWORK`)
-- `{{FRONTEND_DESIGN_SKILL}}` → `.agent/skills/[installed-as]/SKILL.md` (for `CSS_FRAMEWORK` or `UI_LIBRARY`)
-- `{{ACCESSIBILITY_SKILL}}` → `.agent/skills/[installed-as]/SKILL.md` (for `accessibility-compliance` surface skill)
+- `{{FRONTEND_FRAMEWORK_SKILL}}` → `[installed-as]` (directory name, for `FRONTEND_FRAMEWORK` key)
+- `{{FRONTEND_DESIGN_SKILL}}` → `[installed-as]` (directory name, for `CSS_FRAMEWORK` or `UI_LIBRARY` key)
+- `{{ACCESSIBILITY_SKILL}}` → `[installed-as]` (directory name, for `accessibility-compliance` surface skill)
+
+In `.agent/workflows/implement-slice-setup.md`, `.agent/workflows/implement-slice-tdd.md`, `.agent/workflows/write-be-spec-classify.md`, `.agent/workflows/write-fe-spec-classify.md`, and `.agent/workflows/evolve-contract.md`:
+- `{{LANGUAGE_SKILL}}` → `[installed-as]` (directory name, for `LANGUAGE` key; e.g., `typescript-advanced-patterns`, `python`, `go`, `rust`)
+
+In `.agent/workflows/create-prd-compile.md`, `.agent/workflows/decompose-architecture-structure.md`, `.agent/workflows/plan-phase.md`, `.agent/workflows/verify-infrastructure.md`, and `.agent/workflows/validate-phase.md`:
+- `{{CI_CD_SKILL}}` → `[installed-as]` (directory name, for `CI_CD` key; e.g., `github-actions`, `terraform`)
+
+In `.agent/workflows/create-prd-architecture.md`, `.agent/workflows/decompose-architecture-structure.md`, `.agent/workflows/plan-phase.md`, `.agent/workflows/verify-infrastructure.md`, and `.agent/workflows/validate-phase.md`:
+- `{{HOSTING_SKILL}}` → `[installed-as]` (directory name, for `HOSTING` key; e.g., `cloudflare`, `vercel`, `aws`, `docker-expert`)
+
+In `.agent/workflows/create-prd-architecture.md`, `.agent/workflows/write-be-spec-classify.md`, `.agent/workflows/implement-slice-setup.md`, `.agent/workflows/verify-infrastructure.md`, and `.agent/workflows/validate-phase.md`:
+- `{{ORM_SKILL}}` → `[installed-as]` (directory name, for `ORM` key; e.g., `drizzle-orm`, `prisma`)
+
+In `.agent/workflows/create-prd-compile.md`, `.agent/workflows/implement-slice-setup.md`, `.agent/workflows/implement-slice-tdd.md`, `.agent/workflows/write-be-spec-classify.md`, and `.agent/workflows/evolve-contract.md`:
+- `{{UNIT_TESTING_SKILL}}` → `[installed-as]` (directory name, for `UNIT_TESTING` key; e.g., `vitest`, `testing-library`, `storybook`)
+
+In `.agent/workflows/create-prd-compile.md`, `.agent/workflows/implement-slice-tdd.md`, and `.agent/workflows/validate-phase.md`:
+- `{{E2E_TESTING_SKILL}}` → `[installed-as]` (directory name, for `E2E_TESTING` key; e.g., `playwright`)
+
+In `.agent/workflows/write-fe-spec-classify.md` and `.agent/workflows/implement-slice-setup.md`:
+- `{{STATE_MANAGEMENT_SKILL}}` → `[installed-as]` (directory name, for `STATE_MANAGEMENT` key; e.g., `tanstack-query`, `zustand`)
+
+In `.agent/workflows/create-prd-security.md` and `.agent/workflows/write-architecture-spec-design.md`:
+- `{{SECURITY_SKILL}}` → `[installed-as]` (directory name, for `SECURITY` key; e.g., `owasp-web-security`, `crypto-patterns`, `csp-cors-headers`)
 
 ---
 

@@ -63,6 +63,8 @@ For classification [2], identify which IA shard owns the affected domain by read
 
 ## 4. Write new content at the entry point
 
+Read .agent/skills/technical-writer/SKILL.md and follow its clarity standards for all new spec content.
+
 This is a real spec-writing step — not a placeholder. Write the new content at the appropriate depth for the entry point layer:
 
 **If entry point is vision layer** (`docs/plans/vision.md`):

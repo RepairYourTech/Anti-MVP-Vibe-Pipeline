@@ -67,13 +67,25 @@ Not every IA shard produces the same output. Before writing anything, classify t
 
 Before loading the skill bundle, scan the skill bundle list in Step 3 for any values still containing literal `{{` characters.
 
-If `{{DATABASE_SKILL}}`, `{{AUTH_SKILL}}`, or `{{BACKEND_FRAMEWORK_SKILL}}` are still unfilled → **stop** and tell the user: *"Tech stack skills haven't been provisioned yet. The skill bundle placeholders are still unfilled. Run `/create-prd` first to make tech stack decisions and trigger bootstrap provisioning, then return to `/write-be-spec`."*
+If `{{LANGUAGE_SKILL}}`, `{{DATABASE_SKILL}}`, `{{AUTH_SKILL}}`, `{{BACKEND_FRAMEWORK_SKILL}}`, `{{ORM_SKILL}}`, or `{{UNIT_TESTING_SKILL}}` are still unfilled → **stop** and tell the user: *"Tech stack skills haven't been provisioned yet. The skill bundle placeholders are still unfilled. Run `/create-prd` first to make tech stack decisions and trigger bootstrap provisioning, then return to `/write-be-spec`."*
 
-Only proceed to Step 3 when all skill bundle placeholders are filled with actual file paths.
+Only proceed to Step 3 when all skill bundle placeholders are filled with actual skill directory names.
 
 ## 3. Load skill bundle
 
-Load skill bundle: [`{{DATABASE_SKILL}}`, `{{AUTH_SKILL}}`, `{{BACKEND_FRAMEWORK_SKILL}}`, `.agent/skills/rest-api-design/SKILL.md`, `.agent/skills/api-design-principles/SKILL.md`, `.agent/skills/error-handling-patterns/SKILL.md`, `.agent/skills/database-schema-design/SKILL.md`, `.agent/skills/migration-management/SKILL.md`, `.agent/skills/testing-strategist/SKILL.md`, `.agent/skills/logging-best-practices/SKILL.md`] — read each SKILL.md before proceeding.
+Read .agent/skills/{{LANGUAGE_SKILL}}/SKILL.md and follow its language conventions.
+Read .agent/skills/{{DATABASE_SKILL}}/SKILL.md
+Read .agent/skills/{{AUTH_SKILL}}/SKILL.md
+Read .agent/skills/{{BACKEND_FRAMEWORK_SKILL}}/SKILL.md
+Read .agent/skills/rest-api-design/SKILL.md
+Read .agent/skills/api-design-principles/SKILL.md
+Read .agent/skills/error-handling-patterns/SKILL.md
+Read .agent/skills/database-schema-design/SKILL.md
+Read .agent/skills/migration-management/SKILL.md
+Read .agent/skills/{{ORM_SKILL}}/SKILL.md and follow its migration and schema conventions.
+Read .agent/skills/{{UNIT_TESTING_SKILL}}/SKILL.md and follow its test writing conventions.
+Read .agent/skills/testing-strategist/SKILL.md
+Read .agent/skills/logging-best-practices/SKILL.md
 
 ### Ambiguity resolution
 

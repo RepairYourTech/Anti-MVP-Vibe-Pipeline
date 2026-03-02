@@ -23,6 +23,10 @@ Execute the TDD cycle (Red → Green → Refactor), run validation, handle synth
 
 ## 3. Write failing tests (RED)
 
+Read .agent/skills/{{LANGUAGE_SKILL}}/SKILL.md and follow its language conventions.
+Read .agent/skills/{{UNIT_TESTING_SKILL}}/SKILL.md and follow its test writing conventions.
+Read .agent/skills/{{E2E_TESTING_SKILL}}/SKILL.md and follow its E2E test conventions.
+
 Cross-reference **both** sources — acceptance criteria from the phase plan AND the Zod contract from step 2:
 1. Write a test for each acceptance criterion
 2. Write a test for each contract field, error type, and validation rule not already covered by criteria
@@ -37,6 +41,8 @@ Cross-reference **both** sources — acceptance criteria from the phase plan AND
 Run `{{TEST_COMMAND}}` to verify tests fail.
 
 ## 4. Implement (GREEN)
+
+Read .agent/skills/{{LANGUAGE_SKILL}}/SKILL.md and follow its language conventions.
 
 Write the minimum code to make all tests pass:
 1. Database schema/migration
@@ -59,6 +65,17 @@ Write the minimum code to make all tests pass:
 
 Run `{{TEST_COMMAND}}` to verify tests pass.
 
+## 4.5. New dependency check
+
+After making all tests pass (GREEN), scan the new imports introduced in the implementation files.
+
+If any package or module was introduced that does **not** have a corresponding skill directory in `.agent/skills/`:
+1. Identify the stack category (e.g., `QUEUE`, `CACHE`, `SEARCH`, `STORAGE`, `REALTIME`)
+2. Read `.agent/workflows/bootstrap-agents.md` and fire bootstrap with `PIPELINE_STAGE=implement-slice` + the key-value pair (e.g., `NEW_DEPENDENCY=[package-name]`)
+3. Confirm the matching skill is installed before proceeding to REFACTOR
+
+If no new unregistered dependencies were introduced, skip and proceed to Step 5.
+
 ## 5. Refactor
 
 With tests green, improve code quality:
@@ -70,6 +87,8 @@ With tests green, improve code quality:
 Run `{{TEST_COMMAND}}` to verify tests still pass after refactor.
 
 ## 6. Validate
+
+Read .agent/skills/verification-before-completion/SKILL.md and apply its evidence-before-claims discipline.
 
 Run the full validation suite: `{{VALIDATION_COMMAND}}`.
 
@@ -129,6 +148,8 @@ Open the slice file matching the slice you just implemented (e.g., `phase-02-sli
 2. Record any blockers encountered to `.agent/progress/memory/blockers.md`.
 
 ## 8. Completion Gate
+
+Read .agent/skills/verification-before-completion/SKILL.md and apply its evidence-before-claims discipline.
 
 ### UI Completeness Check (FE slices only)
 

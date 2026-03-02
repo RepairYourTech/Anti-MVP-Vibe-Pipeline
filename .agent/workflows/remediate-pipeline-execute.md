@@ -43,6 +43,8 @@ Read `docs/audits/audit-scope.md` and look for a `## Gaps Fixed` section.
 
 ## 3. Run adversarial audit inline
 
+Read .agent/skills/code-review-pro/SKILL.md and apply its adversarial review discipline to each layer.
+
 **CRITICAL**: Run the audit inline — do not invoke `/audit-ambiguity` as a sub-workflow.
 
 **CRITICAL ANTI-HALLUCINATION RULE**: Process one document at a time through 3a → 3b → 3c before moving to the next. Never batch-read and score from memory.

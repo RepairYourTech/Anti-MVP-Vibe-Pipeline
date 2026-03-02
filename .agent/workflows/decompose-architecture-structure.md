@@ -40,8 +40,10 @@ This shard is **always** created for every project, regardless of what the archi
 The `00-infrastructure` skeleton must contain these five items:
 
 1. CI/CD pipeline setup (using the confirmed CI/CD skill from bootstrap)
+   Read .agent/skills/{{CI_CD_SKILL}}/SKILL.md and follow its pipeline configuration conventions.
 2. Environment configuration (`.env.example`, environment variable documentation)
 3. Deployment pipeline (using the confirmed hosting skill)
+   Read .agent/skills/{{HOSTING_SKILL}}/SKILL.md and follow its deployment conventions.
 4. Project scaffolding (directory structure, base configuration files)
 5. Database initialization (schema creation, migration tooling setup)
 

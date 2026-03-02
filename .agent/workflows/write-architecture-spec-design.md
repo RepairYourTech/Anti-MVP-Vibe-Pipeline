@@ -92,6 +92,8 @@ Refine based on discussion before proceeding.
 
 ## 5. Design access control
 
+Read .agent/skills/security-scanning-security-hardening/SKILL.md and apply its access control and authorization design methodology.
+
 - Permission matrix (who can read/write/delete what)
 - Role-based restrictions
 - Age restrictions (if applicable)
@@ -115,6 +117,8 @@ Refine based on discussion before proceeding.
 > **Write now**: Write the completed `## Event Schemas` content to `docs/plans/ia/[shard-name].md`, replacing the skeleton placeholder for this section. Do not wait until Step 8.
 
 ## 7. Document edge cases
+
+Read .agent/skills/{{SECURITY_SKILL}}/SKILL.md and follow its security hardening conventions.
 
 - Rate limits and abuse scenarios
 - Concurrent access handling

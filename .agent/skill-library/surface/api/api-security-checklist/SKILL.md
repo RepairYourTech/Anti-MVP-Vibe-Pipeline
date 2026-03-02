@@ -1,6 +1,6 @@
 ---
-name: security-scanning-security-hardening
-description: "Coordinate multi-layer security scanning and hardening across application, infrastructure, and compliance controls."
+name: api-security-checklist
+description: "API-focused security checklist covering OWASP API Top 10, authentication hardening, input validation, rate limiting, and compliance controls for API surfaces."
 ---
 
 Implement comprehensive security hardening with defense-in-depth strategy through coordinated multi-agent orchestration:

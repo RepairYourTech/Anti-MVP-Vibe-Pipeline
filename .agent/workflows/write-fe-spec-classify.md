@@ -57,7 +57,14 @@ Not every FE spec maps 1:1 to a BE feature spec. Before writing anything, classi
 
 ## 3. Load skill bundle
 
-Load skill bundle: [`{{FRONTEND_FRAMEWORK_SKILL}}`, `{{FRONTEND_DESIGN_SKILL}}`, `{{ACCESSIBILITY_SKILL}}`, `.agent/skills/error-handling-patterns/SKILL.md`, `.agent/skills/testing-strategist/SKILL.md`, `.agent/skills/technical-writer/SKILL.md`] — read each SKILL.md before proceeding.
+Read .agent/skills/{{LANGUAGE_SKILL}}/SKILL.md and follow its language conventions.
+Read .agent/skills/{{FRONTEND_FRAMEWORK_SKILL}}/SKILL.md
+Read .agent/skills/{{FRONTEND_DESIGN_SKILL}}/SKILL.md
+Read .agent/skills/{{ACCESSIBILITY_SKILL}}/SKILL.md
+Read .agent/skills/{{STATE_MANAGEMENT_SKILL}}/SKILL.md and follow its state management conventions.
+Read .agent/skills/error-handling-patterns/SKILL.md
+Read .agent/skills/testing-strategist/SKILL.md
+Read .agent/skills/technical-writer/SKILL.md
 
 ### Ambiguity resolution
 

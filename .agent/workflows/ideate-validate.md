@@ -63,6 +63,8 @@ Define measurable success criteria:
 
 ## 9. Domain exhaustion check
 
+Read .agent/skills/idea-extraction/SKILL.md and apply its domain exhaustion checklist.
+
 1. Display the coverage map to the user
 2. Flag under-explored domains (any domain with <3 explored sub-topics)
 3. For each, ask: "Should we explore it now, or is it intentionally minimal?"

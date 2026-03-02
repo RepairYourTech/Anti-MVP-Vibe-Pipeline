@@ -25,6 +25,8 @@ Run iterative deepening passes, write the completed spec, update indexes, run th
 
 ## 8. Iterative deepening passes
 
+Read .agent/skills/resolve-ambiguity/SKILL.md for the adversarial and "what if" passes.
+
 > **Why multiple passes**: Each pass reveals edge cases that are only visible in
 > the context of the complete draft. The first pass catches obvious gaps. The second
 > catches interactions between sections that create new edge cases. The third catches
@@ -68,6 +70,8 @@ If any pass produces significant new content, do another pass — the new conten
 may reveal further edge cases. Stop when a pass produces no meaningful additions.
 
 ## 9. Write the spec to `docs/plans/ia/[shard-name].md`
+
+Read .agent/skills/technical-writer/SKILL.md for the spec writing step.
 
 Replace the skeleton sections in `docs/plans/ia/[shard-name].md` with the full content from all passes. Ensure all cross-shard dependencies are bidirectional.
 

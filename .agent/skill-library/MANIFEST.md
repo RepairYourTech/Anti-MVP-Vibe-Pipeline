@@ -37,6 +37,12 @@ When a stack key matches a value pattern (case-insensitive), install the listed 
 | `BACKEND_FRAMEWORK` | `*hono*` | `stack/frameworks/hono` | `hono` |
 | `BACKEND_FRAMEWORK` | `*fastapi*` | `stack/frameworks/fastapi` | `fastapi` |
 | `BACKEND_FRAMEWORK` | `*nest*` | `stack/frameworks/nestjs` | `nestjs` |
+
+> api-error-handling installs with every backend framework (any BACKEND_FRAMEWORK implies an API surface).
+
+| `BACKEND_FRAMEWORK` | `*hono*` | `surface/api/api-error-handling` | `api-error-handling` |
+| `BACKEND_FRAMEWORK` | `*fastapi*` | `surface/api/api-error-handling` | `api-error-handling` |
+| `BACKEND_FRAMEWORK` | `*nest*` | `surface/api/api-error-handling` | `api-error-handling` |
 | `DESKTOP_FRAMEWORK` | `*tauri*` | `stack/frameworks/tauri` | `tauri` |
 | `DESKTOP_FRAMEWORK` | `*electron*` | `stack/frameworks/electron` | `electron` |
 
@@ -270,13 +276,11 @@ When the project includes a surface type, install the listed skills.
 | `api` | `surface/api/rate-limiting-abuse-protection` | `rate-limiting-abuse-protection` |
 | `api` | `surface/api/email-best-practices` | `email-best-practices` |
 | `api` | `surface/api/api-error-handling` | `api-error-handling` |
-| `api` | `surface/api/api-versioning` | `api-versioning` |
 | `api` | `surface/api/api-caching` | `api-caching` |
 | `api` | `surface/api/api-documentation-openapi` | `api-documentation-openapi` |
 | `api` | `surface/api/webhook-design` | `webhook-design` |
 | `api` | `surface/api/rest-api-design` | `rest-api-design` |
-| `api` | `surface/api/api-design-principles` | `api-design-principles` |
-| `api` | `surface/api/security-scanning-hardening` | `security-scanning-hardening` |
+| `api` | `surface/api/api-security-checklist` | `api-security-checklist` |
 
 ### Mobile
 
@@ -321,16 +325,10 @@ These skills are NOT auto-installed. Install via `/find-skills` or manually copy
 
 | Library Path | Description |
 |-------------|-------------|
-
 | `meta/mcp-builder` | Building MCP servers |
-| `meta/systematic-debugging` | Four-phase root cause debugging methodology |
-| `meta/parallel-debugging` | Multi-agent parallel debugging dispatch |
-| `meta/minimalist-surgical-development` | Minimal, surgical codebase modifications |
 | `meta/tmux-processes` | Long-lived process management via tmux |
 | `meta/using-tmux-for-interactive-commands` | Interactive CLI tools via tmux |
 | `meta/brand-guidelines` | Brand color and typography application |
-| `meta/regex-patterns` | Regular expression mastery and common patterns |
-| `meta/git-advanced` | Advanced Git operations and workflows |
 | `meta/product-marketing-context` | Marketing context document generator — run first before any SEO or CRO skill |
 
 ---

@@ -25,6 +25,8 @@ Map domains, explore the problem space, and build the feature inventory.
 
 ## 3. Domain mapping
 
+Read .agent/skills/idea-extraction/SKILL.md and follow its domain exhaustion methodology.
+
 Read the `## Expansion Mode` section from `docs/plans/ideation.md` and route accordingly. All findings are written to `ideation.md` in real time — not held in context.
 
 **Full Mode** (three-pass orchestration):
@@ -46,6 +48,8 @@ Read the `## Expansion Mode` section from `docs/plans/ideation.md` and route acc
 > **Mid-session mode switching**: If you want to change expansion direction, update the `Expansion Mode` in `ideation.md` and re-run `/ideate-discover`.
 
 ## 4. Problem exploration
+
+Read .agent/skills/brainstorming/SKILL.md and follow its structured facilitation methodology.
 
 Using the idea-extraction skill's approach for the selected mode, explore:
 
@@ -84,6 +88,8 @@ Present the MoSCoW matrix to the user for validation.
 > it's built.
 
 ### 5b. Feature deepening — Must Haves
+
+Read .agent/skills/idea-extraction/SKILL.md and follow its domain exhaustion methodology.
 
 For each **Must Have** feature, use the idea-extraction skill's Domain Exhaustion Protocol
 to explore at least 2 levels deep:

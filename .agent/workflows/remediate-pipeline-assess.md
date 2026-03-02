@@ -65,6 +65,8 @@ If all checks pass, proceed to Step 1.
 
 ## 1. Scan pipeline layers
 
+Read .agent/skills/code-review-pro/SKILL.md and follow its systematic review methodology.
+
 Check which layers have content by verifying the presence of key files:
 
 | Layer | Key Files to Check | Has Content If… |

@@ -86,8 +86,10 @@ Sort slices so each builds on the last:
 
 **Phase 1 special rule**: The `00-infrastructure` shard is always the first slice in Phase 1. Before any feature slices, verify that the infrastructure slice covers all five items:
 1. CI/CD pipeline setup (using the confirmed CI/CD skill)
+   Read .agent/skills/{{CI_CD_SKILL}}/SKILL.md and follow its pipeline configuration conventions.
 2. Environment configuration (`.env.example` with all required variables documented)
 3. Deployment pipeline (using the confirmed hosting skill)
+   Read .agent/skills/{{HOSTING_SKILL}}/SKILL.md and follow its deployment conventions.
 4. Project scaffolding (scaffold the approved directory structure from `.agent/instructions/structure.md` — the structure is already locked by `/create-prd-compile` Step 9.5; this slice creates the directories, `README.md` files per the extensibility rule, and base configuration files)
 5. Database initialization (schema creation, migration tooling setup)
 
@@ -119,6 +121,8 @@ Read `.agent/skills/prd-templates/references/operational-templates.md` for the *
 
 ## 4.5. Identify parallel groups (TDD order)
 
+Read .agent/skills/parallel-agents/SKILL.md and apply its workstream decomposition methodology to identify independent parallel groups.
+
 For each slice, determine the execution order following TDD:
 
 > **Tests are the rock. Code is malleable.** Tests encode the acceptance criteria
@@ -141,9 +145,38 @@ Read `docs/plans/phases/phase-N-draft.md` (which was built progressively in Step
 
 Read `.agent/skills/session-continuity/protocols/02-progress-generation.md` and follow the **Progress Generation Protocol** to create tracking files for this phase in `.agent/progress/`.
 
-## 6.5. Bootstrap Testing Skills
+## 6.5. Bootstrap Completeness Gate
 
-Read `.agent/workflows/bootstrap-agents.md` and execute its utility instructions immediately to fill placeholders and provision testing framework skills based on the strategies defined for this phase.
+Before proceeding to step 7, verify all skill placeholders are filled across implementation workflows.
+
+### 6.5a. Scan for unfilled placeholders
+
+Read these files and scan for literal `{{` occurrences matching any of these placeholder names:
+- `.agent/workflows/implement-slice-setup.md`
+- `.agent/workflows/implement-slice-tdd.md`
+- `.agent/workflows/verify-infrastructure.md`
+- `.agent/workflows/validate-phase.md`
+
+Check for: `{{LANGUAGE_SKILL}}`, `{{HOSTING_SKILL}}`, `{{CI_CD_SKILL}}`, `{{ORM_SKILL}}`, `{{UNIT_TESTING_SKILL}}`, `{{E2E_TESTING_SKILL}}`.
+
+### 6.5b. Fill unfilled placeholders
+
+For each unfilled placeholder found, invoke `/bootstrap-agents` with the corresponding stack key and value from `docs/plans/*-architecture-design.md`:
+
+| Placeholder | Bootstrap Key | Example Value |
+|---|---|---|
+| `{{LANGUAGE_SKILL}}` | `LANGUAGE` | `typescript-advanced-patterns` |
+| `{{HOSTING_SKILL}}` | `HOSTING` | `cloudflare`, `vercel` |
+| `{{CI_CD_SKILL}}` | `CI_CD` | `github-actions` |
+| `{{ORM_SKILL}}` | `ORM` | `drizzle-orm`, `prisma` |
+| `{{UNIT_TESTING_SKILL}}` | `UNIT_TESTING` | `vitest`, `testing-library` |
+| `{{E2E_TESTING_SKILL}}` | `E2E_TESTING` | `playwright` |
+
+Read `.agent/workflows/bootstrap-agents.md` and execute its utility instructions for each unfilled key.
+
+### 6.5c. Confirm all filled
+
+Re-scan the four files above. Only proceed to Step 7 when zero `{{` patterns remain for any of the six placeholder names. If any remain unfilled after bootstrap, **hard stop** and tell the user which placeholders could not be provisioned.
 
 ## 7. Request review and next steps
 

@@ -39,11 +39,15 @@ This is an optimization, not a requirement. Sequential validation is always corr
 
 ## 1. Run test suite
 
+Read .agent/skills/{{E2E_TESTING_SKILL}}/SKILL.md and follow its E2E test conventions.
+
 Run `{{TEST_COMMAND}}`.
 
 All tests must pass. Zero tolerance for failing tests.
 
 ## 2. Check coverage
+
+Read .agent/skills/{{E2E_TESTING_SKILL}}/SKILL.md and follow its E2E test conventions.
 
 Run `{{TEST_COVERAGE_COMMAND}}`.
 
@@ -77,6 +81,8 @@ Build must succeed with no errors.
 
 ## 5.5. CI/CD pipeline verification
 
+Read .agent/skills/{{CI_CD_SKILL}}/SKILL.md and follow its pipeline configuration conventions.
+
 Verify the CI/CD pipeline is green for this phase's changes:
 
 1. Check that a CI/CD configuration file exists (e.g., `.github/workflows/`, `.gitlab-ci.yml`)
@@ -90,6 +96,8 @@ Verify the CI/CD pipeline is green for this phase's changes:
 ---
 
 ## 5.6. Staging deployment gate
+
+Read .agent/skills/{{HOSTING_SKILL}}/SKILL.md and follow its deployment conventions.
 
 1. Deploy to staging using the deployment skill (`.agent/skills/deployment-procedures/SKILL.md`)
 2. Verify deployment succeeded (no rollback triggered, no error logs in the deployment output)
@@ -105,6 +113,8 @@ Verify the CI/CD pipeline is green for this phase's changes:
 ---
 
 ## 5.7. Migration verification
+
+Read .agent/skills/{{ORM_SKILL}}/SKILL.md and follow its migration and schema conventions.
 
 1. Run the migration status command (e.g., `prisma migrate status`, `drizzle-kit status`, or equivalent for your ORM)
 2. Verify there are no pending migrations and no failed migrations
@@ -137,27 +147,17 @@ Check if the `web-performance-optimization` skill is installed (look for `.agent
 
 ## 8. Security review
 
-Check for installed security skills in order of preference:
-1. `.agent/skills/owasp-web-security/SKILL.md`
-2. `.agent/skills/security-scanning-hardening/SKILL.md`
-3. `.agent/skills/security-scanning-security-hardening/SKILL.md`
+Read .agent/skills/security-scanning-security-hardening/SKILL.md and run its full defense-in-depth audit protocol against the phase's changes (new endpoints, new data flows, new auth checks). Report findings with severity levels. Block the phase if any Critical or High severity issues are found.
 
-**If any security skill is installed**:
-1. Read the installed skill's SKILL.md
-2. Run its audit protocol against the phase's changes (new endpoints, new data flows, new auth checks)
-3. Report any findings with severity levels
-4. Block the phase if any Critical or High severity issues are found
+**Supplemental security checks (conditional)**: After the core audit completes, check for stack-specific security skills. For each of the following that exists, read it and run its audit protocol as a supplement to the core audit:
+- `.agent/skills/owasp-web-security/SKILL.md`
+- `.agent/skills/api-security-checklist/SKILL.md`
+- `.agent/skills/crypto-patterns/SKILL.md`
+- `.agent/skills/csp-cors-headers/SKILL.md`
+- `.agent/skills/input-sanitization/SKILL.md`
+- `.agent/skills/dependency-auditing/SKILL.md`
 
-**If no security skill is installed**:
-Fall back to this minimal manual checklist:
-- [ ] No hardcoded secrets (API keys, passwords, tokens) in source code
-- [ ] All user inputs validated (Zod schemas or equivalent)
-- [ ] Auth/authz checks on all protected endpoints
-- [ ] Rate limits configured for public endpoints
-- [ ] No sensitive data in client-side logs or error messages
-- [ ] CORS/CSP headers configured (web surfaces)
-
-If security is critical for this project, recommend installing a security skill via `find-skills`.
+Report any additional findings from supplemental audits with the same severity classification.
 
 ## 9. Document results
 

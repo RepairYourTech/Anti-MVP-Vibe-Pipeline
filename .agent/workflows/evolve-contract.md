@@ -6,7 +6,7 @@ pipeline:
   predecessors: [] # callable from any stage
   successors: [] # returns to caller
   skills: [tdd-workflow, migration-management, testing-strategist, error-handling-patterns]
-  calls-bootstrap: false
+  calls-bootstrap: true
 ---
 
 # Evolve Contract
@@ -29,6 +29,8 @@ Read these skills for safe schema migration:
 
 ## 1. Identify the contract
 
+Read .agent/skills/{{LANGUAGE_SKILL}}/SKILL.md and follow its language conventions.
+
 Determine which Zod schema needs to change and what the change is:
 - **Additive** (new optional field) — Low risk
 - **Narrowing** (tighter validation) — Medium risk
@@ -46,6 +48,10 @@ Document all consumers:
 
 ## 3. Write migration tests
 
+Read .agent/skills/tdd-workflow/SKILL.md and follow its Red→Green→Refactor cycle for contract evolution.
+
+Read .agent/skills/{{UNIT_TESTING_SKILL}}/SKILL.md and follow its test writing conventions.
+
 Before changing anything, write tests that validate:
 - Existing data still passes the new schema (backward compatibility)
 - New data shape is accepted
@@ -55,11 +61,21 @@ Run `{{TEST_COMMAND}}` — tests should FAIL until the schema is updated.
 
 ## 4. Update the contract
 
+Read .agent/skills/{{LANGUAGE_SKILL}}/SKILL.md and follow its language conventions.
+
 Modify the Zod schema. For breaking changes:
 - Consider versioning (v1 → v2)
 - Add runtime migration helpers if needed
 
+## 4.5. New dependency check
+
+If the contract change introduces a dependency not currently in the skill set — for example, a new Zod plugin, a Pydantic extension, a binary serialization library, or a new validation pattern — read `.agent/workflows/bootstrap-agents.md` and invoke `/bootstrap-agents NEW_DEPENDENCY=[package]` before updating consumers in Step 5.
+
+Confirm the matching skill is installed (or no new dependency was introduced) before proceeding to Step 5.
+
 ## 5. Update all consumers
+
+Read .agent/skills/{{LANGUAGE_SKILL}}/SKILL.md and follow its language conventions.
 
 For each consumer found in Step 2:
 - Update the code to use the new schema shape

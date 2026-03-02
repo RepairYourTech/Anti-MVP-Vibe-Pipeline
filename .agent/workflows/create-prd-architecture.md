@@ -25,11 +25,14 @@ Design the high-level system architecture and data strategy. Create the data pla
 
 ## 4. System architecture
 
+Read .agent/skills/rest-api-design/SKILL.md and .agent/skills/api-design-principles/SKILL.md for API surface design.
+
 Design the high-level system. Each sub-item requires full exploration, not a summary sentence:
 
 1. **Component diagram** — What services exist? How do they communicate? What protocols? What happens if one is down?
 2. **Data flow** — Request lifecycle from client to database and back. Every hop, every transformation, every auth check along the way. Draw the full sequence.
 3. **Deployment topology** — What runs where? Edge? Origin? External? Local machine? App Store? What are the latency implications? What are the cost implications?
+   Read .agent/skills/{{HOSTING_SKILL}}/SKILL.md and follow its deployment conventions.
 4. **API surface** — REST? GraphQL? RPC? Versioning strategy? Error format? Pagination? Rate limit headers?
 
 For multi-surface projects, additionally define:
@@ -52,12 +55,15 @@ Write the completed `## System Architecture` section to `docs/plans/architecture
 
 ## 5. Data strategy
 
+Read .agent/skills/database-schema-design/SKILL.md and follow its schema design methodology.
+
 Using `{{DATABASE_SKILL}}`. Each sub-item must be explored to field-level depth:
 
 1. **Data placement** — What lives in the database vs cache vs object storage vs external service vs local device storage? For each entity: which service owns it and why
 2. **Schema approach** — Strict schema vs schemaless vs hybrid? Field types, constraints, indexes, relations with cardinality
 3. **Query patterns** — Read-heavy? Write-heavy? What are the hot paths? What needs caching? What are the N+1 risks?
 4. **Migration strategy** — How will schema evolve? Backward compatibility approach? Zero-downtime migration plan?
+   Read .agent/skills/{{ORM_SKILL}}/SKILL.md and follow its migration and schema conventions.
 5. **PII boundaries** — Which fields contain PII? Where is PII stored vs where is it NOT stored? How is PII isolated from AI/analytics pipelines?
 
 For multi-surface projects, additionally define:
