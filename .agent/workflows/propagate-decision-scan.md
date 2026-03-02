@@ -82,6 +82,8 @@ Record all explicit contradictions and implicit assumptions with their document 
 
 ## 4. Build and write impact report
 
+Read .agent/skills/technical-writer/SKILL.md and follow its methodology.
+
 Write `docs/audits/propagation-scan-[date].md` with:
 
 ### Explicit Contradictions

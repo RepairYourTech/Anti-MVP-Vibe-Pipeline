@@ -81,6 +81,8 @@ Runs after all per-document scoring, when the layer is BE, FE, or scope is `all`
 
 ## 4. Zero-gap first-pass path
 
+Read .agent/skills/verification-before-completion/SKILL.md and follow its methodology.
+
 If 0% ambiguity on first pass — layer is "unverified clean." The fresh-run rule still applies. Add summary to report, persist `## Gaps Fixed` in `docs/audits/audit-scope.md`, proceed to Step 6.
 
 ---

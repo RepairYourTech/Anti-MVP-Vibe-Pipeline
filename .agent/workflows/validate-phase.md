@@ -128,7 +128,8 @@ Read .agent/skills/{{ORM_SKILL}}/SKILL.md and follow its migration and schema co
 
 ## 6. Accessibility audit (if UI changes)
 
-Use the accessibility skill (if installed) to audit new UI components for WCAG 2.1 AA compliance.
+Read .agent/skills/accessibility/SKILL.md and follow its methodology.
+Audit all new UI components in this phase for WCAG 2.1 AA compliance.
 
 ## 7. Performance check (if web surface exists)
 
@@ -172,6 +173,8 @@ Create or update `docs/audits/phase-N-validation.md` with:
 - Migration verification status
 
 ## 10. Present results and next steps
+
+Read .agent/skills/verification-before-completion/SKILL.md and follow its methodology.
 
 Use `notify_user` to present the validation report.
 

@@ -56,6 +56,8 @@ Refine based on discussion before proceeding.
 
 ## 3. Define contracts
 
+Read .agent/skills/rest-api-design/SKILL.md and follow its methodology.
+
 For each interaction, define the contract shape:
 - Request shape (params, query, body)
 - Response shape (all fields typed)
@@ -117,6 +119,8 @@ Refine based on discussion before proceeding.
 > **Write now**: Write the completed `## Event Schemas` content to `docs/plans/ia/[shard-name].md`, replacing the skeleton placeholder for this section. Do not wait until Step 8.
 
 ## 7. Document edge cases
+
+Read .agent/skills/resolve-ambiguity/SKILL.md and follow its methodology.
 
 Read .agent/skills/{{SECURITY_SKILL}}/SKILL.md and follow its security hardening conventions.
 

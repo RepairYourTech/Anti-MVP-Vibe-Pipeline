@@ -41,6 +41,8 @@ Read `.agent/skills/brainstorming/SKILL.md` — domain boundary decisions benefi
 
 ## 3. Identify domain boundaries
 
+Read .agent/skills/architecture-mapping/SKILL.md and follow its methodology.
+
 Analyze the architecture design and identify natural domain boundaries. Each boundary becomes a numbered IA shard.
 
 **Heuristics for finding boundaries:**

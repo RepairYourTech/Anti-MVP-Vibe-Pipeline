@@ -25,6 +25,8 @@ Identify deep dive candidates, annotate shard document types, validate the depen
 
 ## 10. Identify deep dive candidates
 
+Read .agent/skills/architecture-mapping/SKILL.md and follow its methodology.
+
 For each shard marked "Needs Deep Dive" in the domain boundary table:
 
 1. Create an empty deep dive skeleton at `docs/plans/ia/deep-dives/[feature-name].md`

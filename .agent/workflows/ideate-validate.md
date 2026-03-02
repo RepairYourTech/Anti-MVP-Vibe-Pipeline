@@ -25,6 +25,8 @@ Explore constraints, success metrics, and competitive positioning. Run domain ex
 
 ## 6. Constraints and non-functionals
 
+Read .agent/skills/brainstorming/SKILL.md and follow its methodology.
+
 Explore constraints through targeted questions:
 
 1. **Budget** — Self-funded? VC-backed? Impacts hosting and infra decisions
@@ -74,6 +76,8 @@ Only proceed when: overall coverage ≥80%, every Must Have explored to ≥Level
 
 ## 10. Vision deepening pass
 
+Read .agent/skills/resolve-ambiguity/SKILL.md and follow its methodology.
+
 One deepening pass across all captured material:
 
 1. **Persona gaps** — scenarios where personas conflict
@@ -85,6 +89,8 @@ One deepening pass across all captured material:
 Present findings. Refine based on discussion.
 
 ## 11. Compile vision document
+
+Read .agent/skills/technical-writer/SKILL.md and follow its methodology.
 
 Read `.agent/skills/prd-templates/references/vision-template.md` for the document structure. Compile `docs/plans/vision.md` from `docs/plans/ideation.md`. The ideation document is the authoritative source — do not add or drop material.
 

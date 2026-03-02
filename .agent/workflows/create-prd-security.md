@@ -50,6 +50,8 @@ If any compliance constraint from `vision.md` involves **minors, payments, healt
 
 Each of these must be specified with the same depth as any other architectural component — field-level detail, flow diagrams, error cases, and permission boundaries. A single bullet saying "age verification model" is not architecture.
 
+Read .agent/skills/resolve-ambiguity/SKILL.md and follow its methodology.
+
 **Present to user**: Show the security model and any compliance sections. Walk through each flow step by step. Ask:
 - "Can you think of a way to bypass any of these controls?"
 - "Are there edge cases in the age/payment/compliance flows I haven't covered?"

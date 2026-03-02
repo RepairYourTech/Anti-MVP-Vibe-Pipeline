@@ -52,6 +52,9 @@ Read `.agent/skills/prd-templates/references/infrastructure-report-template.md` 
 
 ## 1. CI/CD config check
 
+Read .agent/skills/testing-strategist/SKILL.md and follow its methodology.
+Read .agent/skills/systematic-debugging/SKILL.md and follow its methodology.
+
 Read .agent/skills/{{CI_CD_SKILL}}/SKILL.md and follow its pipeline configuration conventions.
 
 Locate the CI/CD configuration file (e.g., `.github/workflows/`, `.gitlab-ci.yml`, `Jenkinsfile`).

@@ -74,6 +74,8 @@ If no phase plans exist, skip this step and note: "No phase plans exist yet — 
 
 ## 3. Run consistency check
 
+Read .agent/skills/resolve-ambiguity/SKILL.md and follow its methodology.
+
 For every document that received additions in Step 1:
 
 1. **Re-read the full document** — verify the additions integrate correctly with existing content

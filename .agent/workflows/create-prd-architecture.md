@@ -33,6 +33,7 @@ Design the high-level system. Each sub-item requires full exploration, not a sum
 2. **Data flow** — Request lifecycle from client to database and back. Every hop, every transformation, every auth check along the way. Draw the full sequence.
 3. **Deployment topology** — What runs where? Edge? Origin? External? Local machine? App Store? What are the latency implications? What are the cost implications?
    Read .agent/skills/{{HOSTING_SKILL}}/SKILL.md and follow its deployment conventions.
+   Read .agent/skills/technical-writer/SKILL.md and follow its methodology.
 4. **API surface** — REST? GraphQL? RPC? Versioning strategy? Error format? Pagination? Rate limit headers?
 
 For multi-surface projects, additionally define:

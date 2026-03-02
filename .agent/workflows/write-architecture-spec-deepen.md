@@ -26,6 +26,7 @@ Run iterative deepening passes, write the completed spec, update indexes, run th
 ## 8. Iterative deepening passes
 
 Read .agent/skills/resolve-ambiguity/SKILL.md for the adversarial and "what if" passes.
+Read .agent/skills/code-review-pro/SKILL.md and follow its adversarial review methodology.
 
 > **Why multiple passes**: Each pass reveals edge cases that are only visible in
 > the context of the complete draft. The first pass catches obvious gaps. The second

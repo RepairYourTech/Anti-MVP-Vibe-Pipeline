@@ -25,6 +25,10 @@ Write the FE spec to `docs/plans/fe/`, update indexes, run quality checks, and p
 
 ## 6. Write the spec to `docs/plans/fe/[NN-feature-name].md`
 
+Read .agent/skills/technical-writer/SKILL.md and follow its methodology.
+Read .agent/skills/accessibility/SKILL.md and follow its methodology.
+Read .agent/skills/testing-strategist/SKILL.md and follow its methodology.
+
 **Naming convention**: Numbered prefix matching feature position + kebab-case name (e.g., `01-auth-ui.md`). Cross-cutting: `00-` prefix.
 
 Read `.agent/skills/prd-templates/references/fe-spec-template.md` for the document structure and quality gates checklist. Follow the conventions from `fe/index.md`.
@@ -71,6 +75,8 @@ If this FE spec introduces a new technology:
 3. Confirm matching skill installed
 
 ## 13. Request review and propose next steps
+
+Read .agent/skills/verification-before-completion/SKILL.md and follow its methodology.
 
 Use `notify_user` presenting:
 1. **Spec created** (link)

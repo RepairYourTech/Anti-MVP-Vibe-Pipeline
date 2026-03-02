@@ -23,6 +23,9 @@ Execute the TDD cycle (Red → Green → Refactor), run validation, handle synth
 
 ## 3. Write failing tests (RED)
 
+Read .agent/skills/tdd-workflow/SKILL.md and follow its methodology.
+Read .agent/skills/clean-code/SKILL.md and follow its methodology.
+Read .agent/skills/systematic-debugging/SKILL.md and follow its methodology.
 Read .agent/skills/{{LANGUAGE_SKILL}}/SKILL.md and follow its language conventions.
 Read .agent/skills/{{UNIT_TESTING_SKILL}}/SKILL.md and follow its test writing conventions.
 Read .agent/skills/{{E2E_TESTING_SKILL}}/SKILL.md and follow its E2E test conventions.

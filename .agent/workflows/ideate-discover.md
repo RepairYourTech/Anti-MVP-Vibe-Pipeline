@@ -74,6 +74,8 @@ This workflow explores each feature to multiple levels of depth.
 
 ### 5a. Feature collection (MoSCoW)
 
+Read .agent/skills/brainstorming/SKILL.md and follow its methodology.
+
 For each persona identified in Step 4, brainstorm features:
 
 1. **Must-have features** — What features are launch-blocking?

@@ -25,6 +25,8 @@ Document the development methodology and phasing strategy. Compile the architect
 
 ## 8. Development methodology
 
+Read .agent/skills/tdd-workflow/SKILL.md and follow its methodology.
+
 Document the agreed approach:
 
 1. **Contract-first** — Zod schemas (or equivalent) before implementation
@@ -74,6 +76,8 @@ Based on the locked tech stack, generate a canonical directory tree.
 
 ## 10. Compile architecture design document
 
+Read .agent/skills/technical-writer/SKILL.md and follow its methodology.
+
 Read .agent/skills/technical-writer/SKILL.md and apply its clarity and structure standards throughout document compilation.
 
 Read `docs/plans/architecture-draft.md` as the authoritative source. Read `.agent/skills/prd-templates/references/architecture-design-template.md` for the document structure. Compile it into `docs/plans/YYYY-MM-DD-architecture-design.md` (use today's date).
@@ -81,6 +85,8 @@ Read `docs/plans/architecture-draft.md` as the authoritative source. Read `.agen
 > **Depth rule**: Each section must contain the full detail gathered during steps 3-9. If a section is under 200 words, it's almost certainly too shallow. Apply the two-implementer test.
 
 ## 11. Compile Engineering Standards
+
+Read .agent/skills/technical-writer/SKILL.md and follow its methodology.
 
 Read `.agent/skills/prd-templates/references/engineering-standards-template.md` for the document structure. Create `docs/plans/ENGINEERING-STANDARDS.md` — the non-negotiable quality bar for the project. Fill in concrete values based on tech stack decisions from step 3 and methodology from step 8. **No TBDs allowed.**
 

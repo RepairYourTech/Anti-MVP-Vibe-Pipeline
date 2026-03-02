@@ -67,6 +67,8 @@ Before seeding, check whether `docs/plans/ideation.md` already exists.
 
 ## 1.5. Seed `ideation.md`
 
+Read .agent/skills/technical-writer/SKILL.md and follow its methodology.
+
 Create `docs/plans/ideation.md` based on classified input type:
 
 - **Rich document**: Restructure source content into ideation format preserving all detail. Add reference at top: `> Source: path/to/original.md`. Do not modify the original.
@@ -75,6 +77,8 @@ Create `docs/plans/ideation.md` based on classified input type:
 - **Verbal / one-liner**: Create `ideation.md` with domain scaffolding based on the initial description. Sections are empty placeholders.
 
 ## 1.6. User Intent Check (ALL input types)
+
+Read .agent/skills/brainstorming/SKILL.md and follow its methodology.
 
 After seeding, present a summary of what was captured and ask how the user wants to proceed. Framing adapts to input type:
 

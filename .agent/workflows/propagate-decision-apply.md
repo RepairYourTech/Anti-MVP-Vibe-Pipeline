@@ -23,6 +23,8 @@ Review and apply fixes for explicit contradictions one at a time, flag implicit 
 
 ## 1. Explicit contradictions (one at a time)
 
+Read .agent/skills/resolve-ambiguity/SKILL.md and follow its methodology.
+
 For each explicit contradiction from the scan report, display:
 
 ```
@@ -90,6 +92,8 @@ Report any issues found. **Do not auto-fix** — present them to the user for re
 ---
 
 ## 4. Write propagation record
+
+Read .agent/skills/technical-writer/SKILL.md and follow its methodology.
 
 Write `docs/audits/propagation-[type]-[date].md` recording:
 

@@ -69,6 +69,8 @@ Compare using SHA hashes or byte-level diff. Classify each file per Step 2.
 
 For each file classified as "BOTH EXIST — kit has `{{PLACEHOLDER}}`":
 
+Read .agent/skills/technical-writer/SKILL.md and follow its methodology.
+
 ### 3a. Read both versions side by side
 
 ### 3b. Identify change regions

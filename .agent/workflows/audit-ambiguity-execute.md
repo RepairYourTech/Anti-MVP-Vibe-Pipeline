@@ -32,6 +32,8 @@ Before any auditing begins, read `docs/audits/audit-scope.md` and look for a `##
 
 ## 3a. Implementer Simulation
 
+Read .agent/skills/verification-before-completion/SKILL.md and follow its methodology.
+
 **CRITICAL ANTI-HALLUCINATION RULE**: You MUST NOT read all documents at once. You must process one document at a time through 3a → 3b → 3c before moving to the next document. Failure to follow this one-by-one sequence guarantees hallucinated citations and audit failure.
 
 *This is the most important step. It forces the agent to encounter the spec the way an implementer would, not the way a reviewer would.*

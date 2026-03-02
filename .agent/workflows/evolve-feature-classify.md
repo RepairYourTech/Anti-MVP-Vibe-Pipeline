@@ -31,6 +31,8 @@ If the user provides an `@file` reference, read the file and extract the key add
 
 ## 2. Classify the change
 
+Read .agent/skills/brainstorming/SKILL.md and follow its methodology.
+
 Present the classification menu:
 
 ```

@@ -81,6 +81,8 @@ For each feature in the phase:
 
 ## 3. Order by dependency
 
+Read .agent/skills/concise-planning/SKILL.md and follow its methodology.
+
 Sort slices so each builds on the last:
 - Infrastructure slices first (DB schema, auth middleware)
 
