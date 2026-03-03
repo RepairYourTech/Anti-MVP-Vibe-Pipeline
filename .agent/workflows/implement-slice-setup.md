@@ -104,6 +104,11 @@ Log each dispatch phase to `.agent/progress/slices/phase-NN-slice-NN.md` `## Dis
 
 ## 2. Write the contract (Zod schema)
 
+Before writing the schema, locate the BE endpoint(s) referenced by this slice's acceptance criteria. For each endpoint:
+1. Read the BE spec section that defines it. Copy the typed Zod contract completely — every request field, response field, error code, and validation rule.
+2. Read the slice's acceptance criteria. Add any additional request/response shapes required by behavioral assertions that are not already present in the BE contract (e.g., query parameters implied by filter behavior, UI-specific error payloads).
+3. Verify the combined schema covers every acceptance criterion and every BE contract field. Flag any drift between the BE spec and the IA shard it implements.
+
 Read .agent/skills/{{LANGUAGE_SKILL}}/SKILL.md and follow its language conventions.
 
 Define request/response shapes as Zod schemas in the contracts directory (see `.agent/instructions/structure.md`). This is the source of truth.

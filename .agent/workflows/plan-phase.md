@@ -58,6 +58,35 @@ Only when all checks pass does the workflow continue to the next step.
 
 ---
 
+## 0.6. BE↔FE Coverage Cross-Check
+
+Read `docs/plans/be/index.md` and `docs/plans/fe/index.md`.
+
+For every BE spec listed in `docs/plans/be/index.md`, check whether at least one FE spec's `## Source Map` section references it. Apply the following rules:
+
+1. **Covered**: The BE spec appears in at least one FE `## Source Map` → pass.
+2. **Internal-only exception**: If the BE spec is annotated `[internal-only — no UI]` in the BE index, it is exempt from FE coverage → pass.
+3. **Uncovered**: The BE spec is neither covered by an FE Source Map nor marked `[internal-only — no UI]` → collect it in the uncovered list.
+
+**If the uncovered list is empty** → proceed to the next step.
+
+**If any uncovered non-internal BE specs exist** → **hard stop**. Present the uncovered list and ask:
+
+> "The following BE specs have no FE coverage and are not marked `[internal-only — no UI]`:
+>
+> - `[be-spec-filename-1]`
+> - `[be-spec-filename-2]`
+>
+> For each, either:
+> 1. Add FE coverage via `/write-fe-spec`
+> 2. Mark the BE spec as `[internal-only — no UI]` in `docs/plans/be/index.md` if it has no user-facing surface
+>
+> Confirm when resolved."
+
+Do not proceed until the user confirms all uncovered specs are resolved.
+
+---
+
 ## 0.8. Draft continuity check
 
 Check whether `docs/plans/phases/phase-N-draft.md` already exists (where N is the current phase number).
@@ -69,15 +98,23 @@ Check whether `docs/plans/phases/phase-N-draft.md` already exists (where N is th
 
 Read the file at `docs/plans/*-architecture-design.md` (phasing section) and the file at `docs/plans/be/index.md` (which specs to include).
 
-## 2. Identify slices
+## 2. Identify slices (spec-anchored derivation)
 
-For each feature in the phase:
-1. Find the thinnest possible vertical slice (one user-visible behavior)
-2. Define what surfaces it touches (contract, API, DB, UI)
-3. Estimate complexity (S/M/L)
+For each FE spec in the phase scope:
+1. Open the FE spec's `## Interaction Specification` section
+2. Enumerate every distinct named user flow (e.g., "Submit entity claim form", "Search directory with filters", "View entity detail page")
+3. For each user flow, identify its primary BE endpoint from the FE spec's `## Source Map`
+4. Group flows into one slice only when:
+   a. They share the exact same DB write (true dependency, not just same domain), OR
+   b. They are a required sequence (flow B cannot be tested without flow A existing)
+5. Flows that do not meet criteria (a) or (b) become individual slices
 
-**Good slice**: "User can create an account with email/password"
-**Bad slice**: "Implement auth" (too broad)
+The resulting list of slices is derived from the spec, not estimated from feature names. Do not aggregate slices by domain name or by "it feels like one feature."
+
+Estimate complexity (S/M/L) per derived slice. Flag any slice estimated L — these are candidates for further splitting before ordering begins.
+
+**Good slice**: "User can submit an entity claim form" (one named user flow from the FE interaction spec)
+**Bad slice**: "Implement entity management" (domain name, not a spec-derived user flow)
 
 ## 3. Order by dependency
 

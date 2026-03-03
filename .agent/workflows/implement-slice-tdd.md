@@ -30,11 +30,12 @@ Read .agent/skills/{{LANGUAGE_SKILL}}/SKILL.md and follow its language conventio
 Read .agent/skills/{{UNIT_TESTING_SKILL}}/SKILL.md and follow its test writing conventions.
 Read .agent/skills/{{E2E_TESTING_SKILL}}/SKILL.md and follow its E2E test conventions.
 
-Cross-reference **both** sources — acceptance criteria from the phase plan AND the Zod contract from step 2:
+Cross-reference **all three** sources — acceptance criteria from the phase plan, the Zod contract from step 2, AND IA edge cases traced through the BE Source Map:
 1. Write a test for each acceptance criterion
 2. Write a test for each contract field, error type, and validation rule not already covered by criteria
-3. Run all tests — they MUST fail
-4. Commit the failing tests
+3. For each endpoint in this slice, read the IA shard section(s) cited in that endpoint's BE spec `## Source Map`. Extract every item from the IA shard's `## Edge Cases` section that is relevant to the endpoint(s) under test. Write a failing test for each uncovered edge case. Tag these tests with `// IA-EDGE: [IA §X.Y — description]` so QA-GREEN can audit traceability.
+4. Run all tests — they MUST fail
+5. Commit the failing tests
 
 **Test order**: Unit → Integration → E2E (if applicable)
 
