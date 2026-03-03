@@ -281,6 +281,9 @@ When the project includes a surface type, install the listed skills.
 | `web` | `surface/web/dark-mode-theming` | `dark-mode-theming` |
 | `web` | `surface/web/offline-first-pwa` | `offline-first-pwa` |
 | `web` | `surface/web/web-scraping` | `web-scraping` |
+| `web` | `stack/security/owasp-web-security` | `owasp-web-security` |
+| `web` | `stack/security/csp-cors-headers` | `csp-cors-headers` |
+| `web` | `stack/security/input-sanitization` | `input-sanitization` |
 
 > **Note**: The `frontend-design` skill includes a **Premium Cinematic Tier** with WebGL, custom shaders, and Awwwards-level animation patterns. When `DESIGN_DIRECTION` is `Cinematic/Immersive`, `threejs-pro` is also auto-installed (see CSS/UI triggers above).
 
@@ -296,6 +299,7 @@ When the project includes a surface type, install the listed skills.
 | `api` | `surface/api/webhook-design` | `webhook-design` |
 | `api` | `surface/api/rest-api-design` | `rest-api-design` |
 | `api` | `surface/api/api-security-checklist` | `api-security-checklist` |
+| `api` | `stack/security/input-sanitization` | `input-sanitization` |
 
 ### Mobile
 
@@ -333,6 +337,14 @@ When the project includes a surface type, install the listed skills.
 | `extension` | `surface/extension/vscode-extension-development` | `vscode-extension-development` |
 
 ---
+
+### All surfaces (universal)
+
+| Surface Type | Library Path | Installed As |
+|-------------|-------------|-------------|
+| `*` (any surface) | `stack/security/dependency-auditing` | `dependency-auditing` |
+
+> **Universal security baseline**: dependency auditing is provisioned for every project. The surface-specific security skills (owasp-web-security, csp-cors-headers, api-security-checklist) are provisioned only when their respective surfaces are confirmed.
 
 ## Meta Skills (manual install only)
 
@@ -408,4 +420,5 @@ To add a new skill to the library:
 | `3D_FRAMEWORK` | 3D rendering | Three.js, React Three Fiber |
 | `GAME_ENGINE` | Game engine | Godot, Unity |
 | `SECURITY` | Security focus area | OWASP, Crypto, CSP/CORS, Dependency Auditing, Input Sanitization |
+| `SECURITY_SKILLS` | Accumulated list of all provisioned security skills (comma-separated, auto-filled by bootstrap) | e.g., `owasp-web-security,csp-cors-headers,input-sanitization,dependency-auditing` |
 | `DESIGN_DIRECTION` | Confirmed visual design direction | Minimal/Functional, Editorial, Luxury/Refined, Playful/Expressive, Technical/Brutalist, Cinematic/Immersive, or Hybrid |

@@ -152,9 +152,50 @@ If auth IS implemented:
 
 ---
 
+## 6.5. Logging gate
+
+Read `docs/plans/architecture-design.md` section `## Observability Architecture` to load the confirmed logging decisions.
+
+1. Verify structured startup log is emitted on application boot with the following 5 required fields:
+   - `timestamp` (ISO 8601)
+   - `level` (info or higher)
+   - `service` (application name)
+   - `env` (environment name)
+   - Correlation ID field (name as specified in architecture-design.md, e.g., `requestId`, `traceId`)
+2. Verify log reaches configured destination (stdout, file, or cloud service as documented)
+3. Verify PII fields named in `## Observability Architecture` are NOT present in any log output
+
+**If startup log is missing any of the 5 required fields** → **STOP.** Mark check 6.5 as `❌`.
+**If log does not reach configured destination** → **STOP.** Mark check 6.5 as `❌`.
+**If PII fields appear in log output** → **STOP.** Mark check 6.5 as `❌`.
+
+**Pass criteria**: Structured startup log emitted with all 5 fields. Log reaches destination. No PII fields in output.
+
+> Update report: Mark check 6.5 as `✅`.
+
+---
+
+## 6.6. Error tracking gate
+
+1. Confirm error tracking SDK is initialized (Sentry, Datadog, or equivalent as documented in `## Observability Architecture`)
+2. Send a test error event from the application and verify it appears in the error tracking dashboard
+3. Verify PII scrubbing is active — test error event must NOT contain any PII field values named in the architecture document
+
+**If SDK is not initialized** → **STOP.** Mark check 6.6 as `❌`.
+**If test error event does not appear in dashboard** → **STOP.** Mark check 6.6 as `❌`.
+**If PII fields appear in error event** → **STOP.** Mark check 6.6 as `❌`.
+
+**Pass criteria**: Error tracking SDK initialized. Test event received. PII scrubbing active.
+
+> Update report: Mark check 6.6 as `✅`.
+
+---
+
 ## 7-8. Finalize report
 
 Finalize the report using the **Final Report** template from `.agent/skills/prd-templates/references/infrastructure-report-template.md`. Update the Verdict field to `✅ PASS` or `❌ FAIL` and fill in Failures and Next Steps sections.
+
+The final report must include all eight gate checks: 0 (placeholder audit), 1 (CI/CD config), 2 (CI/CD green), 3 (environment audit), 4 (migration check), 5 (staging deployment), 6 (auth smoke test), 6.5 (logging gate), 6.6 (error tracking gate).
 
 ---
 

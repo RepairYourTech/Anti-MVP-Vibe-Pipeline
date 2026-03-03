@@ -44,19 +44,19 @@ Use this template when creating `docs/plans/ENGINEERING-STANDARDS.md`. Fill in c
 
 | Tier | Description | p50 | p95 | p99 | Enforcement Tool |
 |------|------------|-----|-----|-----|-----------------|
-| [e.g., Auth/session] | [e.g., Token issue, session check] | [e.g., ≤ 50 ms] | [e.g., ≤ 100 ms] | [e.g., ≤ 200 ms] | [e.g., k6] |
-| [e.g., CRUD reads] | [e.g., Single-entity fetch] | [e.g., ≤ 30 ms] | [e.g., ≤ 80 ms] | [e.g., ≤ 150 ms] | [e.g., k6] |
-| [e.g., List/search] | [e.g., Paginated queries] | [e.g., ≤ 100 ms] | [e.g., ≤ 300 ms] | [e.g., ≤ 500 ms] | [e.g., k6] |
-| [e.g., Writes] | [e.g., Create, update, delete] | [e.g., ≤ 80 ms] | [e.g., ≤ 200 ms] | [e.g., ≤ 400 ms] | [e.g., k6] |
+| Tier 1 — Cached read | [e.g., Response from cache] | [e.g., ≤ 10 ms] | [e.g., ≤ 30 ms] | [e.g., ≤ 50 ms] | [e.g., k6] |
+| Tier 2 — Uncached read | [e.g., Single-entity DB fetch] | [e.g., ≤ 30 ms] | [e.g., ≤ 80 ms] | [e.g., ≤ 150 ms] | [e.g., k6] |
+| Tier 3 — Write | [e.g., Create, update, delete] | [e.g., ≤ 80 ms] | [e.g., ≤ 200 ms] | [e.g., ≤ 400 ms] | [e.g., k6] |
+| Tier 4 — Background | [e.g., Async jobs, external calls] | [Best-effort] | [e.g., ≤ 1000 ms] | [e.g., ≤ 3000 ms] | [e.g., k6] |
 
 ### DB Query Time per tier
 
 | Tier | Description | p50 | p95 | Enforcement Tool |
 |------|------------|-----|-----|-----------------|
-| [e.g., Indexed lookup] | [e.g., PK or unique-index fetch] | [e.g., ≤ 5 ms] | [e.g., ≤ 15 ms] | [e.g., pgbench] |
-| [e.g., Indexed list] | [e.g., Range scan on indexed column] | [e.g., ≤ 15 ms] | [e.g., ≤ 50 ms] | [e.g., pgbench] |
-| [e.g., Aggregation] | [e.g., COUNT, SUM, GROUP BY] | [e.g., ≤ 50 ms] | [e.g., ≤ 150 ms] | [e.g., pgbench] |
-| [e.g., Full-text/vector] | [e.g., Search or similarity] | [e.g., ≤ 100 ms] | [e.g., ≤ 300 ms] | [e.g., pgbench] |
+| Tier 1 — Indexed point lookup | [e.g., PK or unique-index fetch] | [e.g., ≤ 5 ms] | [e.g., ≤ 15 ms] | [e.g., pgbench] |
+| Tier 2 — Indexed range scan | [e.g., Range or list on indexed column] | [e.g., ≤ 15 ms] | [e.g., ≤ 50 ms] | [e.g., pgbench] |
+| Tier 3 — Aggregation | [e.g., COUNT, SUM, GROUP BY] | [e.g., ≤ 50 ms] | [e.g., ≤ 150 ms] | [e.g., pgbench] |
+| Tier 4 — Full-text / vector / analytical | [e.g., Search, similarity, reports] | [e.g., ≤ 100 ms] | [e.g., ≤ 300 ms] | [e.g., pgbench] |
 
 ### Desktop surfaces (if applicable)
 

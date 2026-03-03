@@ -51,6 +51,14 @@ error format, pagination strategy. For multi-surface: shared API contract format
 [External services, failure modes, fallbacks, cost models — for each: what it
 provides, what happens when it's down, what the fallback is]
 
+## Observability Architecture
+[Logging strategy — library named, structured JSON (yes/no for prod), log levels per environment,
+PII field names that are never logged (named explicitly), log destination. Tracing strategy —
+service boundaries traced, sampling rate per environment, trace ID propagation to API clients.
+Alerting thresholds — error rate %, latency threshold + duration, queue depth warning, delivery
+mechanism named. Launch dashboards — minimum required panels named, tool named, owner named.
+Retention — log retention duration, trace retention duration, compliance alignment.]
+
 ## Development Methodology
 [Contract-first, TDD, vertical slices, spec layers, quality gates — the full
 process, not just labels]

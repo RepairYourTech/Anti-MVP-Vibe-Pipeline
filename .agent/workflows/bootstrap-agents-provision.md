@@ -109,6 +109,19 @@ The following sub-keys all trigger the `{{DATABASE_SKILLS}}` accumulation logic:
 
 > **Backward compatibility**: If the incoming key is `DATABASE`, treat it as `DATABASE_PRIMARY` and proceed identically.
 
+### SECURITY_SKILLS accumulation logic
+
+`{{SECURITY_SKILLS}}` is a comma-separated list of all security skill directory names provisioned for this project. Bootstrap appends the new skill name to the existing list value rather than overwriting it. If the list is empty, set it to the single name. If the name is already present, skip (idempotent).
+
+The following keys all contribute to `{{SECURITY_SKILLS}}` accumulation:
+- `SECURITY` — Explicit user-named security skill (e.g., `SECURITY=owasp-web-security`)
+- Surface trigger: web → appends `owasp-web-security`, `csp-cors-headers`, `input-sanitization`
+- Surface trigger: api → appends `input-sanitization` (if not already present)
+- Surface trigger: desktop → appends `desktop-security-sandboxing`
+- Surface trigger: any → appends `dependency-auditing`
+
+`{{SECURITY_SKILLS}}` is used in `create-prd-security.md` Step 6 to load all relevant security skills before designing the security model.
+
 In `.agent/workflows/create-prd.md`:
 - `{{DATABASE_SKILLS}}` → comma-separated list of installed skill directory names (accumulated from `DATABASE_PRIMARY`, `DATABASE_VECTOR`, `DATABASE_GRAPH`, `DATABASE_CACHE`, `DATABASE_TIMESERIES` keys)
 - `{{AUTH_SKILL}}` → `[installed-as]` (directory name, for `AUTH_PROVIDER` key)
@@ -148,7 +161,7 @@ In `.agent/workflows/write-fe-spec-classify.md` and `.agent/workflows/implement-
 - `{{STATE_MANAGEMENT_SKILL}}` → `[installed-as]` (directory name, for `STATE_MANAGEMENT` key; e.g., `tanstack-query`, `zustand`)
 
 In `.agent/workflows/create-prd-security.md` and `.agent/workflows/write-architecture-spec-design.md`:
-- `{{SECURITY_SKILL}}` → `[installed-as]` (directory name, for `SECURITY` key; e.g., `owasp-web-security`, `crypto-patterns`, `csp-cors-headers`)
+- `{{SECURITY_SKILLS}}` → comma-separated list of all provisioned security skill directory names (accumulated from `SECURITY` key and surface security triggers; e.g., `owasp-web-security,csp-cors-headers,input-sanitization,dependency-auditing`)
 
 ---
 

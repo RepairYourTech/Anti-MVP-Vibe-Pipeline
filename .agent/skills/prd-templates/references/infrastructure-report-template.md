@@ -24,6 +24,8 @@ Create at `docs/audits/verify-infrastructure-YYYY-MM-DD-HHMM[-auth].md`:
 | 4 | Migration check | ⏳ | |
 | 5 | Staging deployment | ⏳ | |
 | 6 | Auth smoke test | ⏳ | |
+| 6.5 | Logging gate | ⏳ | |
+| 6.6 | Error tracking gate | ⏳ | |
 
 ## Failures (if any)
 
@@ -56,6 +58,8 @@ Update the same file — change the Verdict and fill in results:
 | 4 | Migration check | ✅/❌ | |
 | 5 | Staging deployment | ✅/❌ | |
 | 6 | Auth smoke test | ✅/❌/⏭️ | |
+| 6.5 | Logging gate | ✅/❌ | |
+| 6.6 | Error tracking gate | ✅/❌ | |
 
 ## Failures (if any)
 

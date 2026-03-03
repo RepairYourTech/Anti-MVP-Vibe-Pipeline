@@ -90,6 +90,19 @@ Performance budgets are written **as you go** — each axis is discussed, decide
 
 > **Surface conditioning**: Only present axes that apply to the confirmed tech stack surfaces. A CLI-only project skips Web Vitals and bundle-size axes. A web-only project skips Desktop and CLI axes. Always present API and DB axes.
 
+### Axis 0 — Target device tier and network baseline
+
+Before any threshold is chosen, anchor all budgets to an explicit operating context. Require named choices — no vague defaults.
+
+| Decision | Options (examples) |
+|----------|--------------------|
+| Target device tier | Low-end Android (Moto G Power), Mid-range (Pixel 7a), High-end (iPhone 15) |
+| Target network condition | Slow 3G (400 Kbps, 400 ms RTT), Fast 3G (1.6 Mbps, 150 ms RTT), 4G (9 Mbps, 50 ms RTT), Wi-Fi |
+
+Ask: "What is the lowest-spec device and slowest network your users will realistically use? All budgets will be validated against this baseline."
+
+**Write immediately** → `docs/plans/ENGINEERING-STANDARDS.md` § `## Performance Budgets` baseline note — fill in the `[device tier]` and `[network condition]` placeholders.
+
 ### Axis 1 — Web Vitals per page type (web/desktop surfaces only)
 
 Define LCP, INP, and CLS targets **per page type** (e.g., landing, dashboard, detail). Different page types have different acceptable thresholds.
@@ -123,12 +136,12 @@ Define p50, p95, and p99 targets **per tier**, not a single number for the whole
 
 | Tier | Description | p50 | p95 | p99 |
 |------|-------------|-----|-----|-----|
-| Auth / session | Token issue, session check | ≤ 50 ms | ≤ 100 ms | ≤ 200 ms |
-| CRUD reads | Single-entity fetch | ≤ 30 ms | ≤ 80 ms | ≤ 150 ms |
-| List / search | Paginated or filtered queries | ≤ 100 ms | ≤ 300 ms | ≤ 500 ms |
-| Writes / mutations | Create, update, delete | ≤ 80 ms | ≤ 200 ms | ≤ 400 ms |
+| Tier 1 — Cached read | Response served from cache (Redis, CDN, in-memory) | ≤ 10 ms | ≤ 30 ms | ≤ 50 ms |
+| Tier 2 — Uncached read | Single-entity DB fetch or simple join | ≤ 30 ms | ≤ 80 ms | ≤ 150 ms |
+| Tier 3 — Write | Create, update, delete with validation | ≤ 80 ms | ≤ 200 ms | ≤ 400 ms |
+| Tier 4 — Background | Async jobs, batch processing, external calls | Best-effort | ≤ 1000 ms | ≤ 3000 ms |
 
-Ask: "Do any endpoints call external services? Those should get their own tier with wider targets."
+Ask: "Do any endpoints call external services? Those belong in Tier 4. Are there any endpoints that don't fit these four tiers?"
 
 **Write immediately** → `docs/plans/ENGINEERING-STANDARDS.md` § `### API Response Time per tier`
 
@@ -138,12 +151,12 @@ Define p50 and p95 targets **per query tier**.
 
 | Tier | Description | p50 | p95 |
 |------|-------------|-----|-----|
-| Indexed lookup | Primary-key or unique-index fetch | ≤ 5 ms | ≤ 15 ms |
-| Indexed list | Range scan on indexed column | ≤ 15 ms | ≤ 50 ms |
-| Aggregation | COUNT, SUM, GROUP BY | ≤ 50 ms | ≤ 150 ms |
-| Full-text / vector | Search or similarity queries | ≤ 100 ms | ≤ 300 ms |
+| Tier 1 — Indexed point lookup | Primary-key or unique-index fetch | ≤ 5 ms | ≤ 15 ms |
+| Tier 2 — Indexed range scan | Range or list query on indexed column | ≤ 15 ms | ≤ 50 ms |
+| Tier 3 — Aggregation | COUNT, SUM, GROUP BY, window functions | ≤ 50 ms | ≤ 150 ms |
+| Tier 4 — Full-text / vector / analytical | Search, similarity, or reporting queries | ≤ 100 ms | ≤ 300 ms |
 
-Ask: "Are there any known heavy queries (reports, analytics)? Those need their own tier."
+Ask: "Are there any known heavy queries (reports, analytics)? Those belong in Tier 4. Any queries that don't fit these four tiers?"
 
 **Write immediately** → `docs/plans/ENGINEERING-STANDARDS.md` § `### DB Query Time per tier`
 
@@ -173,7 +186,7 @@ Ask: "Do these match your target devices and user expectations?"
 
 ### Axis 6 — CI enforcement mapping
 
-For **every budget defined in axes 1–5**, name the enforcement tool and fail condition.
+For **every budget defined in axes 0–5**, name the enforcement tool and fail condition.
 
 | Budget Category | Enforcement Tool | Fail Condition | Fail vs. Warn |
 |----------------|-----------------|----------------|---------------|
