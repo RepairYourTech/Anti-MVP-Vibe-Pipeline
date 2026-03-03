@@ -32,10 +32,45 @@ Before loading skills, check whether the shard file at `docs/plans/ia/[shard-nam
 
 ## 1. Explore requirements
 
-Use the **brainstorming** skill (`.agent/skills/brainstorming/SKILL.md`) to clarify the scope of this shard:
-- What user interactions exist?
-- What data flows between surfaces?
-- What permissions model is needed?
+### 1a. Read the authoritative sources
+
+Read the following files and build a **reconciliation table** comparing what each source says about this shard's features. `docs/plans/ideation.md` is the **primary source of truth** for sub-features — the architecture design is secondary context.
+
+1. `docs/plans/ideation.md` — the primary sub-feature inventory (locate the section for this shard's domain)
+2. The shard's `## Features` section (seeded during `/decompose-architecture-structure`)
+3. `docs/plans/vision.md` — Must Have features relevant to this domain
+
+**Reconciliation table format:**
+
+| Sub-feature | ideation.md | Shard ## Features | Must Have? | Decision |
+|-------------|-------------|-------------------|------------|----------|
+| [name] | ✅ Listed | ✅ Listed | Yes/No | Keep |
+| [name] | ✅ Listed | ❌ Missing | Yes | **Add to shard immediately** |
+| [name] | ✅ Listed | ❌ Missing | No | Add to shard — ideation is authoritative |
+| [name] | ❌ Not listed | ✅ Listed | — | `[Architecture-only — not in ideation.md]` — keep but audit |
+
+**Sub-feature mismatch handling rules:**
+- If a sub-feature appears in `ideation.md` but not in the shard's `## Features` → **add it to the shard's `## Features` section immediately** before proceeding to 1b. Do not wait for user confirmation to add ideation-sourced sub-features.
+- If a sub-feature appears in the shard's `## Features` but not in `ideation.md` → **keep it** but mark it with `[Architecture-only — not in ideation.md]` as an audit trail. These items were added during decomposition and need explicit user confirmation in 1b.
+
+### 1b. Scope confirmation
+
+Present the reconciled `## Features` list to the user, including a count of newly added sub-features:
+
+> **Reconciled features for [Shard NN — Domain Name]:**
+> 
+> [bullet list of all sub-features, with `[Architecture-only]` markers where applicable]
+> 
+> **[N] sub-features added from ideation.md** that were missing from the shard skeleton.
+> **[M] sub-features marked `[Architecture-only]`** — not found in ideation.md, added during decomposition.
+> 
+> "Does this feature list match your intent for this domain? Any sub-features to add, remove, or re-scope?"
+
+**Wait for explicit user confirmation before proceeding.** If the user modifies the list, update the shard's `## Features` section in `docs/plans/ia/[shard-name].md` immediately.
+
+### 1c. Load brainstorming skill
+
+Read `.agent/skills/brainstorming/SKILL.md` and use it to explore any remaining ambiguous sub-features — those marked `[Architecture-only]` that the user hasn't explicitly confirmed, or any sub-feature whose scope boundary (what's in, what's out) is still unclear after 1b.
 
 ## 2. Map all interactions
 

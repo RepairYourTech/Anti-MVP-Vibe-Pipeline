@@ -58,6 +58,37 @@ annotation to each shard skeleton. `/write-architecture-spec` confirms or reclas
 Verify the decomposition (structural checks only — content doesn't exist yet):
 
 - **Must Have coverage gate**: Read `docs/plans/vision.md` and extract every feature listed under "Must Have". For each Must Have feature, verify it appears in at least one shard's Features section. If any Must Have feature is not covered by any shard → **STOP**: "The following Must Have features from vision.md are not covered by any shard: [list]. Add them to the appropriate shards before proceeding."
+
+- **Shard load calibration gate**: After the Must Have coverage gate passes, count the sub-features in each shard's `## Features` section using the **bullet/named-item rule**: count every bullet point or named item under `## Features`, **excluding** group headers (lines that introduce a group of sub-features but are not themselves a concrete capability). Compare against the following thresholds:
+
+  | Sub-feature Count | Action |
+  |-------------------|--------|
+  | **≤6** | ✅ OK — proceed |
+  | **7–9** | ⚠️ Flag for user review — present the sub-feature list and ask: "This shard has [N] sub-features. Keep as-is, or split?" |
+  | **≥10** | 🛑 **Hard stop** — do NOT proceed. Present a mandatory split proposal and **wait for the user to approve the split** before continuing. No shard may exit this gate with ≥10 sub-features. |
+
+  > **What counts as a sub-feature**: Count each bullet or named item under `## Features`. Group headers (e.g., "Content Management:") that introduce a cluster of sub-features are **not** counted — only the items beneath them. If a bullet contains sub-bullets, count each sub-bullet independently. When in doubt, ask: "Would a product manager list this as a separate line item in a release note?"
+
+  **Split proposal format:**
+  ```
+  Shard [NN] — [domain name] has [N] sub-features (threshold: ≥10 → mandatory split)
+  
+  Current sub-features:
+    1. [sub-feature]
+    2. [sub-feature]
+    ...
+  
+  Proposed split:
+    [NN]a — [new domain name] → file: docs/plans/ia/[NN]a-[domain].md
+      Sub-features: 1, 3, 5
+    [NN]b — [new domain name] → file: docs/plans/ia/[NN]b-[domain].md
+      Sub-features: 2, 4, 6
+  
+  Split rationale: [why these groups are independent]
+  ```
+
+  **After any split**: Update `docs/plans/ia/decomposition-plan.md` with the revised domain boundary table and re-run the Must Have coverage gate to confirm no features were lost in the split.
+
 - [ ] No circular dependencies between shards
 - [ ] Cross-cutting shards (00-*) don't depend on feature shards
 - [ ] Every shard has a preliminary Document Type annotation

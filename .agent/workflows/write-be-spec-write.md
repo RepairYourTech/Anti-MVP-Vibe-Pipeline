@@ -25,6 +25,18 @@ Write the BE spec(s) to `docs/plans/be/`, update indexes, run quality checks, an
 
 ## 7. Write the spec to `docs/plans/be/[NN-feature-name].md`
 
+**Endpoint completeness reconciliation**: Before writing any section, build a reconciliation table from the sub-feature endpoint inventory (produced during `/write-be-spec-classify`):
+
+| Sub-feature | Expected endpoints | Specced? | Notes |
+|-------------|-------------------|----------|-------|
+| [sub-feature] | `POST /api/...` | ✅ | — |
+| [sub-feature] | `GET /api/...` | ❌ | [Deferred to Phase N — reason] |
+| [sub-feature] | `PUT /api/...` | ❌ | — |
+
+**Rule**: For every unspecced expected endpoint, either add it to the spec immediately or add an explicit `[Deferred to Phase N — reason]` note in the Notes column. An empty Notes column for an unspecced endpoint is a spec failure.
+
+**Gate**: Do not write the spec sections until every expected endpoint is either specced or explicitly deferred. This reconciliation table becomes the first section of the spec file after `## Classification`.
+
 Read .agent/skills/technical-writer/SKILL.md and follow its methodology.
 Read .agent/skills/testing-strategist/SKILL.md and follow its methodology.
 

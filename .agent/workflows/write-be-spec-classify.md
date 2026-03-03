@@ -55,7 +55,16 @@ Not every IA shard produces the same output. Before writing anything, classify t
 | **Structural reference** | Maps structure, naming, or routing without defining API behavior | 0 BE specs | No data model, no user flows, no endpoints — just reference tables |
 | **Composite** | Contains both a structural reference section AND feature behavior (e.g., URL mapping + vanity URL lifecycle) | Depends — feature portion may belong in another shard's BE spec | Look for cross-references pointing the feature content to its owning domain |
 
-**Multi-domain split heuristic:** If an IA shard has 3+ section headers that each define independent data models, independent API surfaces, and could be built/deployed/tested without the others, split into separate BE specs. Use the shard's own section headers as the natural split boundaries.
+**Multi-domain split heuristic — sub-feature endpoint inventory:**
+
+Before classifying a shard as multi-domain, build a **sub-feature endpoint inventory**:
+
+| Sub-feature | Expected endpoints | Data model(s) | Independent? |
+|-------------|-------------------|---------------|-------------|
+| [sub-feature] | `POST /api/...`, `GET /api/...` | [table/collection names] | [Yes/No] |
+| [sub-feature] | `PUT /api/...`, `DELETE /api/...` | [table/collection names] | [Yes/No] |
+
+**Split criterion**: Two or more independent groups each have their own data model and could be assigned to a different developer without coordination → split into separate BE specs. Section header count alone is **NOT** the criterion — independence of data models and API surfaces is.
 
 **Present the classification to the user before proceeding.** Include:
 - The classification and reasoning
@@ -134,6 +143,8 @@ If the shard has a testability/acceptance criteria section, read it — these be
 Read any completed cross-cutting specs — feature specs must follow their patterns. List the files matching `docs/plans/be/00-*.md` (cross-cutting specs).
 
 ## 7. Present classification and request approval
+
+Include the expected endpoint inventory in the classification presentation. The user must verify split boundaries align with the actual API surface before approving.
 
 Call `notify_user` presenting:
 - The classification type and reasoning (from Step 2)

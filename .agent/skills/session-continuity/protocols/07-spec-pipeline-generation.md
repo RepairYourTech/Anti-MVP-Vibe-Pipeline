@@ -19,18 +19,28 @@ have IA specs, BE specs, and FE specs completed.
    **Last updated**: {{DATE}}
    **Overall**: 0/{{N×3}} specs (0%)
 
+   ## Legend
+
+   | Symbol | Meaning |
+   |--------|---------|
+   | `not-started` | No spec file exists yet |
+   | `skeleton` | Skeleton file exists but sections are placeholder only |
+   | `complete` | Spec file exists with all sections filled and approved |
+
    ## Shard Spec Status
 
-   | # | Shard | IA Spec | BE Spec | FE Spec |
-   |---|-------|---------|---------|---------| 
-   | 00 | {{shard-name}} | ❌ | ❌ | ❌ |
-   | 01 | {{shard-name}} | ❌ | ❌ | ❌ |
-   | ... | ... | ... | ... | ... |
+   | # | Shard | File | IA Spec | BE Spec | FE Spec |
+   |---|-------|------|---------|---------|---------|
+   | 00 | {{shard-name}} | `docs/plans/ia/00-{{shard-name}}.md` | skeleton | not-started | not-started |
+   | 01 | {{shard-name}} | `docs/plans/ia/01-{{shard-name}}.md` | skeleton | not-started | not-started |
+   | ... | ... | ... | ... | ... | ... |
 
    ## Spec Completion Tracking
 
    Shards with all three specs complete (tracking only — /plan-phase requires ALL shards to be complete, not just individual ones):
    - (none yet)
    ```
+
+   > The `File` column is populated with the expected file path at generation time (derived from the shard number and domain name). Downstream protocols use this path to verify file existence before marking a spec as `complete`.
 
 3. **Initialize memory files** if they don't exist (same as Protocol 2, step 5).

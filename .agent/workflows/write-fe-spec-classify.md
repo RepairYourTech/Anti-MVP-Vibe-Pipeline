@@ -109,6 +109,14 @@ These are frontend concerns that the BE spec doesn't fully capture.
 
 **Accessibility extraction**: From the IA shard's accessibility specifications, extract every WCAG requirement, keyboard navigation pattern, and screen reader behavior. These MUST appear in the FE spec's component definitions — not as a separate section, but woven into each component's specification. If the IA shard lacks accessibility detail for a given interaction, flag it as a gap and resolve before proceeding.
 
+**Accessibility extraction gate** (Step 4c gate):
+
+Read `.agent/skills/prd-templates/references/fe-classification-procedures.md` § **Accessibility Extraction Gate** and follow its procedure. Build the five-column accessibility inventory table, apply the thin a11y coverage flag (< 3 specs for an interactive feature triggers a user choice gate), and carry the inventory forward as inline annotations in `## Component Inventory` during `/write-fe-spec-write`.
+
+### Step 4c.5 — Conditional rendering enumeration
+
+Read `.agent/skills/prd-templates/references/fe-classification-procedures.md` § **Conditional Rendering Enumeration** and follow its procedure. Build the role × feature rendering matrix from the IA shard's `## Access Control`, map every non-trivial cell to a named component variant, and flag unspecified role × feature combinations with a "define or apply closest-tier default?" gate.
+
 ### 4d. Resolve cross-shard references
 If the IA shard references other shards for UI-relevant content (e.g., "navigation behavior
 defined in shard 04", "shared component patterns in shard 12"), read those sections. Build a

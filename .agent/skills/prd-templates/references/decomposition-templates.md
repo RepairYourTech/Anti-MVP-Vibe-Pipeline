@@ -18,7 +18,7 @@ For each shard, create at `docs/plans/ia/[NN-domain-name].md`:
 [1-2 sentence description of this domain's scope]
 
 ## Features
-[List of features from the domain boundary table]
+[Level-1 sub-features from ideation.md for this domain. NOT architecture-level headlines. See /decompose-architecture-structure Step 5 for seeding instructions.]
 
 ## User Interactions
 [To be filled during /write-architecture-spec]
