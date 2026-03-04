@@ -167,14 +167,7 @@ For each slice, determine the execution order following TDD:
 > **Tests are the rock. Code is malleable.** Tests encode the acceptance criteria
 > and must be comprehensive. Code adapts to pass tests, never the reverse.
 
-1. **Contract first**: Untagged tasks (contract, infra) must complete before any tagged dispatch
-2. **QA-RED second**: `QA` agent writes comprehensive failing tests from acceptance criteria
-3. **BE + FE parallel third**: Both implement simultaneously to make tests pass
-4. **QA-GREEN fourth**: `QA` agent re-verifies all tests pass, checks for cheating, adds integration tests
-5. **Iterative loop**: If QA-GREEN fails → re-dispatch BE/FE → QA-GREEN again → repeat until pass
-6. **File independence**: Verify no two tagged tasks touch the same files — use the parallel-agents skill's workstream decomposition to confirm isolation
-
-Flag any tasks that can't be parallelized (shared file dependencies) in the plan.
+Read `.agent/skills/parallel-agents/SKILL.md` and follow its TDD-Order Dispatch methodology for parallel groups and execution order. Flag any tasks that can't be parallelized (shared file dependencies) in the plan.
 
 ## 5. Finalize phase plan
 

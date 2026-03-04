@@ -89,14 +89,7 @@ Read `.agent/skills/parallel-agents/SKILL.md` and `.agent/skills/parallel-featur
 | 3 | QA (GREEN) | Verify all tests pass, anti-cheat audit | Phase 2 |
 | 4 | Orchestrator | Iterative correction loop if needed | Phase 3 |
 
-> **Tests are the rock. Code is malleable.**
-
-1. **Untagged tasks first** — Contract/schema work runs sequentially by orchestrator (step 2)
-2. **QA-RED** — QA agent writes failing tests for ALL acceptance criteria. Read `.agent/skills/session-continuity/protocols/09-parallel-claim.md`. Tests MUST fail. Every contract field and error type covered.
-3. **BE + FE parallel (GREEN)** — Code against tests and contracts. Annotate spec-gap decisions with `// DECISION: [what and why]`.
-4. **QA-GREEN** — Re-verify, anti-cheat check, add integration tests.
-5. **Correction loop** — If QA-GREEN fails, re-dispatch BE/FE → QA-GREEN until pass.
-6. **All pass** → proceed to step 6.5 (Synthesis) in the tdd shard. Use the parallel-agents skill's workstream decomposition to confirm file isolation across agents.
+Read `.agent/skills/parallel-agents/SKILL.md` and follow its TDD-Order Dispatch methodology for execution order and file isolation.
 
 Log each dispatch phase to `.agent/progress/slices/phase-NN-slice-NN.md` `## Dispatch Log`.
 
