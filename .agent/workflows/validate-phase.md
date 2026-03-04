@@ -47,7 +47,7 @@ All tests must pass. Zero tolerance for failing tests.
 
 ## 2. Check coverage
 
-Read .agent/skills/{{E2E_TESTING_SKILL}}/SKILL.md and follow its E2E test conventions.
+Read .agent/skills/{{UNIT_TESTING_SKILL}}/SKILL.md and follow its test writing conventions.
 
 Run `{{TEST_COVERAGE_COMMAND}}`.
 
@@ -123,6 +123,33 @@ Read .agent/skills/{{ORM_SKILL}}/SKILL.md and follow its migration and schema co
 5. If migrations are pending or failed → red path: do not mark this phase as complete — run the pending migrations, verify they succeed, and re-run `/validate-phase`
 
 **Pass criteria**: Migration status is clean. All migrations from this phase ran successfully in the CI/CD environment. Rollback scripts are present.
+
+---
+
+## 5.8. Spec coverage sweep
+
+This step verifies that the phase's implementation actually delivered what the specs required — not just that the tests pass.
+
+For each slice in the phase plan (`docs/plans/phases/phase-N.md`):
+
+1. Read the slice's acceptance criteria
+2. Identify the FE spec(s) referenced by this slice (via the FE spec's `## Source Map`)
+3. For each named user flow in the relevant FE spec `## Interaction Specification` section that belongs to this slice:
+   - Verify a test exists in the test suite that covers this flow by name or by its acceptance criterion
+   - Verify the flow is implemented (not stubbed with `BOUNDARY:`) unless a valid boundary stub exists with a tracking issue
+4. Identify the BE spec section(s) for each endpoint in this slice
+5. For each endpoint:
+   - Verify every Zod-validated field in the BE spec has a corresponding test
+   - Verify every error code defined in the BE spec has a corresponding test
+   - Verify every auth rule (role, ownership check) defined in the BE spec has a corresponding permission test
+
+**If any flow, field, error code, or auth rule has no corresponding test:**
+
+> ❌ STOP — Do not mark this phase as complete. List the uncovered items. Either write the missing tests and re-run `{{TEST_COMMAND}}`, or if the item was genuinely deferred (valid boundary stub + tracking issue), document the deferral explicitly in the phase validation report.
+
+**Pass criteria**: Every named user flow, BE endpoint field, error code, and auth rule in the phase's scope has a corresponding passing test or a documented valid boundary stub.
+
+> Update report (`docs/audits/phase-N-validation.md`): Add a `## Spec Coverage` section listing the sweep results — covered items, any boundary stubs found, and the pass/fail verdict for this step.
 
 ---
 

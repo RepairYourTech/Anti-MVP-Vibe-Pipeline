@@ -88,6 +88,10 @@ With tests green, improve code quality:
 - Remove duplication
 - Add documentation
 
+Read `.agent/skills/code-review-pro/SKILL.md` and follow its adversarial review methodology against the code written in Steps 3–4. Ask: "How would a senior engineer reject this in a PR review?" Fix any issues found before running the test command.
+
+**Mandatory spec traceability check**: Re-read the BE spec section(s) and IA shard sections referenced by this slice's acceptance criteria. For every field in the Zod contract (from Step 2), verify it maps to a field in the BE spec. For every `// IA-EDGE:` tagged test (from Step 3), verify the corresponding IA edge case is covered by the implementation — not just by the test. If any drift is found between the implementation and the spec (missing fields, renamed fields, dropped validations, unimplemented edge cases), fix the implementation now. Do not proceed to Step 6 if any spec drift remains.
+
 Run `{{TEST_COMMAND}}` to verify tests still pass after refactor.
 
 ## 6. Validate
@@ -163,6 +167,17 @@ Read .agent/skills/verification-before-completion/SKILL.md and apply its evidenc
 - [ ] (FE slices only) The feature is reachable from the app's entry point via normal user navigation
 
 These items apply only when the slice is tagged `FE`. Non-FE slices skip this block.
+
+### Spec Traceability Gate (all slices)
+
+Before calling `notify_user`, verify:
+
+- [ ] Re-read the BE spec section(s) for every endpoint in this slice — every response field, error code, and validation rule has a corresponding test tagged with the spec reference
+- [ ] Re-read the IA shard's `## Edge Cases` section for this slice's domain — every edge case relevant to this slice has a `// IA-EDGE:` tagged test
+- [ ] No `// DECISION:` annotations exist for behaviors that are actually specified in the BE spec or IA shard (i.e., no spec-defined behavior was treated as an undocumented implementation decision)
+- [ ] The Zod contract written in Step 2 matches the delivered implementation field-for-field — no fields added, removed, or renamed during implementation without a corresponding contract update
+
+> ❌ STOP — Do not call `notify_user` if any of the above are unchecked. Fix the gap, update the contract if needed, and re-run `{{TEST_COMMAND}}`.
 
 You may not call `notify_user` until you have physically edited **all four** file targets above (7a–7d).
 
