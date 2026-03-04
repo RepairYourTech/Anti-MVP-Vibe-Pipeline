@@ -92,7 +92,35 @@ Bootstrap fires **progressively** — once per confirmed tech decision during `/
 | `PROJECT_STRUCTURE`, `ARCHITECTURE_TABLE` | **No — requires Step 9.5** | `/create-prd-compile` Step 9.5 |
 | `FRAMEWORK_PATTERNS` | **No — requires framework skill** | `bootstrap-agents-provision` after framework provisioning |
 
-### Placeholder Verification Gate
+### Placeholder Verification Gate Protocol
+
+Workflows that read `{{PLACEHOLDER}}`-dependent skill paths declare their dependencies in frontmatter via the `requires_placeholders:` key — a machine-readable list of which placeholder values must be filled before the workflow can run.
+
+```yaml
+requires_placeholders: [DATABASE_SKILLS, SECURITY_SKILLS]
+```
+
+Two distinct gate types enforce placeholder readiness at different pipeline stages:
+
+| Gate type | Where it runs | When | Purpose |
+|---|---|---|---|
+| **Spec-phase gate** | Step 0 of specification workflows (`create-prd-architecture`, `write-architecture-spec-design`, `write-fe-spec-classify`) | Before any skill reads | Guard spec authoring from unfilled stack placeholders |
+| **Implementation-phase gate** | `/implement-slice-setup` Step -1 | Before any code is written | Guard code generation from broken agent context across all seven instruction files |
+
+Both gates emit a **four-part hard stop message** per unfilled placeholder:
+
+1. **Which exact `{{PLACEHOLDER}}` is unfilled** — the literal placeholder name
+2. **Which pipeline stage fills it** — the `/create-prd-stack` decision that triggers bootstrap
+3. **The exact recovery command** — e.g., `/bootstrap-agents` with `DATABASE=<your-db-choice>`
+4. **The consequence of proceeding without it** — what downstream step would produce incorrect output
+
+**Key constraint:** No auto-refire of bootstrap. The agent stops and tells the user exactly what to run.
+
+For detailed per-workflow placeholder mappings and recovery commands, see `.agent/skills/session-continuity/protocols/10-placeholder-verification-gate.md`.
+
+**Reference implementation:** `write-be-spec-classify.md` Step 2.5 is the canonical example of a correctly implemented placeholder guard.
+
+### Implementation-Phase Placeholder Gate
 
 Before any implementation begins, `/implement-slice-setup` (Step -1) scans all seven instruction files for unfilled `{{` patterns. If any are found, implementation stops with a specific remediation path per file. This gate is the last line of defense against broken agent context reaching the implementation phase.
 
@@ -113,7 +141,3 @@ The defining architectural pattern of the code produced by this kit.
 ### Explicit Handoffs
 
 Workflows are designed to end with explicit NEXT STEPS. An agent shouldn't guess what happens after `/ideate`; the workflow tells it to propose `/create-prd`. This ensures continuous, unbroken pipeline progression.
-
-### Placeholder Verification Gate
-
-A safety mechanism in `/implement-slice-setup` (Step -1) that prevents implementation from proceeding with broken agent context. Before any code is written, it scans all seven instruction files for unfilled `{{PLACEHOLDER}}` markers. If any are found, it stops and provides specific remediation commands per file. This gate catches bootstrap failures that would otherwise cause agents to invent project structure, ignore framework conventions, or operate with zero project context.

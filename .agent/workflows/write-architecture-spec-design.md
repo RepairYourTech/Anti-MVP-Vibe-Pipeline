@@ -11,6 +11,7 @@ pipeline:
   successors: [write-architecture-spec-deepen]
   skills: [brainstorming, resolve-ambiguity, database-schema-design]
   calls-bootstrap: false
+requires_placeholders: [DATABASE_SKILLS, SECURITY_SKILLS]
 ---
 
 // turbo-all
@@ -21,7 +22,30 @@ Explore requirements, map all interactions, and define contracts, data models, a
 
 **Prerequisite**: Skeleton IA shard must exist in `docs/plans/ia/`. If it does not, tell the user to run `/decompose-architecture` first.
 
-## 0. Re-run check
+## 0. Placeholder guard
+
+Before any skill reads, verify that the following placeholder values have been filled by `/bootstrap-agents`. For each placeholder, check whether the literal characters `{{` still appear in the value. If **any** are unfilled, emit a **HARD STOP** and do not proceed to Step 0.5.
+
+| Placeholder | Filled by | Recovery | Why this matters |
+|---|---|---|---|
+| `{{DATABASE_SKILLS}}` | `/create-prd-stack` when database technology is confirmed | If `docs/plans/*-architecture-design.md` exists, read it and extract the confirmed database, then run `/bootstrap-agents DATABASE=<confirmed-db>`. Otherwise run `/create-prd-stack` first. | Data model design (Step 4) would produce schema patterns incompatible with the chosen database. |
+| `{{SECURITY_SKILLS}}` | `/create-prd-stack` when security tooling is confirmed | If `docs/plans/*-architecture-design.md` exists, read it and extract the confirmed security framework, then run `/bootstrap-agents SECURITY=<confirmed-framework>`. Otherwise run `/create-prd-stack` first. | Edge case and attack surface analysis (Step 7) would run without the project's security skill, missing stack-specific threat vectors. |
+
+**Hard stop message format** (emit one block per unfilled placeholder):
+
+> ❌ **Bootstrap incomplete — cannot proceed.**
+>
+> **Unfilled placeholder:** `{{PLACEHOLDER_NAME}}`
+>
+> **Recovery:** If `docs/plans/*-architecture-design.md` exists, read it and extract the confirmed [tech decision] value, then run `/bootstrap-agents` with `KEY=<confirmed-value>`. If no architecture design document exists, run `/create-prd-stack` first to confirm tech stack decisions.
+>
+> **Why this matters:** [specific step] cannot produce correct output without this skill — [concrete consequence of proceeding without it].
+
+Only proceed to Step 0.5 when both placeholders report no literal `{{` characters.
+
+---
+
+## 0.5. Re-run check
 
 Before loading skills, check whether the shard file at `docs/plans/ia/[shard-name].md` already has content beyond skeleton placeholders (look for filled-in sections vs empty `<!-- TODO -->` markers).
 

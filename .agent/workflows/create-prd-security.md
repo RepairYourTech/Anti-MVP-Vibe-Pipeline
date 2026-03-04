@@ -11,6 +11,7 @@ pipeline:
   successors: [create-prd-compile]
   skills: [security-scanning-security-hardening, resolve-ambiguity, logging-best-practices]
   calls-bootstrap: true
+requires_placeholders: [SECURITY_SKILLS, AUTH_SKILL]
 ---
 
 // turbo-all
@@ -20,6 +21,29 @@ pipeline:
 Define the security model with full compliance escalation, and document all integration points with failure modes and fallbacks.
 
 **Prerequisite**: System architecture and data strategy must be designed (from `/create-prd-architecture`). The agent should have component diagrams, data placement, and PII boundaries established.
+
+---
+
+## 0. Placeholder guard
+
+Before any skill reads, verify that the following placeholder values have been filled by `/bootstrap-agents`. For each placeholder, check whether the literal characters `{{` still appear in the value. If **any** are unfilled, emit a **HARD STOP** and do not proceed to Step 6.
+
+| Placeholder | Filled by | Recovery | Why this matters |
+|---|---|---|---|
+| `{{SECURITY_SKILLS}}` | `/create-prd-stack` when security tooling is confirmed | If `docs/plans/*-architecture-design.md` exists, read it and extract the confirmed security framework, then run `/bootstrap-agents SECURITY=<confirmed-framework>`. Otherwise run `/create-prd-stack` first. | Security model (Step 6) cannot produce stack-specific threat analysis without the security skill — the model will miss framework-specific attack vectors. |
+| `{{AUTH_SKILL}}` | `/create-prd-stack` when auth provider is confirmed | If `docs/plans/*-architecture-design.md` exists, read it and extract the confirmed auth provider, then run `/bootstrap-agents AUTH=<confirmed-provider>`. Otherwise run `/create-prd-stack` first. | Authentication design (Step 6.1) cannot produce correct auth flows without the auth skill — identity provider conventions and token handling will be generic. |
+
+**Hard stop message format** (emit one block per unfilled placeholder):
+
+> ❌ **Bootstrap incomplete — cannot proceed.**
+>
+> **Unfilled placeholder:** `{{PLACEHOLDER_NAME}}`
+>
+> **Recovery:** If `docs/plans/*-architecture-design.md` exists, read it and extract the confirmed [tech decision] value, then run `/bootstrap-agents` with `KEY=<confirmed-value>`. If no architecture design document exists, run `/create-prd-stack` first to confirm tech stack decisions.
+>
+> **Why this matters:** [specific step] cannot produce correct output without this skill — [concrete consequence of proceeding without it].
+
+Only proceed to Step 6 when both placeholders report no literal `{{` characters.
 
 ---
 

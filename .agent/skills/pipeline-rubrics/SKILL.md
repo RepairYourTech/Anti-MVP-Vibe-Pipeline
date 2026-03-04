@@ -30,7 +30,7 @@ Standardized scoring rubrics for every pipeline layer. Used by audit workflows, 
 | Layer | File | Dimensions |
 |-------|------|------------|
 | Vision | `references/vision-rubric.md` | 7 |
-| Architecture | `references/architecture-rubric.md` | 9 |
+| Architecture | `references/architecture-rubric.md` | 15 |
 | IA | `references/ia-rubric.md` | 8 |
 | BE | `references/be-rubric.md` | 10 |
 | FE | `references/fe-rubric.md` | 10 |

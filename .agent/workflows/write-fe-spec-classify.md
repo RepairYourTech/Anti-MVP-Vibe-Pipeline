@@ -11,6 +11,7 @@ pipeline:
   successors: [write-fe-spec-write]
   skills: [resolve-ambiguity, accessibility]
   calls-bootstrap: false
+requires_placeholders: [LANGUAGE_SKILL, FRONTEND_FRAMEWORK_SKILL, FRONTEND_DESIGN_SKILL, ACCESSIBILITY_SKILL, STATE_MANAGEMENT_SKILL]
 ---
 
 // turbo-all
@@ -23,7 +24,27 @@ Identify the target FE spec, classify it, load skills, and read all source mater
 
 ---
 
-## 0. Brand-guidelines prerequisite check
+## 0. Placeholder guard
+
+Before any skill reads, verify that the five placeholder values listed in `requires_placeholders` frontmatter have been filled by `/bootstrap-agents`. For each placeholder, check whether the literal characters `{{` still appear in the value. If **any** are unfilled, emit a **HARD STOP** and do not proceed to Step 0.5.
+
+For placeholder-to-recovery mappings specific to this workflow, see `.agent/skills/session-continuity/protocols/10-placeholder-verification-gate.md`.
+
+**Hard stop message format** (emit one block per unfilled placeholder):
+
+> ❌ **Bootstrap incomplete — cannot proceed.**
+>
+> **Unfilled placeholder:** `{{PLACEHOLDER_NAME}}`
+>
+> **Recovery:** If `docs/plans/*-architecture-design.md` exists, read it and extract the confirmed [tech decision] value, then run `/bootstrap-agents` with `KEY=<confirmed-value>`. If no architecture design document exists, run `/create-prd-stack` first to confirm tech stack decisions.
+>
+> **Why this matters:** FE spec components cannot be written correctly without this skill — [concrete consequence of proceeding without it].
+
+Only proceed to Step 0.5 when all five placeholders report no literal `{{` characters.
+
+---
+
+## 0.5. Brand-guidelines prerequisite check
 
 1. Read `.agent/skills/brand-guidelines/SKILL.md`.
 2. Scan for any `{{PLACEHOLDER}}` values that are still unfilled. If any exist → stop and tell the user: _"Design direction hasn't been confirmed yet. Run `/create-prd` first to establish the design direction before writing FE specs."_
@@ -31,7 +52,7 @@ Identify the target FE spec, classify it, load skills, and read all source mater
 
 ---
 
-## 0.5. Design system prerequisite check
+## 0.75. Design system prerequisite check
 
 1. Check whether `docs/plans/design-system.md` exists.
 2. If it does not exist → **stop** and tell the user: _"The design system has not been established yet. Run `/create-prd-design-system` to lock navigation paradigm, layout grid, page archetypes, and global state design language before writing FE specs."_

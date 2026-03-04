@@ -11,6 +11,7 @@ pipeline:
   successors: [decompose-architecture]
   skills: [technical-writer, prd-templates, pipeline-rubrics]
   calls-bootstrap: true
+requires_placeholders: [UNIT_TESTING_SKILL, E2E_TESTING_SKILL, CI_CD_SKILL]
 ---
 
 // turbo-all
@@ -20,6 +21,30 @@ pipeline:
 Document the development methodology and phasing strategy. Compile the architecture design document and engineering standards.
 
 **Prerequisite**: Security model and integration points must be defined (from `/create-prd-security`). All tech stack decisions, system architecture, data strategy, and security model must be complete.
+
+---
+
+## 0. Placeholder guard
+
+Before any skill reads, verify that the following placeholder values have been filled by `/bootstrap-agents`. For each placeholder, check whether the literal characters `{{` still appear in the value. If **any** are unfilled, emit a **HARD STOP** and do not proceed to Step 8.
+
+| Placeholder | Filled by | Recovery | Why this matters |
+|---|---|---|---|
+| `{{UNIT_TESTING_SKILL}}` | `/create-prd-stack` when the unit testing framework is confirmed | If `docs/plans/*-architecture-design.md` exists, read it and extract the confirmed unit testing framework, then run `/bootstrap-agents UNIT_TESTING=<confirmed-framework>`. Otherwise run `/create-prd-stack` first. | Development methodology (Step 8) cannot document correct test conventions without the unit testing skill — TDD patterns will be generic instead of framework-specific. |
+| `{{E2E_TESTING_SKILL}}` | `/create-prd-stack` when the E2E testing framework is confirmed | If `docs/plans/*-architecture-design.md` exists, read it and extract the confirmed E2E testing framework, then run `/bootstrap-agents E2E_TESTING=<confirmed-framework>`. Otherwise run `/create-prd-stack` first. | Development methodology (Step 8) cannot document correct E2E test conventions without the E2E testing skill — integration test patterns will be generic. |
+| `{{CI_CD_SKILL}}` | `/create-prd-stack` when CI/CD platform is confirmed | If `docs/plans/*-architecture-design.md` exists, read it and extract the confirmed CI/CD platform, then run `/bootstrap-agents CI_CD=<confirmed-platform>`. Otherwise run `/create-prd-stack` first. | Phasing strategy (Step 9) cannot produce correct pipeline configuration without the CI/CD skill — deployment and quality gate patterns will lack platform-specific conventions. |
+
+**Hard stop message format** (emit one block per unfilled placeholder):
+
+> ❌ **Bootstrap incomplete — cannot proceed.**
+>
+> **Unfilled placeholder:** `{{PLACEHOLDER_NAME}}`
+>
+> **Recovery:** If `docs/plans/*-architecture-design.md` exists, read it and extract the confirmed [tech decision] value, then run `/bootstrap-agents` with `KEY=<confirmed-value>`. If no architecture design document exists, run `/create-prd-stack` first to confirm tech stack decisions.
+>
+> **Why this matters:** [specific step] cannot produce correct output without this skill — [concrete consequence of proceeding without it].
+
+Only proceed to Step 8 when all three placeholders report no literal `{{` characters.
 
 ---
 
@@ -104,14 +129,14 @@ Read `.agent/skills/prd-templates/references/engineering-standards-template.md` 
 
 Read `.agent/skills/pipeline-rubrics/SKILL.md` and follow its pre-flight self-check protocol for the Architecture rubric.
 
-Run a pre-flight self-check before presenting. Read `.agent/skills/pipeline-rubrics/references/architecture-rubric.md` and apply each of the 12 dimensions as a self-check.
+Run a pre-flight self-check before presenting. Read `.agent/skills/pipeline-rubrics/references/architecture-rubric.md` and apply each of the 15 dimensions as a self-check.
 
-> ❌ **STOP** — If any dimension scores ⚠️ or ❌, do not call `notify_user`. Fix the gap now and re-run the self-check until all 12 dimensions are ✅.
+> ❌ **STOP** — If any dimension scores ⚠️ or ❌, do not call `notify_user`. Fix the gap now and re-run the self-check until all 15 dimensions are ✅.
 
 Call `notify_user` presenting:
 - `docs/plans/YYYY-MM-DD-architecture-design.md` (use the actual dated filename)
 - `docs/plans/ENGINEERING-STANDARDS.md`
-- The self-check results (all 12 dimensions with scores)
+- The self-check results (all 15 dimensions with scores)
 - Any gaps resolved during the self-check
 
 > **Both documents must be approved before proceeding. Do NOT proceed until the user sends a message explicitly approving this output.**

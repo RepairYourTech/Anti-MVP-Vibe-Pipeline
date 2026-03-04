@@ -11,6 +11,7 @@ pipeline:
   successors: [write-be-spec-write]
   skills: [resolve-ambiguity, database-schema-design]
   calls-bootstrap: false
+requires_placeholders: [LANGUAGE_SKILL, DATABASE_SKILLS, AUTH_SKILL, BACKEND_FRAMEWORK_SKILL, ORM_SKILL, UNIT_TESTING_SKILL]
 ---
 
 // turbo-all
