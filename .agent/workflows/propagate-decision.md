@@ -14,7 +14,7 @@ shards: [propagate-decision-scan, propagate-decision-apply]
 
 Scan downstream pipeline documents for contradictions with locked decisions, then apply fixes one at a time with user approval.
 
-**Usage**: `/propagate-decision` — you'll be shown a pre-scan of all 5 decision types and asked which to propagate.
+**Usage**: `/propagate-decision` — you'll be shown a pre-scan of all 6 decision types and asked which to propagate.
 
 **Optional**: `/propagate-decision structure` — skip the menu and propagate a specific decision type directly.
 
@@ -30,7 +30,7 @@ Scan downstream pipeline documents for contradictions with locked decisions, the
 
 | # | Shard | What It Does |
 |---|-------|--------------|
-| 1 | [`propagate-decision-scan`](.agent/workflows/propagate-decision-scan.md) | Pre-scans all 5 decision types, presents selection, runs full scan, writes impact report |
+| 1 | [`propagate-decision-scan`](.agent/workflows/propagate-decision-scan.md) | Pre-scans all 6 decision types, presents selection, runs full scan, writes impact report |
 | 2 | [`propagate-decision-apply`](.agent/workflows/propagate-decision-apply.md) | Presents each contradiction for approval, flags implicit assumptions, writes propagation record |
 
 ---
@@ -39,7 +39,7 @@ Scan downstream pipeline documents for contradictions with locked decisions, the
 
 ### Step A — Run `.agent/workflows/propagate-decision-scan.md`
 
-Pre-scans all 5 decision types, presents a selection menu to the user, runs a full scan on the selected types, builds an impact report with explicit contradictions and implicit assumptions, writes the report to `docs/audits/propagation-scan-[date].md`, and stops for user confirmation before proceeding.
+Pre-scans all 6 decision types, presents a selection menu to the user, runs a full scan on the selected types, builds an impact report with explicit contradictions and implicit assumptions, writes the report to `docs/audits/propagation-scan-[date].md`, and stops for user confirmation before proceeding.
 
 ### Step B — Run `.agent/workflows/propagate-decision-apply.md`
 

@@ -1,5 +1,5 @@
 ---
-description: Pre-scan all decision types, present selection menu, run full scan on selected types, and build impact report
+description: Pre-scan all 6 decision types, present selection menu, run full scan on selected types, and build impact report
 parent: propagate-decision
 shard: scan
 standalone: true
@@ -15,7 +15,7 @@ pipeline:
 
 # Propagate Decision — Scan
 
-Pre-scan all 5 decision types for downstream contradictions, present a selection menu, run a full scan on the selected types, and write the impact report.
+Pre-scan all 6 decision types for downstream contradictions, present a selection menu, run a full scan on the selected types, and write the impact report.
 
 > **Prerequisite**: At least one instruction file must be filled (not `{{PLACEHOLDER}}`). If all instruction files are still template placeholders, there are no locked decisions to propagate — run `/bootstrap-agents` first.
 
@@ -23,7 +23,7 @@ Pre-scan all 5 decision types for downstream contradictions, present a selection
 
 ## 1. Pre-scan all decision types
 
-Read all five decision sources and do a quick surface scan of downstream documents:
+Read all six decision sources and do a quick surface scan of downstream documents:
 
 | Decision Type | Source Document | Downstream Scope |
 |--------------|-----------------|-------------------|
@@ -32,6 +32,7 @@ Read all five decision sources and do a quick surface scan of downstream documen
 | **auth-model** | Architecture doc (auth/security section) | All BE specs with middleware, all FE specs with auth flows |
 | **data-placement** | `docs/plans/data-placement-strategy.md` | All IA shards with data models, all BE specs with storage |
 | **patterns** | `.agent/instructions/patterns.md` | All IA shards, BE specs with implementation patterns, FE specs with component patterns |
+| **error-architecture** | Architecture doc `## Error Architecture` section — all 5 sub-sections (`### Global Error Envelope`, `### Error Propagation Chain`, `### Unhandled Exception Strategy`, `### Client Fallback Contract`, `### Error Boundary Strategy`) — located at `docs/plans/*-architecture-design.md` | All BE specs (`docs/plans/be/`) — error envelope conformance, propagation chain rules. All FE specs (`docs/plans/fe/`) — client fallback contract per surface, error boundary placement. |
 
 For each decision type:
 1. Read the source document to extract the current locked value
@@ -52,12 +53,13 @@ Decision propagation pre-scan:
 [3] auth-model — architecture doc — inconsistencies detected in X documents
 [4] data-placement — data-placement-strategy.md — inconsistencies detected in X documents
 [5] patterns — patterns.md — inconsistencies detected in X documents
+[6] error-architecture — architecture doc ## Error Architecture — inconsistencies detected in X documents
 
 [A] All with inconsistencies
 [Q] Quit — no propagation needed
 ```
 
-If the user selects `[A]`, run the full scan (Step 3) on all 5 types first, then filter to only those with at least one explicit contradiction or implicit assumption.
+If the user selects `[A]`, run the full scan (Step 3) on all 6 types first, then filter to only those with at least one explicit contradiction or implicit assumption.
 
 If called with a specific argument (e.g., `/propagate-decision structure`), skip the menu and proceed directly with that decision type.
 
@@ -77,6 +79,27 @@ For each selected decision type, scan every downstream document in the scope def
    - **Consistent** — The document correctly uses the locked value
 
 Record all explicit contradictions and implicit assumptions with their document path, line number, current text, and the locked value they should reflect.
+
+### error-architecture scan
+
+**Source extraction:**
+- Locate `docs/plans/*-architecture-design.md` using the glob (not a hardcoded path).
+- Read the `## Error Architecture` section and extract the locked decisions from all five sub-sections, in particular the canonical field names from `### Global Error Envelope` (e.g., `code`, `message`, `details`, `request_id`).
+
+**BE spec conformance** — scan every file in `docs/plans/be/`:
+- Check whether the spec references the global error envelope by its locked name and uses the canonical field names exactly as locked in `### Global Error Envelope`.
+- Check whether the spec references the propagation chain rules — which layer catches, logs, and surfaces errors — as defined in `### Error Propagation Chain`.
+- Classify findings:
+  - **Explicit contradiction** — spec defines its own error shape with field names or structure that directly conflicts with the locked envelope.
+  - **Implicit assumption** — spec mentions "error handling" or "error response" without naming the canonical envelope shape or field names.
+  - **Consistent** — spec correctly names and uses the locked envelope.
+
+**FE spec conformance** — scan every file in `docs/plans/fe/`:
+- Check whether the spec references the client fallback contract appropriate for its surface type, as defined in `### Client Fallback Contract`.
+- Check whether the spec references error boundary placement per `### Error Boundary Strategy`.
+- Apply the same three-way classification (explicit contradiction / implicit assumption / consistent).
+
+All findings are recorded in the standard format (document path, line number, current text, locked value) for inclusion in the impact report built in Step 4.
 
 ---
 
