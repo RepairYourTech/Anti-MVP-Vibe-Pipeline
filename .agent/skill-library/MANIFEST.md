@@ -24,6 +24,7 @@ When a stack key matches a value pattern (case-insensitive), install the listed 
 | `DATABASE` | `*supabase*` | `stack/databases/supabase` | `supabase` |
 | `DATABASE` | `*mongo*` | `stack/databases/mongodb` | `mongodb` |
 | `DATABASE` | `*redis*` | `stack/databases/redis` | `redis` |
+| `DATABASE_PRIMARY` | `*redis*` | `stack/databases/redis` | `redis` |
 | `DATABASE` | `*sqlite*` OR `*libsql*` OR `*turso*` | `stack/databases/sqlite` | `sqlite` |
 | `DATABASE_PRIMARY` | `*surrealdb*` | `stack/databases/surrealdb-expert` | `surrealdb-expert` |
 | `DATABASE_PRIMARY` | `*postgres*` OR `*pg*` | `stack/databases/postgresql` | `postgresql` |
@@ -34,12 +35,18 @@ When a stack key matches a value pattern (case-insensitive), install the listed 
 | `DATABASE_VECTOR` | `*pgvector*` | `stack/databases/pgvector` | `pgvector` |
 | `DATABASE_VECTOR` | `*pinecone*` | `stack/databases/pinecone` | `pinecone` |
 | `DATABASE_VECTOR` | `*weaviate*` | `stack/databases/weaviate` | `weaviate` |
+| `DATABASE_VECTOR` | `*lance*` OR `*lancedb*` | `stack/databases/lancedb` | `lancedb` |
 | `DATABASE_GRAPH` | `*neo4j*` | `stack/databases/neo4j` | `neo4j` |
 | `DATABASE_CACHE` | `*redis*` | `stack/databases/redis` | `redis` |
 | `DATABASE_TIMESERIES` | `*timescale*` | `stack/databases/timescaledb` | `timescaledb` |
 | `DATABASE_TIMESERIES` | `*influx*` | `stack/databases/influxdb` | `influxdb` |
+| `DATABASE` | `*spacetimedb*` OR `*stdb*` | `stack/databases/spacetimedb` | `spacetimedb` |
+| `DATABASE_PRIMARY` | `*spacetimedb*` OR `*stdb*` | `stack/databases/spacetimedb` | `spacetimedb` |
+| `DATABASE` | `*clickhouse*` | `stack/databases/clickhouse` | `clickhouse` |
+| `DATABASE_ANALYTICS` | `*clickhouse*` | `stack/databases/clickhouse` | `clickhouse` |
 
 > **Note on `DATABASE_CACHE` / Redis**: the existing `DATABASE` + `*redis*` row remains; the `DATABASE_CACHE` row adds a second matching path under the new sub-key. Both fire the same `redis` skill — the idempotency rule in step 7 of provision ensures it is only copied once.
+
 
 ### Frameworks
 
@@ -99,6 +106,8 @@ Note: `DESIGN_DIRECTION` does not copy a skill from the library — it fills pla
 | `AUTH_PROVIDER` | `*firebase*` | `stack/auth/firebase-auth` | `firebase-auth` |
 | `AUTH_PROVIDER` | `*authjs*` OR `*next-auth*` OR `*nextauth*` | `stack/auth/authjs` | `authjs` |
 | `AUTH_PROVIDER` | `*clerk*` | `stack/auth/clerk` | `clerk` |
+| `AUTH_PROVIDER` | `*supabase*` | `stack/auth/supabase-auth` | `supabase-auth` |
+| `AUTH_PROVIDER` | `*lucia*` | `stack/auth/lucia` | `lucia` |
 
 ### Payments
 
@@ -184,6 +193,9 @@ Note: `DESIGN_DIRECTION` does not copy a skill from the library — it fills pla
 | Stack Key | Value Pattern | Library Path | Installed As |
 |-----------|--------------|-------------|-------------|
 | `SEARCH` | `*meilisearch*` | `stack/search/meilisearch` | `meilisearch` |
+| `SEARCH` | `*elasticsearch*` OR `*elastic*` OR `*opensearch*` | `stack/search/elasticsearch` | `elasticsearch` |
+| `SEARCH` | `*algolia*` | `stack/search/algolia` | `algolia` |
+| `SEARCH` | `*typesense*` | `stack/search/typesense` | `typesense` |
 
 ### CMS
 
@@ -198,6 +210,8 @@ Note: `DESIGN_DIRECTION` does not copy a skill from the library — it fills pla
 | Stack Key | Value Pattern | Library Path | Installed As |
 |-----------|--------------|-------------|-------------|
 | `STORAGE` | `*s3*` OR `*aws*` | `stack/storage/aws-s3` | `aws-s3` |
+| `STORAGE` | `*r2*` OR `*cloudflare*` | `stack/storage/cloudflare-r2` | `cloudflare-r2` |
+| `STORAGE` | `*gcs*` OR `*google cloud storage*` | `stack/storage/gcs` | `gcs` |
 
 ### CI/CD
 
@@ -217,7 +231,10 @@ Note: `DESIGN_DIRECTION` does not copy a skill from the library — it fills pla
 
 | Stack Key | Value Pattern | Library Path | Installed As |
 |-----------|--------------|-------------|-------------|
-| `MOBILE_FRAMEWORK` | `*expo*` OR `*react-native*` | `stack/mobile/expo-react-native` | `expo-react-native` |
+| `MOBILE_FRAMEWORK` | `*expo*` OR `*react-native*` OR `*react native*` | `stack/mobile/react-native` | `react-native` |
+| `MOBILE_FRAMEWORK` | `*flutter*` | `stack/mobile/flutter` | `flutter` |
+| `MOBILE_FRAMEWORK` | `*swiftui*` OR `*swift*` | `stack/mobile/swiftui` | `swiftui` |
+| `MOBILE_FRAMEWORK` | `*kotlin*` OR `*compose*` OR `*jetpack*` | `stack/mobile/kotlin-compose` | `kotlin-compose` |
 
 ### Languages
 
@@ -243,8 +260,10 @@ Note: `DESIGN_DIRECTION` does not copy a skill from the library — it fills pla
 
 | Stack Key | Value Pattern | Library Path | Installed As |
 |-----------|--------------|-------------|-------------|
-| `GAME_ENGINE` | `*godot*` | `stack/gamedev/godot` | `godot` |
-| `GAME_ENGINE` | `*unity*` | `stack/gamedev/unity` | `unity` |
+| `GAME_ENGINE` | `*godot*` | `stack/engines/godot` | `godot` |
+| `GAME_ENGINE` | `*unity*` | `stack/engines/unity` | `unity` |
+| `GAME_ENGINE` | `*unreal*` OR `*ue5*` | `stack/engines/unreal` | `unreal` |
+| `GAME_ENGINE` | `*bevy*` | `stack/engines/bevy` | `bevy` |
 
 ### Security
 
@@ -255,6 +274,40 @@ Note: `DESIGN_DIRECTION` does not copy a skill from the library — it fills pla
 | `SECURITY` | `*csp*` OR `*cors*` OR `*headers*` | `stack/security/csp-cors-headers` | `csp-cors-headers` |
 | `SECURITY` | `*dependency*` OR `*audit*` OR `*supply-chain*` | `stack/security/dependency-auditing` | `dependency-auditing` |
 | `SECURITY` | `*sanitiz*` OR `*validation*` OR `*input*` | `stack/security/input-sanitization` | `input-sanitization` |
+
+### Message Brokers
+
+| Stack Key | Value Pattern | Library Path | Installed As |
+|-----------|--------------|-------------|-------------|
+| `MESSAGE_BROKER` | `*kafka*` | `stack/messaging/kafka` | `kafka` |
+| `MESSAGE_BROKER` | `*rabbitmq*` OR `*rabbit*` | `stack/messaging/rabbitmq` | `rabbitmq` |
+| `MESSAGE_BROKER` | `*nats*` | `stack/messaging/nats` | `nats` |
+| `MESSAGE_BROKER` | `*sqs*` OR `*aws sqs*` | `stack/messaging/sqs` | `sqs` |
+
+### Notifications
+
+| Stack Key | Value Pattern | Library Path | Installed As |
+|-----------|--------------|-------------|-------------|
+| `NOTIFICATIONS` | `*twilio*` | `stack/notifications/twilio` | `twilio` |
+| `NOTIFICATIONS` | `*fcm*` OR `*firebase*` OR `*push*` | `stack/notifications/fcm` | `fcm` |
+| `NOTIFICATIONS` | `*sendgrid*` | `stack/notifications/sendgrid` | `sendgrid` |
+
+### Extensions
+
+| Stack Key | Value Pattern | Library Path | Installed As |
+|-----------|--------------|-------------|-------------|
+| `BROWSER_EXTENSION` | `*wxt*` | `stack/extensions/wxt` | `wxt` |
+| `BROWSER_EXTENSION` | `*plasmo*` | `stack/extensions/plasmo` | `plasmo` |
+| `BROWSER_EXTENSION` | `*chrome*` OR `*extension*` OR `*mv3*` | `stack/extensions/chrome-extension` | `chrome-extension` |
+| `VSCODE_EXTENSION` | `*vscode*` OR `*vs code*` OR `*vsce*` | `stack/extensions/vscode-extension` | `vscode-extension` |
+
+### Feature Flags
+
+| Stack Key | Value Pattern | Library Path | Installed As |
+|-----------|--------------|-------------|-------------|
+| `FEATURE_FLAGS` | `*launchdarkly*` | `stack/feature-flags/launchdarkly` | `launchdarkly` |
+| `FEATURE_FLAGS` | `*posthog*` | `stack/feature-flags/posthog-flags` | `posthog-flags` |
+| `FEATURE_FLAGS` | `*flagsmith*` | `stack/feature-flags/flagsmith` | `flagsmith` |
 
 ---
 

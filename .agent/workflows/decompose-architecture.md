@@ -31,6 +31,14 @@ Also check the document's `**Status**:` field. If the status is `Draft` or `Revi
 
 Also read the file at `docs/plans/vision.md`.
 
+> **Design system prerequisite (web/mobile/desktop projects)**: Check `{{SURFACES}}`. If surfaces include `web`, `mobile`, or `desktop`, verify that `docs/plans/design-system.md` exists and is not empty.
+>
+> If it does not exist:
+>
+> ⚠️ **Warning**: FE specs for this project require a design system (`docs/plans/design-system.md`). Run `/create-prd-design-system` before writing any FE specs. You may continue with architecture decomposition now, but the design system must be completed before the FE spec writing phase.
+>
+> This is a warning, not a hard stop — architecture decomposition can proceed. API-only, CLI, and extension projects are not affected.
+
 Identify the **Project Type** from the architecture design header:
 - **Single-surface** (web, desktop, mobile, CLI, API) → standard flat structure
 - **Multi-surface** (desktop + web, mobile + web, etc.) → per-surface subdirectories with shared layer

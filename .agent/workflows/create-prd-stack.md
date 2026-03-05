@@ -54,6 +54,12 @@ Score Fit from 1–5 based on how well the option matches the constraints map. I
 5. Fire bootstrap with only that key: read `.agent/workflows/bootstrap-agents.md` and call with `PIPELINE_STAGE=create-prd` + the confirmed key
 6. Move to next axis
 
+> **Note on backend axis bootstrap keys**: `BACKEND_FRAMEWORK` and `API_LAYER` are distinct bootstrap keys and must each fire as a separate `/bootstrap-agents` call — do not combine them.
+> - `BACKEND_FRAMEWORK` (e.g., `Hono`, `FastAPI`, `NestJS`) → provisions the backend framework skill
+> - `API_LAYER` (e.g., `tRPC`, `GraphQL`) → provisions the API layer skill
+>
+> These are independent MANIFEST entries. Firing bootstrap with `BACKEND_FRAMEWORK=Hono` does **not** provision the tRPC skill — `API_LAYER=tRPC` must be fired separately. Similarly, skipping the `Database` axis (handled by the Persistence Map Interview) does not affect backend framework or API layer keys — those must still fire individually.
+
 Get explicit user decisions — no "TBD" allowed. Use the brainstorming skill's approach — one decision at a time.
 
 ### Database: Persistence Map Interview
