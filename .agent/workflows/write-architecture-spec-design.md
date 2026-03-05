@@ -81,6 +81,37 @@ Present the reconciled `## Features` list to the user, including a count of newl
 
 **Wait for explicit user confirmation before proceeding.** If the user modifies the list, update the shard's `## Features` section in `docs/plans/ia/[shard-name].md` immediately.
 
+**Post-reconciliation calibration check**: Count the total confirmed sub-features in the list just approved. Use the same counting rule as `/decompose-architecture-validate` Step 12: count every bullet or named item under the confirmed feature list, excluding group headers. If the count is **≥ 10**:
+
+> ❗ This shard has [N] sub-features after reconciliation — above the 10-feature complexity threshold. This shard should be split before spec writing proceeds.
+
+Present the mandatory split proposal using the same format as `/decompose-architecture-validate`:
+
+```
+Shard [NN] — [domain name] has [N] sub-features (threshold: ≥10 → mandatory split)
+
+Current sub-features:
+  1. [sub-feature]
+  2. [sub-feature]
+  ...
+
+Proposed split:
+  [NN]a — [new domain name] → file: docs/plans/ia/[NN]a-[domain].md
+    Sub-features: 1, 3, 5
+  [NN]b — [new domain name] → file: docs/plans/ia/[NN]b-[domain].md
+    Sub-features: 2, 4, 6
+
+Split rationale: [why these groups are independent]
+
+Does this split make sense, or would you prefer a different boundary?
+```
+
+**Wait for explicit user approval of the split before proceeding.** Do NOT proceed to Step 2 with an oversized shard.
+
+If the user approves the split: stop this workflow and run `/decompose-architecture-validate` to formally register the new shards (it will re-run the Must Have coverage gate and update the decomposition plan). Then restart `/write-architecture-spec` for each new shard individually.
+
+If the sub-feature count is **< 10**, proceed directly to Step 1c.
+
 ### 1c. Load brainstorming skill
 
 Read `.agent/skills/brainstorming/SKILL.md` and use it to explore any remaining ambiguous sub-features — those marked `[Architecture-only]` that the user hasn't explicitly confirmed, or any sub-feature whose scope boundary (what's in, what's out) is still unclear after 1b.

@@ -581,7 +581,18 @@ and file-level locks. Prevents two agents from modifying the same files.
 | **Surface tag** | `BE`, `FE`, or `QA` prefix on a task, determines which agent type handles it |
 | **Claim flag `[!]`** | Appended to a task line — means an agent owns this task and all subtasks |
 | **`files:` block** | Listed directly under a claimed task — hard lock on those files |
-| **Frozen files** | Files no parallel agent may touch: `package.json`, `pnpm-lock.yaml`, `astro.config.mjs`, `src/contracts/*`, `tsconfig.json`, `.env` |
+| **Frozen files** | Files no parallel agent may touch — see Frozen Files list below |
+
+### Frozen Files
+
+Files no parallel agent may touch:
+
+- `package.json` (or equivalent dependency manifest for the project's package manager)
+- `{{PACKAGE_MANAGER}}` lock file (e.g., `pnpm-lock.yaml`, `yarn.lock`, `package-lock.json`)
+- `{{FRONTEND_FRAMEWORK}}` config file (e.g., `astro.config.mjs`, `next.config.js`, `vite.config.ts`)
+- `{{CONTRACTS_DIR}}` (e.g., `src/contracts/*`)
+- Language config file (e.g., `tsconfig.json` for TypeScript, `pyproject.toml` for Python)
+- `.env`
 
 ### Claiming a Task
 
