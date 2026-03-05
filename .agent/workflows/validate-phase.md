@@ -142,14 +142,18 @@ For each slice in the phase plan (`docs/plans/phases/phase-N.md`):
    - Verify every Zod-validated field in the BE spec has a corresponding test
    - Verify every error code defined in the BE spec has a corresponding test
    - Verify every auth rule (role, ownership check) defined in the BE spec has a corresponding permission test
+6. For each slice in the phase plan, identify which IA shard(s) the slice's features originate from (using either the phase plan's domain references or the FE spec's `## Source Map`). For each identified IA shard:
+   - Read the shard's `## Accessibility` section (surface-conditional: apply only for `web`, `mobile`, or `desktop` surfaces). For each accessibility requirement named there, verify a corresponding test exists (e.g., axe-core check, keyboard navigation test, screen reader label test).
+   - Read the shard's acceptance criteria or testability section (look for Given/When/Then format or numbered acceptance criteria). For each Given/When/Then criterion, verify it maps to at least one named test in the test suite.
+   - Flag any IA criterion with no test coverage as an uncovered item — apply the **same hard-stop rule** below: list the uncovered criterion and either write the missing test or document it as a valid boundary stub with a tracking issue.
 
-**If any flow, field, error code, or auth rule has no corresponding test:**
+**If any flow, field, error code, auth rule, IA acceptance criterion, or accessibility requirement has no corresponding test:**
 
 > ❌ STOP — Do not mark this phase as complete. List the uncovered items. Either write the missing tests and re-run `{{TEST_COMMAND}}`, or if the item was genuinely deferred (valid boundary stub + tracking issue), document the deferral explicitly in the phase validation report.
 
-**Pass criteria**: Every named user flow, BE endpoint field, error code, and auth rule in the phase's scope has a corresponding passing test or a documented valid boundary stub.
+**Pass criteria**: Every named user flow, BE endpoint field, error code, auth rule, IA acceptance criterion, and accessibility requirement in the phase's scope has a corresponding passing test or a documented valid boundary stub.
 
-> Update report (`docs/audits/phase-N-validation.md`): Add a `## Spec Coverage` section listing the sweep results — covered items, any boundary stubs found, and the pass/fail verdict for this step.
+> Update report (`docs/audits/phase-N-validation.md`): Add a `## Spec Coverage` section listing the sweep results — covered items, uncovered items, boundary stubs, accessibility coverage, IA testability trace results, and the pass/fail verdict for this step.
 
 ---
 
@@ -189,15 +193,18 @@ Report any additional findings from supplemental audits with the same severity c
 
 ## 9. Document results
 
-Create or update `docs/audits/phase-N-validation.md` with:
+**Note**: `docs/audits/phase-N-validation.md` was created and partially populated by Step 5.8 (Spec Coverage section). Append the following sections to the existing file — do not recreate or overwrite it.
+
 - Test results and coverage
 - Lint and type-check status
 - Build status
-- Any accessibility or performance findings
-- Pass/fail verdict
-- CI/CD pipeline status (green/red, failing jobs if any)
-- Staging deployment result and smoke test outcome
+- Accessibility findings
+- Performance findings
+- Security review findings
+- CI/CD pipeline status
+- Staging deployment result
 - Migration verification status
+- Pass/fail verdict
 
 ## 10. Present results and next steps
 

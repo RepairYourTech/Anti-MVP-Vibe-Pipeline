@@ -50,9 +50,19 @@ Write `docs/audits/audit-scope.md` with the determined scope and document list:
 ## Documents to Audit
 [for each layer, list the exact file paths that will be audited]
 
+## Rubric Files
+[for each layer being audited, list the exact path of the rubric file]
+- vision: .agent/skills/pipeline-rubrics/references/vision-rubric.md
+- architecture: .agent/skills/pipeline-rubrics/references/architecture-rubric.md
+- ia: .agent/skills/pipeline-rubrics/references/ia-rubric.md
+- be: .agent/skills/pipeline-rubrics/references/be-rubric.md
+- fe: .agent/skills/pipeline-rubrics/references/fe-rubric.md
+
 ## Status
 in-progress
 ```
+
+(Only include the rubric file entries for the layers actually being audited — not all five every time. This mirrors the conditional behaviour already applied to `## Documents to Audit`.)
 
 This file is read by `/audit-ambiguity-execute` as its prerequisite.
 
