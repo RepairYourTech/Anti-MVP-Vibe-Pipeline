@@ -29,6 +29,12 @@ For each shard, create at `docs/plans/ia/[NN-domain-name].md`:
 ## Access Control
 [To be filled during /write-architecture-spec]
 
+## Accessibility
+
+<!-- Filled by /write-architecture-spec-design Step 5.5 -->
+<!-- For web/mobile/desktop surfaces: WCAG 2.1 AA requirements per interaction -->
+<!-- For api/cli/extension only: "Not applicable — no visual surfaces" -->
+
 ## Edge Cases
 [To be filled during /write-architecture-spec]
 
@@ -64,7 +70,7 @@ Read cross-cutting shards first, then feature shards in numerical order.
 
 ## Conventions
 
-- Every shard must define: features, user interactions, data model, access control, edge cases
+- Every shard must define: features, user interactions, data model, access control, accessibility, edge cases
 - Cross-shard dependencies must be bidirectional (if A references B, B must reference A)
 - Complex features get a separate deep dive in `deep-dives/`
 - Status: 🔲 Skeleton → 📝 Draft → 👀 Review → ✅ Complete

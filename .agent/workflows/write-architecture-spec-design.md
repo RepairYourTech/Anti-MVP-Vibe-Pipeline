@@ -158,6 +158,34 @@ Refine based on discussion before proceeding.
 
 > **Write now**: Write the completed `## Access Control` content to `docs/plans/ia/[shard-name].md`, replacing the skeleton placeholder for this section. Do not wait until Step 8.
 
+## 5.5. Accessibility specifications
+
+Read `{{SURFACES}}` to determine the project's target surfaces.
+
+**If surfaces include `web`, `mobile`, or `desktop`:**
+
+Read `.agent/skills/accessibility/SKILL.md` and apply its WCAG 2.1 AA methodology.
+
+For each user interaction documented in Step 2 (`## User Interactions`), identify and document:
+- **Keyboard navigation path** — tab order and focus management for this interaction
+- **Screen reader semantics** — ARIA roles, labels, and live regions required
+- **Color contrast** — requirements for any new visual states (loading, error, empty, disabled)
+- **Motion/animation** — `prefers-reduced-motion` implications for any transitions or animations
+- **Touch target sizes** — minimum 44×44 px (mobile surfaces only)
+
+**Present to user**: Show the accessibility specifications and ask:
+- "Are there any interactions in this domain that could be problematic for keyboard-only users?"
+- "Are there any visual states (loading, error, empty, disabled) that need specific ARIA announcements?"
+- For mobile: "Do any touch targets fall below 44×44px minimum?"
+
+Refine based on discussion before proceeding.
+
+**If surfaces are `api`, `cli`, or `extension` only:**
+
+Write `"Not applicable — no visual surfaces"` in the `## Accessibility` section and proceed directly to the Write now instruction.
+
+> **Write now**: Write the completed `## Accessibility` content to `docs/plans/ia/[shard-name].md`, replacing the skeleton placeholder for this section. Do not wait until Step 8.
+
 ## 6. Design event schemas (if applicable)
 
 - Event name, payload shape, emitter, consumers
