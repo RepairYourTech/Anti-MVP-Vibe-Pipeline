@@ -33,7 +33,15 @@ Read the `## Expansion Mode` section from `docs/plans/ideation.md` and route acc
 
 - **Pass 1 — Horizontal Sweep**: Audit `ideation.md` for all domains present. Apply domain exhaustion protocol to identify missing domains. Add all confirmed domains with `[SURFACE]` marker. Do NOT drill yet. Present complete domain map to user and get confirmation before Pass 2.
 - **Pass 2 — Vertical Drilling**: For each domain (dependency order — foundational first), drill to Level 2-3 depth. Cross-cut watch active: after each sub-feature/edge case, ask "Does this touch any other domain?" If yes, immediately add to `## Cross-cutting Candidates` in `ideation.md` as `[Domain A] × [Domain B]: [connection]`. Do not stop to explore — flag and continue. Update depth markers as drilling progresses. Pause after each domain: "Here's what I captured. Anything missing?"
-- **Pass 3 — Cross-cutting Synthesis**: Present full candidates list. For each candidate: explore shared state/trigger, source of truth, behavior per domain, conflicts, cascading effects. Document confirmed interactions in `## Feature Interactions`. Discard rejected ones with a note. Check for second-order cross-cuts.
+- **Pass 3 — Cross-cutting Synthesis**: Present full candidates list. For each cross-cutting candidate pair, ask all five of these questions:
+
+  1. **Shared state conflict**: If both features write to the same entity, who wins on conflict? What is the merge/override strategy? Is there a canonical owner?
+  2. **Trigger chain**: Does completing Feature A automatically trigger Feature B? If yes, what are the rollback semantics if B fails mid-chain? Is this synchronous or async?
+  3. **Permission intersection**: Does a user's permission level in Domain A affect what they can do in Domain B? Are there permission escalation or restriction paths between domains?
+  4. **Notification fan-out**: Does an event in Domain A need to notify actors in Domain B? Who owns the notification contract? What happens if the notification fails?
+  5. **State transition conflict**: Can Features A and B be triggered simultaneously by the same user? What happens to data consistency if they race?
+
+  These five questions surface the failure modes most commonly discovered as production bugs when cross-cutting interactions are underspecified at the ideation phase. Document confirmed answers in `## Feature Interactions` in `ideation.md`. Discard rejected pairs with a one-line note explaining why they don't interact. Check for second-order cross-cuts.
 
 **Vertical Mode**: Focus on existing domains. Identify shallowest sub-topics. Drive to Level 2-3 depth. Cross-cut watch active — surface candidates list at end. Do not introduce new domains unless user requests.
 
@@ -65,7 +73,15 @@ Using the idea-extraction skill's approach for the selected mode, explore:
 
 After each answer, summarize what you've captured and ask the user to confirm before moving on.
 
-**Depth check:** If any persona description is less than 3 sentences, it's too shallow. Probe deeper.
+**Persona completeness gate (Vision Rubric Dimension 2):** For each persona, verify all 6 fields are explicitly present before moving on:
+1. **Name + specific role** — not "a user" or "customers"; a named role with context
+2. **Specific pain point** — one sentence naming the exact friction, not "they struggle with X generally"
+3. **Current workaround** — how they solve this today: the specific tool, manual process, or coping mechanism
+4. **Success criteria** — what "solved" concretely looks like for this persona; measurable if possible
+5. **Switching trigger** — what would make them switch from their current approach (price threshold, feature, event)
+6. **At least one edge case or constraint unique to this persona** — something that makes their situation different from other personas
+
+If any field is absent → probe for it before proceeding. Do not move to feature collection until all personas have all 6 fields. Reference: `.agent/skills/pipeline-rubrics/references/vision-rubric.md` Dimension 2 for the ✅ criteria this gate enforces.
 
 ## 5. Feature inventory — deep exploration
 
