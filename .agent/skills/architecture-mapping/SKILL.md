@@ -178,3 +178,42 @@ Present the reconciled scope to the user in the following format:
 > "Does this feature list match your intent for this domain? Any sub-features to add, remove, or re-scope?"
 
 Wait for explicit user confirmation before proceeding. If the user modifies the list, update the shard file immediately.
+
+## Sub-Feature Complexity Split Protocol
+
+### Purpose
+
+Run this protocol after reconciliation when the confirmed sub-feature count is **≥ 10**. This threshold indicates the shard is too complex for a single spec pass and must be split before writing proceeds.
+
+### Counting Rule
+
+Count every bullet or named item under the confirmed feature list, excluding group headers. Use the same counting rule as `/decompose-architecture-validate` Step 12.
+
+### Split Proposal Format
+
+Present to the user:
+
+```
+Shard [NN] — [domain name] has [N] sub-features (threshold: ≥10 → mandatory split)
+
+Current sub-features:
+  1. [sub-feature]
+  2. [sub-feature]
+  ...
+
+Proposed split:
+  [NN]a — [new domain name] → file: docs/plans/ia/[NN]a-[domain].md
+    Sub-features: 1, 3, 5
+  [NN]b — [new domain name] → file: docs/plans/ia/[NN]b-[domain].md
+    Sub-features: 2, 4, 6
+
+Split rationale: [why these groups are independent]
+
+Does this split make sense, or would you prefer a different boundary?
+```
+
+### Approval Gate
+
+**Wait for explicit user approval of the split before proceeding.** Do NOT continue spec writing with an oversized shard.
+
+If the user approves: stop the current workflow and run `/decompose-architecture-validate` to formally register the new shards (it will re-run the Must Have coverage gate and update the decomposition plan). Then restart the spec workflow for each new shard individually.

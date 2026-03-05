@@ -122,46 +122,44 @@ The following keys all contribute to `{{SECURITY_SKILLS}}` accumulation:
 
 `{{SECURITY_SKILLS}}` is used in `create-prd-security.md` Step 6 to load all relevant security skills before designing the security model.
 
-In `.agent/workflows/create-prd.md`:
-- `{{DATABASE_SKILLS}}` → comma-separated list of installed skill directory names (accumulated from `DATABASE_PRIMARY`, `DATABASE_VECTOR`, `DATABASE_GRAPH`, `DATABASE_CACHE`, `DATABASE_TIMESERIES` keys)
-- `{{AUTH_SKILL}}` → `[installed-as]` (directory name, for `AUTH_PROVIDER` key)
+### Placeholder → Workflow mapping
 
-In `.agent/workflows/write-architecture-spec.md`:
-- `{{DATABASE_SKILLS}}` → comma-separated list of installed skill directory names (same accumulate-and-append semantics)
+| Placeholder | Source Key | Workflows |
+|---|---|---|
+| `{{DATABASE_SKILLS}}` | `DATABASE_*` (accumulated) | create-prd, write-architecture-spec, write-be-spec-classify |
+| `{{AUTH_SKILL}}` | `AUTH_PROVIDER` | create-prd, write-be-spec-classify |
+| `{{BACKEND_FRAMEWORK_SKILL}}` | `BACKEND_FRAMEWORK` / `API_LAYER` | write-be-spec-classify |
+| `{{FRONTEND_FRAMEWORK_SKILL}}` | `FRONTEND_FRAMEWORK` | write-fe-spec-classify |
+| `{{FRONTEND_DESIGN_SKILL}}` | `CSS_FRAMEWORK` / `UI_LIBRARY` | write-fe-spec-classify |
+| `{{ACCESSIBILITY_SKILL}}` | surface: `accessibility-compliance` | write-fe-spec-classify |
+| `{{LANGUAGE_SKILL}}` | `LANGUAGE` | implement-slice-setup, implement-slice-tdd, write-be-spec-classify, write-fe-spec-classify, evolve-contract |
+| `{{CI_CD_SKILL}}` | `CI_CD` | create-prd-compile, decompose-architecture-structure, plan-phase, verify-infrastructure, validate-phase |
+| `{{HOSTING_SKILL}}` | `HOSTING` | create-prd-architecture, decompose-architecture-structure, plan-phase, verify-infrastructure, validate-phase |
+| `{{ORM_SKILL}}` | `ORM` | create-prd-architecture, write-be-spec-classify, implement-slice-setup, verify-infrastructure, validate-phase |
+| `{{UNIT_TESTING_SKILL}}` | `UNIT_TESTING` | create-prd-compile, implement-slice-setup, implement-slice-tdd, write-be-spec-classify, evolve-contract |
+| `{{E2E_TESTING_SKILL}}` | `E2E_TESTING` | create-prd-compile, implement-slice-tdd, validate-phase |
+| `{{STATE_MANAGEMENT_SKILL}}` | `STATE_MANAGEMENT` | write-fe-spec-classify, implement-slice-setup |
+| `{{SECURITY_SKILLS}}` | `SECURITY` + surface triggers (accumulated) | create-prd-security, write-architecture-spec-design |
 
-In `.agent/workflows/write-be-spec-classify.md`:
-- `{{DATABASE_SKILLS}}` → comma-separated list of installed skill directory names (same accumulate-and-append semantics)
-- `{{AUTH_SKILL}}` → `[installed-as]` (directory name, for `AUTH_PROVIDER` key)
-- `{{BACKEND_FRAMEWORK_SKILL}}` → `[installed-as]` (directory name, for `BACKEND_FRAMEWORK` or `API_LAYER` key)
+### 9.1. CONTRACT_LIBRARY resolution
 
-In `.agent/workflows/write-fe-spec-classify.md`:
-- `{{FRONTEND_FRAMEWORK_SKILL}}` → `[installed-as]` (directory name, for `FRONTEND_FRAMEWORK` key)
-- `{{FRONTEND_DESIGN_SKILL}}` → `[installed-as]` (directory name, for `CSS_FRAMEWORK` or `UI_LIBRARY` key)
-- `{{ACCESSIBILITY_SKILL}}` → `[installed-as]` (directory name, for `accessibility-compliance` surface skill)
+This step fires when the `LANGUAGE` key is confirmed (either from the current invocation or from an already-filled `tech-stack.md`).
 
-In `.agent/workflows/implement-slice-setup.md`, `.agent/workflows/implement-slice-tdd.md`, `.agent/workflows/write-be-spec-classify.md`, `.agent/workflows/write-fe-spec-classify.md`, and `.agent/workflows/evolve-contract.md`:
-- `{{LANGUAGE_SKILL}}` → `[installed-as]` (directory name, for `LANGUAGE` key; e.g., `typescript-advanced-patterns`, `python`, `go`, `rust`)
+Derive `CONTRACT_LIBRARY` using the following mapping table:
 
-In `.agent/workflows/create-prd-compile.md`, `.agent/workflows/decompose-architecture-structure.md`, `.agent/workflows/plan-phase.md`, `.agent/workflows/verify-infrastructure.md`, and `.agent/workflows/validate-phase.md`:
-- `{{CI_CD_SKILL}}` → `[installed-as]` (directory name, for `CI_CD` key; e.g., `github-actions`, `terraform`)
+| `LANGUAGE` value | `CONTRACT_LIBRARY` value |
+|---|---|
+| TypeScript / JavaScript | Zod |
+| Python | Pydantic |
+| Go | ozzo-validation |
+| Rust | Serde |
+| Java | Jakarta Bean Validation |
+| Kotlin | kotlinx.serialization |
+| C / C++ | (prompt user — no dominant standard) |
 
-In `.agent/workflows/create-prd-architecture.md`, `.agent/workflows/decompose-architecture-structure.md`, `.agent/workflows/plan-phase.md`, `.agent/workflows/verify-infrastructure.md`, and `.agent/workflows/validate-phase.md`:
-- `{{HOSTING_SKILL}}` → `[installed-as]` (directory name, for `HOSTING` key; e.g., `cloudflare`, `vercel`, `aws`, `docker-expert`)
+For any language **not in this table**: prompt the user — "What is your preferred schema validation / contract library for [LANGUAGE]?" — and use their confirmed answer as the `CONTRACT_LIBRARY` value.
 
-In `.agent/workflows/create-prd-architecture.md`, `.agent/workflows/write-be-spec-classify.md`, `.agent/workflows/implement-slice-setup.md`, `.agent/workflows/verify-infrastructure.md`, and `.agent/workflows/validate-phase.md`:
-- `{{ORM_SKILL}}` → `[installed-as]` (directory name, for `ORM` key; e.g., `drizzle-orm`, `prisma`)
-
-In `.agent/workflows/create-prd-compile.md`, `.agent/workflows/implement-slice-setup.md`, `.agent/workflows/implement-slice-tdd.md`, `.agent/workflows/write-be-spec-classify.md`, and `.agent/workflows/evolve-contract.md`:
-- `{{UNIT_TESTING_SKILL}}` → `[installed-as]` (directory name, for `UNIT_TESTING` key; e.g., `vitest`, `testing-library`, `storybook`)
-
-In `.agent/workflows/create-prd-compile.md`, `.agent/workflows/implement-slice-tdd.md`, and `.agent/workflows/validate-phase.md`:
-- `{{E2E_TESTING_SKILL}}` → `[installed-as]` (directory name, for `E2E_TESTING` key; e.g., `playwright`)
-
-In `.agent/workflows/write-fe-spec-classify.md` and `.agent/workflows/implement-slice-setup.md`:
-- `{{STATE_MANAGEMENT_SKILL}}` → `[installed-as]` (directory name, for `STATE_MANAGEMENT` key; e.g., `tanstack-query`, `zustand`)
-
-In `.agent/workflows/create-prd-security.md` and `.agent/workflows/write-architecture-spec-design.md`:
-- `{{SECURITY_SKILLS}}` → comma-separated list of all provisioned security skill directory names (accumulated from `SECURITY` key and surface security triggers; e.g., `owasp-web-security,csp-cors-headers,input-sanitization,dependency-auditing`)
+Once the value is confirmed, invoke `bootstrap-agents-fill` with `CONTRACT_LIBRARY=[value]` so that `tdd-contract-first.md` is filled at the same time as the language skill is provisioned (the fill workflow's extended Step 3 scan will now reach `.agent/rules/`).
 
 ---
 

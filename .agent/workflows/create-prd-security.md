@@ -33,15 +33,7 @@ Before any skill reads, verify that the following placeholder values have been f
 | `{{SECURITY_SKILLS}}` | `/create-prd-stack` when security tooling is confirmed | If `docs/plans/*-architecture-design.md` exists, read it and extract the confirmed security framework, then run `/bootstrap-agents SECURITY=<confirmed-framework>`. Otherwise run `/create-prd-stack` first. | Security model (Step 6) cannot produce stack-specific threat analysis without the security skill — the model will miss framework-specific attack vectors. |
 | `{{AUTH_SKILL}}` | `/create-prd-stack` when auth provider is confirmed | If `docs/plans/*-architecture-design.md` exists, read it and extract the confirmed auth provider, then run `/bootstrap-agents AUTH=<confirmed-provider>`. Otherwise run `/create-prd-stack` first. | Authentication design (Step 6.1) cannot produce correct auth flows without the auth skill — identity provider conventions and token handling will be generic. |
 
-**Hard stop message format** (emit one block per unfilled placeholder):
-
-> ❌ **Bootstrap incomplete — cannot proceed.**
->
-> **Unfilled placeholder:** `{{PLACEHOLDER_NAME}}`
->
-> **Recovery:** If `docs/plans/*-architecture-design.md` exists, read it and extract the confirmed [tech decision] value, then run `/bootstrap-agents` with `KEY=<confirmed-value>`. If no architecture design document exists, run `/create-prd-stack` first to confirm tech stack decisions.
->
-> **Why this matters:** [specific step] cannot produce correct output without this skill — [concrete consequence of proceeding without it].
+For the hard stop message format and recovery instructions, see `.agent/skills/prd-templates/references/placeholder-guard-template.md`.
 
 Only proceed to Step 6 when both placeholders report no literal `{{` characters.
 

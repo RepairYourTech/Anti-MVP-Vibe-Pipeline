@@ -28,17 +28,7 @@ Identify the target FE spec, classify it, load skills, and read all source mater
 
 Before any skill reads, verify that the five placeholder values listed in `requires_placeholders` frontmatter have been filled by `/bootstrap-agents`. For each placeholder, check whether the literal characters `{{` still appear in the value. If **any** are unfilled, emit a **HARD STOP** and do not proceed to Step 0.5.
 
-For placeholder-to-recovery mappings specific to this workflow, see `.agent/skills/session-continuity/protocols/10-placeholder-verification-gate.md`.
-
-**Hard stop message format** (emit one block per unfilled placeholder):
-
-> ❌ **Bootstrap incomplete — cannot proceed.**
->
-> **Unfilled placeholder:** `{{PLACEHOLDER_NAME}}`
->
-> **Recovery:** If `docs/plans/*-architecture-design.md` exists, read it and extract the confirmed [tech decision] value, then run `/bootstrap-agents` with `KEY=<confirmed-value>`. If no architecture design document exists, run `/create-prd-stack` first to confirm tech stack decisions.
->
-> **Why this matters:** FE spec components cannot be written correctly without this skill — [concrete consequence of proceeding without it].
+For the hard stop message format and recovery instructions, see `.agent/skills/prd-templates/references/placeholder-guard-template.md`. For placeholder-to-recovery mappings specific to this workflow, see `.agent/skills/session-continuity/protocols/10-placeholder-verification-gate.md`.
 
 Only proceed to Step 0.5 when all five placeholders report no literal `{{` characters.
 

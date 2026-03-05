@@ -34,15 +34,7 @@ Before any skill reads, verify that the following placeholder values have been f
 | `{{E2E_TESTING_SKILL}}` | `/create-prd-stack` when the E2E testing framework is confirmed | If `docs/plans/*-architecture-design.md` exists, read it and extract the confirmed E2E testing framework, then run `/bootstrap-agents E2E_TESTING=<confirmed-framework>`. Otherwise run `/create-prd-stack` first. | Development methodology (Step 8) cannot document correct E2E test conventions without the E2E testing skill — integration test patterns will be generic. |
 | `{{CI_CD_SKILL}}` | `/create-prd-stack` when CI/CD platform is confirmed | If `docs/plans/*-architecture-design.md` exists, read it and extract the confirmed CI/CD platform, then run `/bootstrap-agents CI_CD=<confirmed-platform>`. Otherwise run `/create-prd-stack` first. | Phasing strategy (Step 9) cannot produce correct pipeline configuration without the CI/CD skill — deployment and quality gate patterns will lack platform-specific conventions. |
 
-**Hard stop message format** (emit one block per unfilled placeholder):
-
-> ❌ **Bootstrap incomplete — cannot proceed.**
->
-> **Unfilled placeholder:** `{{PLACEHOLDER_NAME}}`
->
-> **Recovery:** If `docs/plans/*-architecture-design.md` exists, read it and extract the confirmed [tech decision] value, then run `/bootstrap-agents` with `KEY=<confirmed-value>`. If no architecture design document exists, run `/create-prd-stack` first to confirm tech stack decisions.
->
-> **Why this matters:** [specific step] cannot produce correct output without this skill — [concrete consequence of proceeding without it].
+For the hard stop message format and recovery instructions, see `.agent/skills/prd-templates/references/placeholder-guard-template.md`.
 
 Only proceed to Step 8 when all three placeholders report no literal `{{` characters.
 

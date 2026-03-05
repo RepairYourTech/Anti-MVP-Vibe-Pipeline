@@ -130,7 +130,7 @@ Rules in `.agent/rules/` are **always active** — they apply to every task, eve
 | Rule | What It Enforces |
 |------|-----------------|
 | 🔒 [security-first](.agent/rules/security-first.md) | PII isolation, input validation, secret handling |
-| 📜🧪 [tdd-contract-first](.agent/rules/tdd-contract-first.md) | Zod schemas before implementation, tests ARE the spec |
+| 📜🧪 [tdd-contract-first](.agent/rules/tdd-contract-first.md) | `{{CONTRACT_LIBRARY}}` schemas before implementation, tests ARE the spec |
 | 🔲 [vertical-slices](.agent/rules/vertical-slices.md) | All four surfaces or it's not done |
 | 🎯📏 [specificity-standards](.agent/rules/specificity-standards.md) | Testable acceptance criteria, exhaustive spec depth |
 | 🧩 [extensibility](.agent/rules/extensibility.md) | File limits, directory docs, anti-spaghetti |
@@ -147,7 +147,7 @@ Rules in `.agent/rules/` are **always active** — they apply to every task, eve
 
 1. **Production-grade always** — No throwaway code, no shortcuts, no tech debt by design
 2. **Constraints before decisions** — Map what's already decided before presenting options
-3. **Contract-first** — Zod schema → failing test → implementation (never reverse)
+3. **Contract-first** — `{{CONTRACT_LIBRARY}}` schema → failing test → implementation (never reverse)
 4. **TDD: failing test before code** — Red → Green → Refactor, every slice, every surface
 5. **Security-first** — PII never leaks, inputs validated, secrets server-side only
 

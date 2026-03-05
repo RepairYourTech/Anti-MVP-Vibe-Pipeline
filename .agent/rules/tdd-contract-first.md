@@ -1,15 +1,15 @@
 ---
-description: Zod schema before implementation, failing test before code — Red Green Refactor every slice
+description: "{{CONTRACT_LIBRARY}} schema before implementation, failing test before code — Red Green Refactor every slice"
 alwaysApply: true
 ---
 
 # TDD & Contract-First Development
 
-> **The CFPA Order**: Contract (Zod schema) → Tests (failing) → Implementation (make them pass) → Never reverse this.
+> **The CFPA Order**: Contract (`{{CONTRACT_LIBRARY}}` schema) → Tests (failing) → Implementation (make them pass) → Never reverse this.
 
 ## Contract-First: Schema Before Code
 
-Every data boundary gets a Zod schema **before** any implementation:
+Every data boundary gets a `{{CONTRACT_LIBRARY}}` schema **before** any implementation:
 
 | Scenario | Schema Required |
 |----------|----------------|
@@ -43,7 +43,7 @@ Red → Green → Refactor
 
 | Level | What | When |
 |-------|------|------|
-| Contract | Zod schema validation | Every data boundary |
+| Contract | `{{CONTRACT_LIBRARY}}` schema validation | Every data boundary |
 | Permission | RBAC + ownership | Every protected resource |
 | Unit | Pure logic | Every function with logic |
 | Integration | Component interaction | Every API endpoint |

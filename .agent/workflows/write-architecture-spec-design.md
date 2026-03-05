@@ -31,15 +31,7 @@ Before any skill reads, verify that the following placeholder values have been f
 | `{{DATABASE_SKILLS}}` | `/create-prd-stack` when database technology is confirmed | If `docs/plans/*-architecture-design.md` exists, read it and extract the confirmed database, then run `/bootstrap-agents DATABASE=<confirmed-db>`. Otherwise run `/create-prd-stack` first. | Data model design (Step 4) would produce schema patterns incompatible with the chosen database. |
 | `{{SECURITY_SKILLS}}` | `/create-prd-stack` when security tooling is confirmed | If `docs/plans/*-architecture-design.md` exists, read it and extract the confirmed security framework, then run `/bootstrap-agents SECURITY=<confirmed-framework>`. Otherwise run `/create-prd-stack` first. | Edge case and attack surface analysis (Step 7) would run without the project's security skill, missing stack-specific threat vectors. |
 
-**Hard stop message format** (emit one block per unfilled placeholder):
-
-> ❌ **Bootstrap incomplete — cannot proceed.**
->
-> **Unfilled placeholder:** `{{PLACEHOLDER_NAME}}`
->
-> **Recovery:** If `docs/plans/*-architecture-design.md` exists, read it and extract the confirmed [tech decision] value, then run `/bootstrap-agents` with `KEY=<confirmed-value>`. If no architecture design document exists, run `/create-prd-stack` first to confirm tech stack decisions.
->
-> **Why this matters:** [specific step] cannot produce correct output without this skill — [concrete consequence of proceeding without it].
+For the hard stop message format and recovery instructions, see `.agent/skills/prd-templates/references/placeholder-guard-template.md`.
 
 Only proceed to Step 0.5 when both placeholders report no literal `{{` characters.
 
@@ -81,40 +73,15 @@ Present the reconciled `## Features` list to the user, including a count of newl
 
 **Wait for explicit user confirmation before proceeding.** If the user modifies the list, update the shard's `## Features` section in `docs/plans/ia/[shard-name].md` immediately.
 
-**Post-reconciliation calibration check**: Count the total confirmed sub-features in the list just approved. Use the same counting rule as `/decompose-architecture-validate` Step 12: count every bullet or named item under the confirmed feature list, excluding group headers. If the count is **≥ 10**:
-
-> ❗ This shard has [N] sub-features after reconciliation — above the 10-feature complexity threshold. This shard should be split before spec writing proceeds.
-
-Present the mandatory split proposal using the same format as `/decompose-architecture-validate`:
-
-```
-Shard [NN] — [domain name] has [N] sub-features (threshold: ≥10 → mandatory split)
-
-Current sub-features:
-  1. [sub-feature]
-  2. [sub-feature]
-  ...
-
-Proposed split:
-  [NN]a — [new domain name] → file: docs/plans/ia/[NN]a-[domain].md
-    Sub-features: 1, 3, 5
-  [NN]b — [new domain name] → file: docs/plans/ia/[NN]b-[domain].md
-    Sub-features: 2, 4, 6
-
-Split rationale: [why these groups are independent]
-
-Does this split make sense, or would you prefer a different boundary?
-```
-
-**Wait for explicit user approval of the split before proceeding.** Do NOT proceed to Step 2 with an oversized shard.
-
-If the user approves the split: stop this workflow and run `/decompose-architecture-validate` to formally register the new shards (it will re-run the Must Have coverage gate and update the decomposition plan). Then restart `/write-architecture-spec` for each new shard individually.
+**Post-reconciliation calibration check**: Count the total confirmed sub-features. If the count is **≥ 10**, follow the **Sub-Feature Complexity Split Protocol** in `.agent/skills/architecture-mapping/SKILL.md` — present the split proposal, wait for approval, and redirect to `/decompose-architecture-validate` before continuing. Do NOT proceed to Step 2 with an oversized shard.
 
 If the sub-feature count is **< 10**, proceed directly to Step 1c.
 
 ### 1c. Load brainstorming skill
 
 Read `.agent/skills/brainstorming/SKILL.md` and use it to explore any remaining ambiguous sub-features — those marked `[Architecture-only]` that the user hasn't explicitly confirmed, or any sub-feature whose scope boundary (what's in, what's out) is still unclear after 1b.
+
+> **Authoring pattern for Steps 2–7**: After designing each section, (1) present it to the user with the targeted review questions listed below, (2) refine based on their feedback, (3) write the completed section to `docs/plans/ia/[shard-name].md` immediately — do not batch writes until Step 8.
 
 ## 2. Map all interactions
 
@@ -124,14 +91,7 @@ For each feature in the shard, document:
 - What events are emitted
 - Error states and edge cases
 
-**Present to user**: Show the interaction map and ask:
-- "Does this capture all the ways a user touches this domain?"
-- "Are there admin/system-initiated actions I'm missing?"
-- "What happens in each failure case?"
-
-Refine based on discussion before proceeding.
-
-> **Write now**: Write the completed `## User Interactions` content to `docs/plans/ia/[shard-name].md`, replacing the skeleton placeholder for this section. Do not wait until Step 8.
+**Review questions**: "Does this capture all the ways a user touches this domain?" / "Are there admin/system-initiated actions I'm missing?" / "What happens in each failure case?"
 
 ## 3. Define contracts
 
@@ -143,13 +103,7 @@ For each interaction, define the contract shape:
 - Error shape (specific error codes)
 - Note: actual Zod schemas written in BE spec phase
 
-**Present to user**: Show the contract shapes and ask:
-- "Are there fields I'm missing from these requests/responses?"
-- "Are these error codes specific enough?"
-
-Refine based on discussion before proceeding.
-
-> **Write now**: Write the completed `## Contracts` content to `docs/plans/ia/[shard-name].md`, replacing the skeleton placeholder for this section. Do not wait until Step 8.
+**Review questions**: "Are there fields I'm missing from these requests/responses?" / "Are these error codes specific enough?"
 
 ## 4. Design data models
 
@@ -162,14 +116,7 @@ Read each skill listed in `{{DATABASE_SKILLS}}` (comma-separated). For each skil
 - Indexes for query patterns
 - Constraints and validation rules
 
-**Present to user**: Show the data model and ask:
-- "Does this schema capture everything this domain needs to store?"
-- "Are the relationships and cardinalities correct?"
-- "Are there derived/computed fields I should account for?"
-
-Refine based on discussion before proceeding.
-
-> **Write now**: Write the completed `## Data Model` content to `docs/plans/ia/[shard-name].md`, replacing the skeleton placeholder for this section. Do not wait until Step 8.
+**Review questions**: "Does this schema capture everything this domain needs to store?" / "Are the relationships and cardinalities correct?" / "Are there derived/computed fields I should account for?"
 
 ## 5. Design access control
 
@@ -181,13 +128,7 @@ Read .agent/skills/security-scanning-security-hardening/SKILL.md and apply its a
 - Escalation paths (Guardian, Admin)
 - Admin-only operations
 
-**Present to user**: Show the permission matrix and ask:
-- "Can you think of a scenario where a user should be blocked that this matrix allows?"
-- "Can you think of a scenario where a user should be allowed that this matrix blocks?"
-
-Refine based on discussion before proceeding.
-
-> **Write now**: Write the completed `## Access Control` content to `docs/plans/ia/[shard-name].md`, replacing the skeleton placeholder for this section. Do not wait until Step 8.
+**Review questions**: "Can you think of a scenario where a user should be blocked that this matrix allows?" / "Can you think of a scenario where a user should be allowed that this matrix blocks?"
 
 ## 5.5. Accessibility specifications
 
@@ -204,26 +145,15 @@ For each user interaction documented in Step 2 (`## User Interactions`), identif
 - **Motion/animation** — `prefers-reduced-motion` implications for any transitions or animations
 - **Touch target sizes** — minimum 44×44 px (mobile surfaces only)
 
-**Present to user**: Show the accessibility specifications and ask:
-- "Are there any interactions in this domain that could be problematic for keyboard-only users?"
-- "Are there any visual states (loading, error, empty, disabled) that need specific ARIA announcements?"
-- For mobile: "Do any touch targets fall below 44×44px minimum?"
+**Review questions**: "Are there any interactions in this domain that could be problematic for keyboard-only users?" / "Are there any visual states (loading, error, empty, disabled) that need specific ARIA announcements?" / For mobile: "Do any touch targets fall below 44×44px minimum?"
 
-Refine based on discussion before proceeding.
-
-**If surfaces are `api`, `cli`, or `extension` only:**
-
-Write `"Not applicable — no visual surfaces"` in the `## Accessibility` section and proceed directly to the Write now instruction.
-
-> **Write now**: Write the completed `## Accessibility` content to `docs/plans/ia/[shard-name].md`, replacing the skeleton placeholder for this section. Do not wait until Step 8.
+**If surfaces are `api`, `cli`, or `extension` only:** Write `"Not applicable — no visual surfaces"` in the `## Accessibility` section.
 
 ## 6. Design event schemas (if applicable)
 
 - Event name, payload shape, emitter, consumers
 - Async vs sync processing
 - Retry semantics
-
-> **Write now**: Write the completed `## Event Schemas` content to `docs/plans/ia/[shard-name].md`, replacing the skeleton placeholder for this section. Do not wait until Step 8.
 
 ## 7. Document edge cases
 
@@ -238,14 +168,7 @@ For each skill in {{SECURITY_SKILLS}}, follow its attack surface methodology for
 - State transition conflicts
 - Empty/null states
 
-**Present to user**: Show the edge cases and ask:
-- "What's the worst thing a malicious user could try in this domain?"
-- "What happens if two users do the same thing at the same time?"
-- "What happens when related data is deleted?"
-
-Refine based on discussion before proceeding.
-
-> **Write now**: Write the completed `## Edge Cases` content to `docs/plans/ia/[shard-name].md`, replacing the skeleton placeholder for this section. Do not wait until Step 8.
+**Review questions**: "What's the worst thing a malicious user could try in this domain?" / "What happens if two users do the same thing at the same time?" / "What happens when related data is deleted?"
 
 ## 7.5. Write deep dive files (if applicable)
 
@@ -259,15 +182,7 @@ Check whether the current shard references any deep dive candidates. To do this:
 
 1. Read the current content of `docs/plans/ia/deep-dives/[feature-name].md` to check if it is still a skeleton (empty or contains only placeholder comments).
 2. **If already has full content**: Skip — do not overwrite.
-3. **If still a skeleton**: Write the exhaustive detail for this subsystem to the deep dive file. The deep dive should contain everything that is too complex or too long to live in the parent shard:
-   - Detailed algorithm or state machine description
-   - Technology choices with rationale (e.g., why this protocol, why this library)
-   - Phasing strategy (what ships in Phase 1 vs later)
-   - Detailed data schemas specific to this subsystem
-   - Failure modes and recovery strategies
-   - Integration contracts with external systems
-   - Performance characteristics and limits
-   - Security considerations specific to this subsystem
+3. **If still a skeleton**: Write exhaustive subsystem detail — algorithms/state machines, technology choices with rationale, phasing strategy, detailed data schemas, failure modes and recovery, integration contracts, performance characteristics, and security considerations.
 
    The parent shard's "Deep Dives Needed" section should already contain a summary + link. Do not duplicate the full content in the parent shard — the deep dive file IS the content.
 

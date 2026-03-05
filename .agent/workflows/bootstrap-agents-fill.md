@@ -110,6 +110,7 @@ The calling workflow provides these values (all optional — fill only what's pr
 | `TEST_RUNNER` | Vitest |
 | `LINTER` | ESLint |
 | `TYPE_CHECKER` | TypeScript (tsc) |
+| `CONTRACT_LIBRARY` | Zod |
 
 > **Note**: `DATABASE` is an alias for `DATABASE_PRIMARY` — it triggers the same MANIFEST match. When multiple `DATABASE_*` sub-keys are present, the `DATABASE` row in `tech-stack.md` should expand to show sub-rows (`DATABASE_PRIMARY`, `DATABASE_VECTOR`, etc.) rather than a single combined string. Bootstrap fills each sub-row individually as the user confirms each store.
 
@@ -173,6 +174,8 @@ Scan all `.agent/skills/*/SKILL.md` files for `{{PLACEHOLDER}}` values and fill 
 - `{{SSH_HOST}}` — in `setup-session`
 - `{{DB_PORT}}` — in `setup-session`
 - `{{CREDENTIAL_TOOL}}` — in `setup-session`
+
+Also scan all `.agent/rules/*.md` files for `{{PLACEHOLDER}}` values and fill any that match the provided template values. Currently applicable: `{{CONTRACT_LIBRARY}}` in `tdd-contract-first.md`.
 
 ---
 

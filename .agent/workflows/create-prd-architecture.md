@@ -32,15 +32,7 @@ Before any skill reads, verify that the following placeholder values have been f
 | `{{ORM_SKILL}}` | `/create-prd-stack` when ORM is confirmed | If `docs/plans/*-architecture-design.md` exists, read it and extract the confirmed ORM, then run `/bootstrap-agents ORM=<confirmed-orm>`. Otherwise run `/create-prd-stack` first. | Migration strategy (Step 5.4) cannot run without the ORM skill — schema conventions and migration patterns will be generic instead of stack-specific. |
 | `{{DATABASE_SKILLS}}` | `/create-prd-stack` when database technology is confirmed | If `docs/plans/*-architecture-design.md` exists, read it and extract the confirmed database, then run `/bootstrap-agents DATABASE=<confirmed-db>`. Otherwise run `/create-prd-stack` first. | Data strategy (Step 5) cannot run without the database skill — schema design patterns will be incompatible with the chosen database. |
 
-**Hard stop message format** (emit one block per unfilled placeholder):
-
-> ❌ **Bootstrap incomplete — cannot proceed.**
->
-> **Unfilled placeholder:** `{{PLACEHOLDER_NAME}}`
->
-> **Recovery:** If `docs/plans/*-architecture-design.md` exists, read it and extract the confirmed [tech decision] value, then run `/bootstrap-agents` with `KEY=<confirmed-value>`. If no architecture design document exists, run `/create-prd-stack` first to confirm tech stack decisions.
->
-> **Why this matters:** [specific step] cannot produce correct output without this skill — [concrete consequence of proceeding without it].
+For the hard stop message format and recovery instructions, see `.agent/skills/prd-templates/references/placeholder-guard-template.md`.
 
 Only proceed to Step 4 when all three placeholders report no literal `{{` characters.
 

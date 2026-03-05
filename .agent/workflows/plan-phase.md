@@ -30,25 +30,13 @@ Read `.agent/progress/index.md` to identify the current phase number N.
 - **If N = 1** → this is the first phase. Skip this gate.
 - **If N > 1** → read `.agent/progress/phases/phase-[N-1].md` and verify its status is `complete` with a passing `/validate-phase`. **Hard stop** if the previous phase is not complete: "Phase [N-1] must be complete with a passing `/validate-phase` before planning Phase [N]. Run `/validate-phase` for Phase [N-1] first."
 
-  **Architecture map freshness check (N > 1 only)** (warning — not a hard stop):
+  **Architecture map freshness check (N > 1 only)** — warning, not a hard stop. Skipped entirely for Phase 1.
 
-  This check applies only when N > 1, after the previous-phase completion verification above has passed. It is skipped entirely for Phase 1.
+  If `docs/ARCHITECTURE.md` exists, compare its "Last updated" date against the Phase N-1 completion date from `.agent/progress/phases/phase-[N-1].md`. If the map is **older** than Phase N-1 completion:
 
-  1. Check whether `docs/ARCHITECTURE.md` exists. If the file does not exist, skip this check silently — a missing architecture map is normal for early phases.
+  > ⚠️ `docs/ARCHITECTURE.md` may not reflect current state. Run `/update-architecture-map` or reply `"confirmed"` if intentionally current.
 
-  2. When the file exists: read `docs/ARCHITECTURE.md` and extract the "Last updated" date from its header. Read `.agent/progress/phases/phase-[N-1].md` and extract the completion date of Phase N-1.
-
-  3. **Date comparison**: If the architecture map's last-updated date is **before** the Phase N-1 completion date, surface the following warning:
-
-     > ⚠️ `docs/ARCHITECTURE.md` was last updated before Phase [N-1] completed. The architecture map may not reflect the current implementation state.
-     >
-     > Resolution paths:
-     > 1. Run `/update-architecture-map` to bring the map current.
-     > 2. Reply `"confirmed"` if you have verified the map is intentionally up to date.
-
-     **Wait** for the user to do one of these two things before proceeding to Step 0.1.
-
-  4. When dates are equal or the map is newer: no warning, proceed silently to Step 0.1.
+  **Wait** for user resolution before proceeding to Step 0.1. If dates are equal/newer, or the file doesn't exist, proceed silently.
 
 ---
 
@@ -150,20 +138,11 @@ Read .agent/skills/concise-planning/SKILL.md and follow its methodology.
 Sort slices so each builds on the last:
 - Infrastructure slices first (DB schema, auth middleware)
 
-**Phase 1 special rule**: The `00-infrastructure` shard is always the first slice in Phase 1. Before any feature slices, verify that the infrastructure slice covers all five items:
-1. CI/CD pipeline setup (using the confirmed CI/CD skill)
-   Read .agent/skills/{{CI_CD_SKILL}}/SKILL.md and follow its pipeline configuration conventions.
-2. Environment configuration (`.env.example` with all required variables documented)
-3. Deployment pipeline (using the confirmed hosting skill)
-   Read .agent/skills/{{HOSTING_SKILL}}/SKILL.md and follow its deployment conventions.
-4. Project scaffolding (scaffold the approved directory structure from `.agent/instructions/structure.md` — the structure is already locked by `/create-prd-compile` Step 9.5; this slice creates the directories, `README.md` files per the extensibility rule, and base configuration files)
-5. Database initialization (schema creation, migration tooling setup)
+**Phase 1 special rule**: The `00-infrastructure` shard is always the first slice. Verify it covers: (1) CI/CD pipeline setup — read `.agent/skills/{{CI_CD_SKILL}}/SKILL.md`, (2) environment configuration (`.env.example`), (3) deployment pipeline — read `.agent/skills/{{HOSTING_SKILL}}/SKILL.md`, (4) project scaffolding from `.agent/instructions/structure.md` (directories, `README.md` files, base configs), (5) database initialization. Add missing items before proceeding.
 
-If any of these five items are missing from the infrastructure slice, add them before proceeding to feature slices.
-
-**Infrastructure verification gate**: `/verify-infrastructure` MUST pass after the infrastructure slice completes, before any feature slice begins. This is a hard gate — not a recommendation. Add `/verify-infrastructure` explicitly to the phase plan as a gate between the infrastructure slice and the first feature slice.
-
-**Auth verification gate**: `/verify-infrastructure` MUST pass again after the auth slice completes (with the auth smoke test enabled), before any auth-dependent feature slice begins. Add `/verify-infrastructure` explicitly to the phase plan as a gate between the auth slice and the first auth-dependent feature slice.
+**Verification gates** (hard gates — add explicitly to the phase plan):
+- `/verify-infrastructure` MUST pass after the infrastructure slice, before any feature slice.
+- `/verify-infrastructure` MUST pass again after the auth slice (with auth smoke test), before any auth-dependent feature slice.
 
 - Core entity CRUD second
 - Dependent features next
@@ -206,36 +185,15 @@ Read `.agent/skills/session-continuity/protocols/02-progress-generation.md` and 
 
 ## 6.5. Bootstrap Completeness Gate
 
-Before proceeding to step 7, verify all skill placeholders are filled across implementation workflows.
-
-### 6.5a. Scan for unfilled placeholders
-
-Read these files and scan for literal `{{` occurrences matching any of these placeholder names:
+Scan these four files for literal `{{` occurrences of `LANGUAGE_SKILL`, `HOSTING_SKILL`, `CI_CD_SKILL`, `ORM_SKILL`, `UNIT_TESTING_SKILL`, `E2E_TESTING_SKILL`:
 - `.agent/workflows/implement-slice-setup.md`
 - `.agent/workflows/implement-slice-tdd.md`
 - `.agent/workflows/verify-infrastructure.md`
 - `.agent/workflows/validate-phase.md`
 
-Check for: `{{LANGUAGE_SKILL}}`, `{{HOSTING_SKILL}}`, `{{CI_CD_SKILL}}`, `{{ORM_SKILL}}`, `{{UNIT_TESTING_SKILL}}`, `{{E2E_TESTING_SKILL}}`.
+For each unfilled placeholder, read `docs/plans/*-architecture-design.md` to extract the confirmed value, then run `/bootstrap-agents` (see `.agent/workflows/bootstrap-agents.md`) with the corresponding key.
 
-### 6.5b. Fill unfilled placeholders
-
-For each unfilled placeholder found, invoke `/bootstrap-agents` with the corresponding stack key and value from `docs/plans/*-architecture-design.md`:
-
-| Placeholder | Bootstrap Key | Example Value |
-|---|---|---|
-| `{{LANGUAGE_SKILL}}` | `LANGUAGE` | `typescript-advanced-patterns` |
-| `{{HOSTING_SKILL}}` | `HOSTING` | `cloudflare`, `vercel` |
-| `{{CI_CD_SKILL}}` | `CI_CD` | `github-actions` |
-| `{{ORM_SKILL}}` | `ORM` | `drizzle-orm`, `prisma` |
-| `{{UNIT_TESTING_SKILL}}` | `UNIT_TESTING` | `vitest`, `testing-library` |
-| `{{E2E_TESTING_SKILL}}` | `E2E_TESTING` | `playwright` |
-
-Read `.agent/workflows/bootstrap-agents.md` and execute its utility instructions for each unfilled key.
-
-### 6.5c. Confirm all filled
-
-> ❌ STOP — Re-scan the four files above. Only proceed to Step 7 when zero `{{` patterns remain for any of the six placeholder names. If any remain unfilled after bootstrap, tell the user which placeholders could not be provisioned.
+> ❌ STOP — Re-scan the four files. Only proceed to Step 7 when zero `{{` patterns remain. If any remain unfilled after bootstrap, tell the user which placeholders could not be provisioned.
 
 ## 7. Request review and next steps
 
