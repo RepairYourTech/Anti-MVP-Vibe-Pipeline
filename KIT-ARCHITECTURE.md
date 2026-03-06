@@ -68,7 +68,7 @@ This directory acts as the agent's long-term and working memory.
 - **Dated File Convention** — See below in this section (Section 2) — governs which artifact paths use glob patterns vs. hardcoded names.
 - **Placeholder Verification Gate Protocol** — See Section 3.5 — governs the Step 0 guard that prevents workflows from reading `{{PLACEHOLDER}}`-dependent skills before bootstrap has run.
 - **Kit Maintenance Checklist** — See Section 5 — governs what must be updated when new workflows or skills are added.
-- **Surface Model** — The authoritative surface type reference (`surface-model.md`) documents the distinction between surface types (web/mobile/cli/etc.) and implementation layers. <!-- TODO: cross-reference to be added when T15 (surface-model.md creation) completes -->
+- **Surface Model** — `.agent/skills/prd-templates/references/surface-model.md` — The authoritative reference for surface types (web/mobile/cli/etc.) and implementation layers, and how the two models relate.
 
 ### Dated File Convention
 
@@ -189,6 +189,11 @@ Workflows are designed to end with explicit NEXT STEPS. An agent shouldn't guess
 - [ ] If the workflow introduces a new system component or new convention, update the relevant section of `KIT-ARCHITECTURE.md`
 - [ ] If the workflow uses new prd-template reference files, add them to `prd-templates/SKILL.md`
 - [ ] If the workflow introduces a new skill, add it to `.agent/skill-library/MANIFEST.md`
+
+**When adding a `{{PLACEHOLDER}}` to any `.agent/rules/*.md`**
+
+- [ ] Add the placeholder name and the rule file it lives in to the "Currently applicable" note in `bootstrap-agents-fill.md` Step 3 (the rules scan step)
+- [ ] Add the corresponding bootstrap key to the `bootstrap-agents-fill.md` Step 1 key table if it doesn't already exist
 
 **When `bootstrap-agents-fill.md` fills a placeholder in `AGENTS.md` or `GEMINI.md`:**
 

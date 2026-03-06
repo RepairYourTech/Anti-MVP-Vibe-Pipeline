@@ -31,7 +31,7 @@ Also check the document's `**Status**:` field. If the status is `Draft` or `Revi
 
 Also read the file at `docs/plans/vision.md`.
 
-> **Design system prerequisite (web/mobile/desktop projects)**: Check `{{SURFACES}}`. If surfaces include `web`, `mobile`, or `desktop`, verify that `docs/plans/design-system.md` exists and is not empty.
+> **Design system prerequisite (web/mobile/desktop projects)**: Read `.agent/instructions/tech-stack.md` and locate the `SURFACES` value. If surfaces include `web`, `mobile`, or `desktop`, verify that `docs/plans/design-system.md` exists and is not empty.
 >
 > If it does not exist:
 >
