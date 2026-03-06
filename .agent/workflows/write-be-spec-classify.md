@@ -97,6 +97,8 @@ Read .agent/skills/{{UNIT_TESTING_SKILL}}/SKILL.md and follow its test writing c
 Read .agent/skills/testing-strategist/SKILL.md
 Read .agent/skills/logging-best-practices/SKILL.md
 
+**Missing skill fallback**: If any skill in the bundle above is not installed in `.agent/skills/` and is not in `.agent/skill-library/MANIFEST.md`, read `.agent/skills/find-skills/SKILL.md` and follow its discovery methodology to search for a community equivalent before proceeding without it.
+
 ### Ambiguity resolution
 
 When writing the BE spec, if any requirement cannot be resolved from `vision.md`, `architecture-design.md`, `data-placement-strategy.md`, or upstream IA specs, **do not guess**. Instead, load and follow `.agent/skills/resolve-ambiguity/SKILL.md` to systematically resolve the ambiguity before proceeding.

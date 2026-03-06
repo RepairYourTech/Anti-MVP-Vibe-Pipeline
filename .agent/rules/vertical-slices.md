@@ -9,7 +9,9 @@ alwaysApply: true
 
 **A feature is not "done" until it works across all required surfaces.** No "backend done, frontend pending." No "user-facing works, admin can't manage it."
 
-## The Four Surfaces
+## The Four Implementation Layers
+
+> **Note on terminology**: The layers below describe implementation completeness criteria — what every feature slice requires regardless of surface type. These are not the same as surface types (web/mobile/cli/etc.). For the mapping between surface types and how each implementation layer manifests on that surface, see `.agent/skills/prd-templates/references/surface-model.md`.
 
 | Surface | What It Is | Example |
 |---------|-----------|---------|

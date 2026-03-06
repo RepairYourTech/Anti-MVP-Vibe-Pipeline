@@ -49,6 +49,8 @@ Fix to:   Replace with JSON column type per MySQL conventions
 - **skip** — Skip all remaining contradictions in this document
 - **stop-and-save** — Save progress to the scan file (mark which items are done/skipped) and stop. The user can re-run `/propagate-decision-apply` later to resume from where they left off.
 
+> After applying a fix (`[Y]`) to a **spec document** (any file under `docs/plans/ia/`, `docs/plans/be/`, or `docs/plans/fe/`), append a row to that spec's `## Changelog` table recording: today's date, `'Decision propagation: [decision type] — [brief description of fix]'`, `/propagate-decision-apply`, and the section(s) updated. If the spec does not yet have a `## Changelog` section, add one before appending. Skip changelog updates for non-spec documents (e.g., architecture design, vision, engineering standards).
+
 ---
 
 ## 2. Implicit assumptions (one at a time)

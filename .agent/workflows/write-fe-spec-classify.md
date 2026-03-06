@@ -90,6 +90,8 @@ Read .agent/skills/error-handling-patterns/SKILL.md
 Read .agent/skills/testing-strategist/SKILL.md
 Read .agent/skills/technical-writer/SKILL.md
 
+**Missing skill fallback**: If any skill in the bundle above is not installed in `.agent/skills/` and is not in `.agent/skill-library/MANIFEST.md`, read `.agent/skills/find-skills/SKILL.md` and follow its discovery methodology to search for a community equivalent before proceeding without it.
+
 ### Ambiguity resolution
 
 When writing the FE spec, if any requirement cannot be resolved from `vision.md`, `architecture-design.md`, `data-placement-strategy.md`, or upstream IA/BE specs, **do not guess**. Instead, load and follow `.agent/skills/resolve-ambiguity/SKILL.md` to systematically resolve the ambiguity before proceeding.

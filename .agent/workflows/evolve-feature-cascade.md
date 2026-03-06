@@ -42,6 +42,8 @@ Layer-specific guidance:
 - **FE layer**: Add new components, update state management, add new routes, update accessibility requirements
 - **Phase plan**: Add new slices or update existing slice acceptance criteria (see Step 2)
 
+> After writing additions to any spec document in this step, append a row to that spec's `## Changelog` table recording: today's date, `'Evolution: [brief description of what was added]'`, this workflow (`/evolve-feature-cascade`), and the sections of the spec that were updated. If the spec does not yet have a `## Changelog` section, add one following the template in `.agent/skills/prd-templates/references/be-spec-template.md` (for BE specs) or the equivalent FE/IA template before appending the row.
+
 ---
 
 ## 2. Assess implementation impact

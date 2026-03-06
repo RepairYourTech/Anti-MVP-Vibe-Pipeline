@@ -56,6 +56,12 @@ Use this template when writing FE specs to `docs/plans/fe/[NN-feature-name].md`.
 [Which BE response fields map to which component props]
 
 ## Open Questions
+
+## Changelog
+
+| Date | Change | Workflow | Sections Affected |
+|------|--------|----------|-------------------|
+| [date] | Initial creation | /write-fe-spec | All |
 ```
 
 ## Quality Gates Checklist

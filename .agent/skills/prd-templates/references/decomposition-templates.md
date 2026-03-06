@@ -43,6 +43,12 @@ For each shard, create at `docs/plans/ia/[NN-domain-name].md`:
 
 ## Deep Dives Needed
 [List any features complex enough to warrant a separate deep dive document]
+
+## Changelog
+
+| Date | Change | Workflow | Sections Affected |
+|------|--------|----------|-------------------|
+| [date] | Initial creation | /decompose-architecture-structure | All |
 ```
 
 ---

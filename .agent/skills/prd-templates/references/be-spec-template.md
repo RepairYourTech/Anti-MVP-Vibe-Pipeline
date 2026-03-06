@@ -30,6 +30,12 @@ that lets a reviewer verify nothing was missed or invented.]
 ## Data Flow
 ## Error Handling
 ## Open Questions
+
+## Changelog
+
+| Date | Change | Workflow | Sections Affected |
+|------|--------|----------|-------------------|
+| [date] | Initial creation | /write-be-spec | All |
 ```
 
 ## Quality Gates Checklist

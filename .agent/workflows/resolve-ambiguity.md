@@ -71,6 +71,8 @@ Update the relevant spec documents with resolved content. Record each resolution
 >
 > If a `## Resolution Log` section already exists, append a new row to the table. This makes `/resolve-ambiguity` leave an audit trail so future readers know what was changed and why.
 
+> In addition to the Resolution Log, append a row to each modified spec's `## Changelog` table recording: today's date, `'Ambiguity resolution: [brief description]'`, `/resolve-ambiguity`, and the sections updated. If the spec does not yet have a `## Changelog` section, add one before appending.
+
 ## 6. Propose next step
 
 Use `notify_user` to summarize what was resolved.

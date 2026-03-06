@@ -118,6 +118,8 @@ Read each skill listed in `{{DATABASE_SKILLS}}` (comma-separated). For each skil
 
 **Review questions**: "Does this schema capture everything this domain needs to store?" / "Are the relationships and cardinalities correct?" / "Are there derived/computed fields I should account for?"
 
+**Missing skill fallback**: If any database or security skill listed above is not installed and not in the MANIFEST, read `.agent/skills/find-skills/SKILL.md` and follow its discovery methodology before proceeding.
+
 ## 5. Design access control
 
 Read .agent/skills/security-scanning-security-hardening/SKILL.md and apply its access control and authorization design methodology.
